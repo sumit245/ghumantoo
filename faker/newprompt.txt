@@ -1,0 +1,146 @@
+import React, { useState, useEffect } from 'react'
+import { SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { styles } from '../utils/styles'
+import LocationSelector from '../components/LocationSelector'
+import { Modal, Portal } from 'react-native-paper'
+import DateTimePicker from 'react-native-ui-datepicker'
+import dayjs from 'dayjs'
+import { PrimaryColor } from '../utils/colors'
+import { useNavigation } from '@react-navigation/native'
+import Offers from '../components/Offers'
+import RateUs from '../components/RateUs'
+import Card from '../components/Card'
+import PrimaryButton from '../components/buttons/PrimaryButton'
+import { routeMaps } from '../faker/routemaps'
+import { DATA } from '../faker/buses'
+import { useDispatch } from 'react-redux'
+import { getBuses } from '../actions/busActions'
+import { popularLocations } from '../utils/popularLocations'
+
+export default function Home() {
+    const [date, setDate] = useState(dayjs())
+    const [visible, setVisible] = useState(false)
+    const [pickup, setPickup] = useState("")
+    const [isPopupOpen, setIsPopupOpen] = useState(false)
+    const [myLocations, setMyLocation] = useState([])
+    const [destination, setDestination] = useState("")
+    useEffect(() => {
+        setMyLocation(popularLocations)
+    }, [])
+
+    useEffect(() => {
+        const locs = popularLocations.filter((item) => pickup.includes(item)) //Search for the characterin each item
+        setMyLocation(locs)
+    }, [pickup])
+
+
+
+    const dispatch = useDispatch()
+
+    const toggleDatePicker = (isFocused) => {
+        setVisible(isFocused)
+    }
+    const hideModal = () => {
+        setVisible(false)
+    }
+    const toggleVisibility = (selectedDate) => {
+        setVisible(false)
+        if (selectedDate) {
+            setDate(selectedDate);
+        }
+        console.log(selectedDate)
+    }
+
+    const searchBus = () => {
+        if (pickup !== '' && destination !== '') {
+            const routeMap = routeMaps.find(({ origin, destination }) =>
+                origin.toLowerCase() === pickup.toLowerCase() &&
+                destination.toLowerCase() === destination.toLowerCase()
+            );
+            if (!routeMap) {
+                alert(`No Bus Found on Route`);
+                return;
+            }
+            if (routeMap) {
+                const { buses } = routeMap
+                const ids = buses.map(bus => bus.bus_id)
+                const busesOnRoute = DATA.filter((item) => ids.includes(item.id))
+                console.log(busesOnRoute)
+                dispatch(getBuses(busesOnRoute))
+                navigation.navigate('SearchBus', { busesOnRoute })
+            }
+            return;
+            // FIXME: add method to filter buses based on origin and destination
+        }
+
+        alert('Please enter a valid origin and destination');
+
+        // TODO: add method to filter buses based on locations
+    }
+
+    const handlePickupFromDropdown = (val) => {
+        setPickup(val)
+        setIsPopupOpen(false)
+    }
+
+    const navigation = useNavigation()
+    return (
+        <Portal>
+            <SafeAreaView style={styles.container}>
+                <ScrollView showsVerticalScrollIndicator={false}>
+
+                    <View style={styles.headerTitle}>
+                        <Text style={styles.headerTitleText} >Bus tickets</Text>
+                    </View>
+
+                    <LocationSelector
+                        handleDatePicker={toggleDatePicker}
+                        selectedDate={date}
+                        setPickupLocation={setPickup}
+                        setDestinationLocation={setDestination}
+                        setIsPopupOpen={setIsPopupOpen}
+                    />
+
+                    <PrimaryButton onClick={searchBus} isIconButton={true} iconName='search' title='Search Buses' />
+                    {/* Insert your components here */}
+                    <Offers />
+                    <Card />
+                    <RateUs />
+
+                    {
+                        visible && (
+                            <Portal>
+                                <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modalContainerStyle} >
+                                    <Text style={[styles.headerTitleText, { textAlign: 'center' }]}>Pick a date to travel</Text>
+                                    <DateTimePicker
+                                        mode="single"
+                                        date={date}
+                                        onChange={(params) => toggleVisibility(params.date)}
+                                        selectedItemColor={PrimaryColor}
+                                    />
+                                </Modal>
+                            </Portal>
+                        )
+                    }
+
+
+                </ScrollView>
+            </SafeAreaView>
+            {
+                isPopupOpen && (
+                    <Modal>
+
+                        {myLocations.map((loc, ind) =>
+                            <Text style="autoCompleteText" onPress={(loc) => handlePickupFromDropdown} key={ind}>{loc}</Text>)}
+                    </Modal>
+                )
+            }
+        </Portal>
+    )
+}
+
+Modify this code for:
+
+1. Should update date and close the modal right after a date is selected
+2. Minimum selectable date should be today and previous month should not work
+3. Put a close icon from ionicon on top right of modal to close the modal
