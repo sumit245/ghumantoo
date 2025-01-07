@@ -7,7 +7,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import PrimaryButton from './buttons/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
 import { SecondaryColor } from '../utils/colors';
-import { FlatList } from 'react-native-gesture-handler';
+
 
 
 const knowYourSeat = [
@@ -76,26 +76,10 @@ const Data = [
     },
 ]
 
-const renderItem = ({ item }) => {
-    return (
-        <View>
-            <Text>{item.title}</Text>
-        </View>
-    )
-}
-
-
 export default function SelectSeats({ route }) {
     const { bus_id } = route.params
-    const [lowerSeatMap, setLowerSeatMap] = useState([])
-    const [upperSeatMap, setUpperSeatMap] = useState([])
 
     const refBottomSheet = useRef()
-
-    useEffect(() => {
-        fetchSeatLayout(bus_id)
-    }, [bus_id])
-
 
     useEffect(() => {
         refBottomSheet.current.open()
@@ -105,19 +89,12 @@ export default function SelectSeats({ route }) {
     const navigation = useNavigation();
 
 
-    const fetchSeatLayout = (bus_id) => {
-        const { lowerDeck, upperDeck } = SeatMaps.find((seatMap) => seatMap.bus_id === bus_id)
-        setLowerSeatMap(lowerDeck)
-        setUpperSeatMap(upperDeck)
-    }
-
     return (
         <SafeAreaView style={[styles.container, { paddingHorizontal: 0 }]}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <ScrollView horizontal={true} showsVerticalScrollIndicator={false}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
-                        <SeatLayout isDoubleDecker={true} driverPosition='right' seatMap={lowerSeatMap} isSleeper={true} />
-                        <SeatLayout isDoubleDecker={true} deckPosition={1} driverPosition='right' seatMap={upperSeatMap} isSleeper={true} />
+                        <SeatLayout isDoubleDecker={false} driverPosition='right' seatMap={SeatMaps.lowerDeck} isSleeper={false} />
                     </View>
 
                 </ScrollView>

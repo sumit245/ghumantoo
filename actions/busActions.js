@@ -17,8 +17,7 @@ export const getBusOnRoute = (pickup, destination, date_of_journey) => async (di
         date_of_journey
     })
     const { trips } = response.data
-    const { data } = trips
-    console.log(trips)
+    dispatch({ type: GET_BUSES, payload: trips })
 }
 
 export const fetchCounters = async (query) => {

@@ -44,10 +44,10 @@ export default function Home() {
 
     const searchBus = () => {
         dispatch(getBusOnRoute(pickup, destination, dayjs(date).format("YYYY-M-D")))
+        navigation.navigate("SearchBus");
         // try {
         //     if (pickup && destination) {
         //         console.log("Buses on Route: ", DATA);
-        //         navigation.navigate("SearchBus", { DATA });
         //         dispatch(getBuses(DATA));
         //     } else {
         //         alert("Please enter a valid origin and destination");
@@ -59,63 +59,63 @@ export default function Home() {
     };
 
     return (
-        <Portal>
-            <SafeAreaView style={styles.container}>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={styles.headerTitle}>
-                        <Text style={styles.headerTitleText}>Bus tickets</Text>
-                    </View>
 
-                    <LocationSelector
-                        handleDatePicker={(visibility) => setVisible(visibility)}
-                        selectedDate={date}
-                        setPickupLocation={setPickup}
-                        setDestinationLocation={setDestination}
-                    />
+        <SafeAreaView style={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={styles.headerTitle}>
+                    <Text style={styles.headerTitleText}>Bus tickets</Text>
+                </View>
 
-                    <PrimaryButton
-                        onClick={searchBus}
-                        isIconButton={true}
-                        iconName="search"
-                        title="Search Buses"
-                    />
+                <LocationSelector
+                    handleDatePicker={(visibility) => setVisible(visibility)}
+                    selectedDate={date}
+                    setPickupLocation={setPickup}
+                    setDestinationLocation={setDestination}
+                />
 
-                    <Offers />
-                    <Card />
-                    <RateUs />
+                <PrimaryButton
+                    onClick={searchBus}
+                    isIconButton={true}
+                    iconName="search"
+                    title="Search Buses"
+                />
 
-                    <Modal
-                        visible={visible}
-                        onDismiss={() => setVisible(false)}
-                        contentContainerStyle={styles.modalContainerStyle}
+                <Offers />
+                <Card />
+                <RateUs />
+
+                <Modal
+                    visible={visible}
+                    onDismiss={() => setVisible(false)}
+                    contentContainerStyle={styles.modalContainerStyle}
+                >
+                    {/* Close Icon in the Top Right */}
+                    <TouchableOpacity
+                        style={styles.modalCloseIcon}
+                        onPress={() => setVisible(false)}
                     >
-                        {/* Close Icon in the Top Right */}
-                        <TouchableOpacity
-                            style={styles.modalCloseIcon}
-                            onPress={() => setVisible(false)}
-                        >
-                            <Icon name="close" size={24} color={PrimaryColor} />
-                        </TouchableOpacity>
+                        <Icon name="close" size={24} color={PrimaryColor} />
+                    </TouchableOpacity>
 
-                        <Text style={[styles.headerTitleText, { textAlign: "center" }]}>
-                            Pick a date to travel
-                        </Text>
+                    <Text style={[styles.headerTitleText, { textAlign: "center" }]}>
+                        Pick a date to travel
+                    </Text>
 
-                        <CalendarPicker
-                            // mode="single"
-                            minDate={dayjs().toDate()}
-                            restrictMonthNavigation={true}
-                            width={width - 40}
-                            height={width - 40}
-                            // maxDate={d}
-                            // TODO:restrict maxdate to 4 months
-                            date={date}
-                            onDateChange={(params) => toggleVisibility(params)}
-                            selectedDayColor={PrimaryColor}
-                        />
-                    </Modal>
-                </ScrollView>
-            </SafeAreaView>
-        </Portal>
+                    <CalendarPicker
+                        // mode="single"
+                        minDate={dayjs().toDate()}
+                        restrictMonthNavigation={true}
+                        width={width - 40}
+                        height={width - 40}
+                        // maxDate={d}
+                        // TODO:restrict maxdate to 4 months
+                        date={date}
+                        onDateChange={(params) => toggleVisibility(params)}
+                        selectedDayColor={PrimaryColor}
+                    />
+                </Modal>
+            </ScrollView>
+        </SafeAreaView>
+
     );
 }

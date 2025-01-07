@@ -20,14 +20,14 @@ import { PureWhite } from "../utils/colors";
 export default function SearchBuses() {
 
   const [filterOptions] = useState(filters)
-  const [buses, setBuses] = useState([])
+  const [filteredBuses, setFilteredBuses] = useState([])
   const navigation = useNavigation();
 
-  const { bus } = useSelector(state => state.bus)
+  const { buses } = useSelector(state => state.bus)
 
   useEffect(() => {
-    setBuses(bus)
-  }, [bus])
+    setFilteredBuses(buses)
+  }, [buses])
 
 
   return (
@@ -41,7 +41,7 @@ export default function SearchBuses() {
       >
         {
           filterOptions.map((item, idx) => (
-            <TouchableOpacity style={[styles.filterButton,{backgroundColor:PureWhite}]} key={idx}>
+            <TouchableOpacity style={[styles.filterButton, { backgroundColor: PureWhite }]} key={idx}>
               {
                 item.iconname && <Icon name={item.iconname} size={20} style={styles.filterIcon} />}
               <Text>{item.text}</Text>
@@ -57,7 +57,7 @@ export default function SearchBuses() {
         keyExtractor={item => item.id + ''}
         showsVerticalScrollIndicator={false}
         initialNumToRender={5}
-        ListEmptyComponent={() => <Text>No buses found</Text>}
+        ListEmptyComponent={() => <Text>No bus found on this route</Text>}
       />
     </SafeAreaView>
   );

@@ -16,7 +16,7 @@ export default function BusCard({ bus, onClick }) {
                 </View>
                 <View>
                     <Text style={styles.arrivalTime}>{bus.end_at}</Text>
-                    <Text style={styles.labelStyle}>{bus.seats} seats</Text>
+                    <Text style={styles.labelStyle}>{bus.seats[0].seat} seats</Text>
                 </View>
                 <View>
                     <Text style={styles.startingFrom}>

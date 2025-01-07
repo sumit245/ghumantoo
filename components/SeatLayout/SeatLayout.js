@@ -4,7 +4,7 @@ import SleeperIcon from "../../assets/sleeper.png";
 import SeatIcon from "../../assets/seat.png";
 import SelectedSleeperIcon from "../../assets/selected_sleeper.png";
 import SelectedSeatIcon from "../../assets/selected_seat.png";
-import {styles} from '../../utils/styles'
+import { styles } from '../../utils/styles'
 
 export default function SeatLayout({
   seatMap,
@@ -52,7 +52,7 @@ export default function SeatLayout({
   };
 
   return (
-    <View style={[styles.container,{padding: 8,backgroundColor: '#fff', borderRadius: 12, borderWidth: 1, borderColor: "#c7c7c7"}]}>
+    <View style={[styles.container, { padding: 8, backgroundColor: '#fff', borderRadius: 12, borderWidth: 1, borderColor: "#c7c7c7", width: 340, marginLeft: 20 }]}>
       {!isDoubleDecker && (
         <View style={styles.driverContainer}>
           <Image
