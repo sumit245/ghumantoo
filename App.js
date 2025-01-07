@@ -18,7 +18,7 @@ export default function App() {
     <NavigationContainer>
       <Provider store={store}>
         <PaperProvider>
-          <StackNavigator isLoggedIn={true} />
+          <StackNavigator isLoggedIn={false} />
         </PaperProvider>
       </Provider>
     </NavigationContainer>

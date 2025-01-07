@@ -52,6 +52,11 @@ export default function LocationSelector({
     }
   };
 
+  const handleQuickDate = (idx) => {
+    const day = dayjs().add(idx, 'day').format("ddd,D MMM")
+    setSelection(day)
+  }
+
   return (
     <View style={[styles.locationContainer]}>
       <GCityTextInput
@@ -124,6 +129,7 @@ export default function LocationSelector({
           <TouchableOpacity
             key={index}
             style={[styles.buttonPrimary, styles.smallButtonPrimary]}
+            onPress={() => handleQuickDate(index)}
           >
             <Text style={[styles.buttonTextPrimary, { fontSize: 12 }]}>
               {quickDate}

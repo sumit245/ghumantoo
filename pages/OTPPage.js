@@ -19,13 +19,12 @@ export default function OTPPage() {
   const { mobile_number, message } = useSelector((state) => state.user);
   const [otp, setOtp] = useState(0)
   const dispatch = useDispatch()
-  useEffect(() => {
-    console.log(`${mobile_number}, ${message} is in state`);
-  }, []);
-  const verifyOTP = () => {
-    console.log(mobile_number, otp)
-    dispatch(verifyUserOTP(mobile_number, otp))
-    navigation.navigate("Main")
+
+  const verifyOTP = async () => {
+    const status = await dispatch(verifyUserOTP(mobile_number, otp))
+    if (status === 200) {
+      navigation.navigate("Main")
+    }
   }
 
   return (

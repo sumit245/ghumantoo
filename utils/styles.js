@@ -65,10 +65,11 @@ export const styles = StyleSheet.create({
     borderBottomColor: "#c7c7c7",
     borderBottomWidth: 1,
     alignItems: "center",
+    marginBottom: 4
   },
   labelStyle: {
     fontSize: 12,
-    color: "#777",
+    color: '#777',
   },
   modalContainerStyle: {
     backgroundColor: WhiteColor,
@@ -276,6 +277,7 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "600",
+    lineHeight: 22,
     color: BlackColor,
   },
   dividerRateUs: {

@@ -22,8 +22,7 @@ export default function SignIn() {
       return
     }
     const actualNumber = phoneNumber.slice(3); // Removes "+91"
-    const status = await dispatch(authFromMobile(actualNumber));
-    console.log(status)
+    await dispatch(authFromMobile(actualNumber));
     navigation.navigate("verification");
   };
   return (
