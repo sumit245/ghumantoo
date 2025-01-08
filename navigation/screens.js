@@ -11,6 +11,7 @@ import {
   Cards,
   UpdateEmail,
   Home,
+  BookingData,
 } from "../pages";
 
 import BottomTabNavigator from "./BottomTabNavigator";
@@ -78,6 +79,15 @@ export const unauthorizedScreens = [
     },
   },
   {
+    name: "BookingData",
+    component: BookingData,
+    options: {
+      headerShown: true,
+      title: "Booking Data",
+    },
+  },
+
+  {
     name: "Wallet",
     component: Wallet,
     options: {
@@ -109,7 +119,7 @@ export const unauthorizedScreens = [
       title: "UpdateEmail",
     },
   },
-]
+];
 
 export const stackScreens = [
   {
@@ -189,6 +199,14 @@ export const stackScreens = [
     options: {
       headerShown: true,
       title: "UpdateEmail",
+    },
+  },
+  {
+    name: "BookingData",
+    component: BookingData,
+    options: {
+      headerShown: true,
+      title: "Booking Data",
     },
   },
 ];

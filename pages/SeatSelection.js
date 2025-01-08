@@ -1,3 +1,3 @@
-import SelectSeat from '../components/SelectSeats'
+import SelectSeat from "../components/SelectSeats";
 
 export default SelectSeat;

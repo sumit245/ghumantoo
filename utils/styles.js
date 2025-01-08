@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   },
   buttonPrimary: {
     backgroundColor: PrimaryColor,
-    flexDirection: 'row',
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     height: 48,
@@ -65,22 +65,22 @@ export const styles = StyleSheet.create({
     borderBottomColor: "#c7c7c7",
     borderBottomWidth: 1,
     alignItems: "center",
-    marginBottom: 4
+    marginBottom: 4,
   },
   labelStyle: {
     fontSize: 12,
-    color: '#777',
+    color: "#777",
   },
   modalContainerStyle: {
     backgroundColor: WhiteColor,
     marginHorizontal: 8,
     borderRadius: 8,
-    padding: 20
+    padding: 20,
   },
   modalCloseIcon: {
     position: "absolute",
     top: 0,
-    right: 0
+    right: 0,
   },
   tabContainer: {
     flexDirection: "row",
@@ -188,10 +188,10 @@ export const styles = StyleSheet.create({
   phoneTextInputStyle: {
     fontSize: 20,
     position: "absolute",
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
     top: -4,
     left: "4%",
-    width: width - 60
+    width: width - 60,
   },
   phoneCodeTextStyle: {
     fontSize: 20,
@@ -221,7 +221,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     flexWrap: "wrap",
     maxWidth: width - 60,
-    marginBottom: 16
+    marginBottom: 16,
   },
   image: {
     width: "100%",
