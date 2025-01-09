@@ -74,7 +74,7 @@ export default function LocationSelector({
             <TouchableOpacity
               style={styles.suggestionItem}
               onPress={() => {
-                setPickupLocation(item.name);
+                setPickupLocation(item.id);
                 setPickup(item.name);
                 setPickupSuggestions([]);
               }}
@@ -102,7 +102,7 @@ export default function LocationSelector({
             <TouchableOpacity
               style={styles.suggestionItem}
               onPress={() => {
-                setDestinationLocation(item.name);
+                setDestinationLocation(item.id);
                 setDestination(item.name);
                 setDestinationSuggestions([]);
               }}

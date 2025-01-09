@@ -18,11 +18,8 @@ import RateUs from "../components/RateUs";
 import Card from "../components/Card";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import LocationSelector from "../components/LocationSelector";
-
 import { styles, width } from "../utils/styles";
 import { PrimaryColor } from "../utils/colors";
-
-import { DATA } from "../faker/buses";
 import { useDispatch } from "react-redux";
 import { getBuses, getBusOnRoute } from "../actions/busActions";
 
@@ -45,17 +42,6 @@ export default function Home() {
     const searchBus = () => {
         dispatch(getBusOnRoute(pickup, destination, dayjs(date).format("YYYY-M-D")))
         navigation.navigate("SearchBus");
-        // try {
-        //     if (pickup && destination) {
-        //         console.log("Buses on Route: ", DATA);
-        //         dispatch(getBuses(DATA));
-        //     } else {
-        //         alert("Please enter a valid origin and destination");
-        //     }
-        // } catch (error) {
-        //     console.error('Error fetching buses:', error)
-        // }
-
     };
 
     return (

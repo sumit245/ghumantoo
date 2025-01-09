@@ -24,7 +24,7 @@ export default function BusCard({ bus, onClick }) {
                     </Text>
                     <View style={styles.iconDiv}>
                         <Icon name="star" color={WhiteColor} />
-                        <Text style={styles.ratings}>{bus.ratings}</Text>
+                        <Text style={styles.ratings}>{parseFloat(bus.ratings).toFixed(1)}</Text>
                     </View>
                 </View>
             </View>
