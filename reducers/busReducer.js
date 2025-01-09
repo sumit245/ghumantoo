@@ -1,16 +1,21 @@
-import { GET_BUSES } from "../utils/constants";
-
+import { GET_BUSES, SELECT_BUS } from "../utils/constants";
 
 const busReducer = (state = {}, action) => {
-    switch (action.type) {
-        case GET_BUSES:
-            return {
-                ...state, buses: action.payload
-            }
+  switch (action.type) {
+    case GET_BUSES:
+      return {
+        ...state,
+        buses: action.payload,
+      };
+    case SELECT_BUS:
+      return {
+        ...state,
+        selectedBus: action.payload,
+      };
 
-        default:
-            return state;
-    }
-}
+    default:
+      return state;
+  }
+};
 
 export default busReducer;

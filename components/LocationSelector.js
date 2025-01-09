@@ -53,9 +53,10 @@ export default function LocationSelector({
   };
 
   const handleQuickDate = (idx) => {
-    const day = dayjs().add(idx, 'day').format("ddd,D MMM")
-    setSelection(day)
-  }
+    const day = dayjs().add(idx, "day").format("ddd,D MMM");
+    setSelection(day);
+   // console.error("Selected Date:");
+  };
 
   return (
     <View style={[styles.locationContainer]}>

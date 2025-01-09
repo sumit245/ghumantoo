@@ -9,6 +9,7 @@ import OTPPage from "./OTPPage";
 import EditProfile from "./EditProfile";
 import SelectSeat from "./SeatSelection";
 import ConfirmationPage from "./ConfirmationPage";
+import BookingData from "./BookingData";
 import ReferAndEarn from "./ReferAndEarn";
 import Wallet from "./Wallet";
 import Cards from "./Cards";
@@ -30,4 +31,5 @@ export {
   Wallet,
   Cards,
   UpdateEmail,
+  BookingData,
 };

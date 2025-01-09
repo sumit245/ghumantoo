@@ -23,7 +23,6 @@ import { PrimaryColor } from "../utils/colors";
 import { useDispatch } from "react-redux";
 import { getBuses, getBusOnRoute } from "../actions/busActions";
 
-
 export default function Home() {
     const [date, setDate] = useState(dayjs());
     const [visible, setVisible] = useState(false);
@@ -36,16 +35,27 @@ export default function Home() {
     const toggleVisibility = (selectedDate) => {
         setDate(selectedDate);
         setVisible(!visible);
-
     };
 
     const searchBus = () => {
-        dispatch(getBusOnRoute(pickup, destination, dayjs(date).format("YYYY-M-D")))
+        dispatch(
+            getBusOnRoute(pickup, destination, dayjs(date).format("YYYY-M-D"))
+        );
         navigation.navigate("SearchBus");
+
+        // try {
+        //   if (pickup && destination) {
+        //     console.log("Buses on Route: ", DATA);
+        //     dispatch(getBuses(DATA));
+        //   } else {
+        //     alert("Please enter a valid origin and destination");
+        //   }
+        // } catch (error) {
+        //   console.error("Error fetching buses:", error);
+        // }
     };
 
     return (
-
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.headerTitle}>
@@ -102,6 +112,5 @@ export default function Home() {
                 </Modal>
             </ScrollView>
         </SafeAreaView>
-
     );
 }
