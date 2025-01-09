@@ -53,9 +53,10 @@ export default function LocationSelector({
   };
 
   const handleQuickDate = (idx) => {
-    const day = dayjs().add(idx, 'day').format("ddd,D MMM")
-    setSelection(day)
-  }
+    const day = dayjs().add(idx, "day").format("ddd,D MMM");
+    setSelection(day);
+   // console.error("Selected Date:");
+  };
 
   return (
     <View style={[styles.locationContainer]}>
@@ -74,7 +75,7 @@ export default function LocationSelector({
             <TouchableOpacity
               style={styles.suggestionItem}
               onPress={() => {
-                setPickupLocation(item.name);
+                setPickupLocation(item.id);
                 setPickup(item.name);
                 setPickupSuggestions([]);
               }}

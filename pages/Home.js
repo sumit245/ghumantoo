@@ -45,6 +45,7 @@ export default function Home() {
       getBusOnRoute(pickup, destination, dayjs(date).format("YYYY-M-D"))
     );
     navigation.navigate("SearchBus");
+
     // try {
     //   if (pickup && destination) {
     //     console.log("Buses on Route: ", DATA);
