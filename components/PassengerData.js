@@ -24,17 +24,11 @@ const PassengerData = ({ navContinue }) => {
     console.log(user)
   }, [])
 
-
-  // const bus = useSelector((state) => state.bus.selectedBus);
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Passenger Information</Text>
         <Text style={styles.subtitle}>{selectedBus.originCity} → {selectedBus.destinationCity}</Text>
-        {/* <Text style={styles.subtitle}>
-          {bus.origin} → {bus.destination}
-        </Text> */}
       </View>
 
       <View style={styles.travelDetails}>
@@ -57,8 +51,8 @@ const PassengerData = ({ navContinue }) => {
           Name and gender is not required. Mobile number is sufficient to make a
           booking on this bus.
         </Text>
-        <Text style={styles.name}>Passenger Name</Text>
-        <View style={styles.passengerInputContainer}>
+        <View style={{ marginVertical: 4 }}>
+          <Text style={styles.label}>Passenger Name</Text>
           <TextInput
             style={styles.passengerInput}
             placeholder="Passenger Name"
@@ -67,36 +61,43 @@ const PassengerData = ({ navContinue }) => {
           />
         </View>
 
-        <View style={styles.inputGroup}>
-          <TextInput
-            style={styles.input}
-            placeholder="Country Code"
-            defaultValue="+91 (IND)"
-            editable={false}
-          />
-          <TextInput
-            style={styles.number}
-            placeholder="Phone"
-            keyboardType="numeric"
-            maxLength={10}
-            onChangeText={(text) => setPhone(text.replace(/[^0-9]/g, ""))}
-            value={phone}
-          />
+        <View style={{ marginVertical: 4 }}>
+          <Text style={styles.label}>Phone Number</Text>
+          <View style={styles.inputGroup}>
+            <TextInput
+              style={styles.input}
+              placeholder="Country Code"
+              defaultValue="+91 (IND)"
+              editable={false}
+            />
+            <TextInput
+              style={[styles.input, styles.number]}
+              placeholder="Phone"
+              keyboardType="numeric"
+              maxLength={10}
+              onChangeText={(text) => setPhone(text.replace(/[^0-9]/g, ""))}
+              value={phone}
+            />
+          </View>
         </View>
-        <Text style={styles.label}>State of Residence</Text>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={selectedState}
-            style={styles.picker}
-            onValueChange={(itemValue) => setSelectedState(itemValue)}
-          >
-            <Picker.Item label="Madhya Pradesh" value="Madhya Pradesh" />
-            <Picker.Item label="Uttar Pradesh" value="Uttar Pradesh" />
-            <Picker.Item label="Rajasthan" value="Rajasthan" />
-            <Picker.Item label="Bihar" value="Bihar" />
-            <Picker.Item label="Gujarat" value="Gujarat" />
-          </Picker>
+        <View style={{ marginVertical: 4 }}>
+          <Text style={styles.label}>State of Residence</Text>
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={selectedState}
+              style={styles.picker}
+              onValueChange={(itemValue) => setSelectedState(itemValue)}
+              mode="dropdown"
+            >
+              <Picker.Item label="Madhya Pradesh" value="Madhya Pradesh" />
+              <Picker.Item label="Uttar Pradesh" value="Uttar Pradesh" />
+              <Picker.Item label="Rajasthan" value="Rajasthan" />
+              <Picker.Item label="Bihar" value="Bihar" />
+              <Picker.Item label="Gujarat" value="Gujarat" />
+            </Picker>
+          </View>
         </View>
+
       </View>
 
       <View style={styles.amountSection}>
@@ -123,15 +124,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     top: 24,
-    fontSize: 16,
+    fontSize: 14,
     textAlign: "right",
   },
 
   seat: {
-    fontSize: 14,
+    fontSize: 12,
     color: "#000",
     backgroundColor: "pink",
-
     borderRadius: 6,
     alignSelf: "flex-start",
     paddingHorizontal: 6,
@@ -212,36 +212,23 @@ const styles = StyleSheet.create({
   },
   inputGroup: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 16,
+    // justifyContent: "space-between",
+    // marginBottom: 16,
   },
 
   input: {
-    // flex: 1,
-    height: 40,
     borderColor: "#CCC",
     borderWidth: 1,
     borderRadius: 4,
     paddingHorizontal: 8,
     marginRight: 8,
-    top: 12,
   },
   number: {
-    top: 12,
     marginRight: 2,
-    borderColor: "#CCC",
-    borderWidth: 1,
-    borderRadius: 4,
-    paddingHorizontal: 8,
     flex: 1,
   },
   label: {
     fontSize: 16,
-    marginBottom: 8,
-  },
-  name: {
-    fontSize: 16,
-    top: 8,
   },
   pickerContainer: {
     borderWidth: 1,
