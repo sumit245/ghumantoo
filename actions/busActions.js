@@ -1,26 +1,27 @@
 // TODO: write code to implement logics related to bus such as view_bus, select_bus, show_fares, etc.
 
 import axios from "axios";
-import { API_URL, GET_BUSES, SELECT_BUS } from "../utils/constants";
+import { API_URL, GET_BUSES, SELECT_BUS, SET_BOOKED_SEATS, SET_JOURNEY_DATE, SET_SEAT_LAYOUT, SET_SELECTED_SEATS, SET_TOTAL_SEATS } from "../utils/constants";
 
 export const getBuses = (data) => (dispatch) => {
   dispatch({ type: GET_BUSES, payload: data });
 };
 
-// export const selectBus = (bus) => (dispatch) => {
-//   dispatch({ type: SELECT_BUS, payload: bus });
-// };
 
 export const getBusOnRoute =
   (pickup, destination, date_of_journey) => async (dispatch) => {
     const response = await axios.get(`${API_URL}/api/bus/search`, {
-      pickup,
-      destination,
-      date_of_journey,
+      params: {
+        pickup: pickup,
+        destination: destination,
+        date_of_journey: date_of_journey
+      }
     });
     const { trips } = response.data;
     dispatch({ type: GET_BUSES, payload: trips });
+    dispatch({ type: SET_JOURNEY_DATE, payload: date_of_journey })
   };
+// Done
 
 export const fetchCounters = async (query) => {
   try {
@@ -34,3 +35,26 @@ export const fetchCounters = async (query) => {
     return [];
   }
 };
+// Done
+
+export const getAvailableSeats = (id, date_of_journey) => async (dispatch) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/bus/show-seats/${id}`, {
+      params: {
+        date_of_journey
+      }
+    })
+    const { bookedSeats, seats, trip } = response.data
+    dispatch({ type: SELECT_BUS, payload: trip })
+    dispatch({ type: SET_BOOKED_SEATS, payload: bookedSeats })
+    dispatch({ type: SET_SEAT_LAYOUT, payload: trip.seat_layout })
+    dispatch({ type: SET_TOTAL_SEATS, payload: seats[0].seat })
+  } catch (err) {
+    console.log(err)
+  }
+
+}
+
+export const setPassengerSeats = (selectedSeats, count,) => (dispatch) => {
+  dispatch({ type: SET_SELECTED_SEATS, payload: selectedSeats })
+}

@@ -14,8 +14,9 @@ import { useNavigation } from "@react-navigation/native";
 import { styles } from "../utils/styles";
 import { filters } from "../faker/filters";
 import BusCard from "../components/buscards/BusCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PureWhite } from "../utils/colors";
+import { getAvailableSeats } from "../actions/busActions";
 
 export default function SearchBuses() {
 
@@ -23,12 +24,18 @@ export default function SearchBuses() {
   const [filteredBuses, setFilteredBuses] = useState([])
   const navigation = useNavigation();
 
-  const { buses } = useSelector(state => state.bus)
+  const { buses, date_of_journey } = useSelector(state => state.bus)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setFilteredBuses(buses)
   }, [buses])
 
+  const handleBusSelection = async (id) => {
+    await dispatch(getAvailableSeats(id, date_of_journey))
+    navigation.navigate('selectSeat')
+  }
 
   return (
     <SafeAreaView style={[styles.container, { marginHorizontal: 0, marginTop: 0, paddingHorizontal: 0 }]}>
@@ -53,7 +60,7 @@ export default function SearchBuses() {
       <FlatList
         style={{ padding: 6, flex: 1 }}
         data={buses}
-        renderItem={({ item }) => <BusCard bus={item} onClick={() => navigation.navigate('selectSeat', { bus_id: item.id })} />}
+        renderItem={({ item }) => <BusCard bus={item} onClick={() => handleBusSelection(item.id)} />}
         keyExtractor={item => item.id + ''}
         showsVerticalScrollIndicator={false}
         initialNumToRender={5}

@@ -12,11 +12,11 @@ export default function LocationSelector({
   selectedDate,
   setPickupLocation,
   setDestinationLocation,
+  toggleModalVisibile,
+  setDate
 }) {
   const [isFocused, setIsFocused] = useState(false);
-  const [selection, setSelection] = useState(
-    dayjs(selectedDate).format("ddd,D MMM")
-  );
+  const [selection, setSelection] = useState(dayjs(selectedDate).format("YYYY-MM-DD"));
   const [quickDates] = useState(["Today", "Tomorrow"]);
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
@@ -26,6 +26,7 @@ export default function LocationSelector({
   useEffect(() => {
     handleDatePicker(isFocused);
     setSelection(dayjs(selectedDate).format("ddd,D MMM"));
+    setDate(dayjs(selectedDate).format("YYYY-MM-DD"))
   }, [isFocused, selectedDate]);
 
   const handlePickupChange = async (text) => {
@@ -55,7 +56,8 @@ export default function LocationSelector({
   const handleQuickDate = (idx) => {
     const day = dayjs().add(idx, "day").format("ddd,D MMM");
     setSelection(day);
-   // console.error("Selected Date:");
+    setDate(day)
+    console.log(day)
   };
 
   return (

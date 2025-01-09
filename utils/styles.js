@@ -890,11 +890,48 @@ export const styles = StyleSheet.create({
     height: 32,
     width: 32,
     margin: 4,
+    alignSelf: 'flex-end'
   },
   deckText: {
     fontWeight: "bold",
     fontSize: 16,
     position: "absolute",
+  },
+  seatLayoutContainer: {
+    padding: 8,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#c7c7c7",
+    width: 340,
+    marginLeft: 20,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 4,
+  },
+  column: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  seatButton: {
+    padding: 2,
+  },
+  seatIcon: {
+    height: 56,
+    width: 56,
+    resizeMode: 'contain',
+    margin: 2,
+  },
+  driverContainer: {
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  seatMapContainer: {
+    borderTopColor: "#c7c7c7",
+    borderTopWidth: 1,
+    paddingTop: 8,
   },
   passengerFloatingBtn: {
     position: "absolute",

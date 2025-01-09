@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
+import dayjs from "dayjs";
 //import { selectBusRoute } from "../actions/busActions";
 
 const PassengerData = ({ navContinue }) => {
@@ -17,6 +18,12 @@ const PassengerData = ({ navContinue }) => {
   const [name, setName] = useState("");
   const [selectedState, setSelectedState] = useState("Madhya Pradesh");
   const navigation = useNavigation();
+  const { date_of_journey, selectedBus, selectedSeats } = useSelector((state) => state.bus)
+  const user = useSelector(state => state.user)
+  useEffect(() => {
+    console.log(user)
+  }, [])
+
 
   // const bus = useSelector((state) => state.bus.selectedBus);
 
@@ -24,7 +31,7 @@ const PassengerData = ({ navContinue }) => {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Passenger Information</Text>
-        <Text style={styles.subtitle}>Satna → Rewa</Text>
+        <Text style={styles.subtitle}>{selectedBus.originCity} → {selectedBus.destinationCity}</Text>
         {/* <Text style={styles.subtitle}>
           {bus.origin} → {bus.destination}
         </Text> */}
@@ -32,22 +39,20 @@ const PassengerData = ({ navContinue }) => {
 
       <View style={styles.travelDetails}>
         <View style={styles.row}>
-          <Text style={styles.time}>5 Jan · 11:40</Text>
-          <Text style={styles.time}>5 Jan · 12:40</Text>
-          {/* <Text style={styles.time}>{bus.start_from}</Text>
-          <Text style={styles.time}>{bus.end_at}</Text> */}
+          <Text style={styles.time}>{dayjs(date_of_journey).format('ddd,D MMM')} · {selectedBus.start_time}</Text>
+          <Text style={styles.time}>{dayjs(date_of_journey).format('ddd,D MMM')} · {selectedBus.end_time}</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.location}>Satna bus stand</Text>
-          <Text style={styles.location}>Rewa Old Bus Stand</Text>
+          <Text style={styles.location}>{selectedBus.originLocation},{selectedBus.originCity}</Text>
+          <Text style={styles.location}>{selectedBus.destinationLocation},{selectedBus.destinationCity}</Text>
         </View>
-        <Text style={styles.view}>Seat: 1A, 1B</Text>
-        <Text style={styles.seat}>2 Seat</Text>
+        <Text style={styles.view}>Seat: {selectedSeats}</Text>
+        <Text style={styles.seat}>{Array.isArray(selectedSeats) && selectedSeats.length} Seat(s)</Text>
       </View>
 
       <View style={styles.contactDetails}>
         <Text style={styles.sectionTitle}>Contact Details</Text>
-        <Text style={styles.section}>Ticket details will be send to </Text>
+        <Text style={styles.section}>Ticket details will be send to  </Text>
         <Text style={styles.infoText}>
           Name and gender is not required. Mobile number is sufficient to make a
           booking on this bus.
@@ -91,15 +96,6 @@ const PassengerData = ({ navContinue }) => {
             <Picker.Item label="Bihar" value="Bihar" />
             <Picker.Item label="Gujarat" value="Gujarat" />
           </Picker>
-        </View>
-
-        <View style={styles.links}>
-          <TouchableOpacity>
-            <Text style={styles.link}>Terms & conditions</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.link}>Privacy policy</Text>
-          </TouchableOpacity>
         </View>
       </View>
 
@@ -188,6 +184,7 @@ const styles = StyleSheet.create({
   location: {
     fontSize: 14,
     color: "#555",
+    flexWrap: 'wrap',
   },
 
   contactDetails: {

@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef } from 'react'
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Touchable, TouchableOpacity, } from 'react-native'
 import { styles } from '../utils/styles'
 import SeatLayout from './SeatLayout/SeatLayout';
-import { SeatMaps } from '../faker/busmap';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import PrimaryButton from './buttons/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
 import { SecondaryColor } from '../utils/colors';
-
+import { useDispatch } from 'react-redux';
+import { setPassengerSeats } from '../actions/busActions';
 
 
 const knowYourSeat = [
@@ -37,48 +37,9 @@ const knowYourSeat = [
     }
 ]
 
-const Data = [
-    {
-        id: '1',
-        title: 'Why book tis bus?',
-    },
-    {
-        id: '2',
-        title: 'Bus route',
-    },
-    {
-        id: '3',
-        title: 'Boarding Point',
-    },
-    {
-        id: '4',
-        title: 'Dropping points',
-    },
-    {
-        id: '5',
-        title: 'Rest Stops',
-    },
-    {
-        id: '6',
-        title: 'Amenities',
-    },
-    {
-        id: '7',
-        title: 'Reviews',
-    },
-    {
-        id: '8',
-        title: 'Cancellation policy',
-    },
-    {
-        id: '9',
-        title: 'Other Policies',
-    },
-]
-
-export default function SelectSeats({ route }) {
-    const { bus_id } = route.params
-
+export default function SelectSeats() {
+    const [selectedSeatCount, setSelectedSeatCount] = useState(0)
+    const [selectedSeats, setSelectedSeats] = useState([])
     const refBottomSheet = useRef()
 
     useEffect(() => {
@@ -87,17 +48,23 @@ export default function SelectSeats({ route }) {
 
 
     const navigation = useNavigation();
+    const dispatch = useDispatch()
+
+    const handleSeatSelection = (val) => {
+        setSelectedSeats(val)
+        setSelectedSeatCount(Array.isArray && val.length)
+    }
+
+    const handlePassengerInformation = () => {
+        dispatch(setPassengerSeats(selectedSeats))
+        navigation.navigate('AddPassenger')
+    }
 
 
     return (
         <SafeAreaView style={[styles.container, { paddingHorizontal: 0 }]}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <ScrollView horizontal={true} showsVerticalScrollIndicator={false}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
-                        <SeatLayout isDoubleDecker={false} driverPosition='right' seatMap={SeatMaps.lowerDeck} isSleeper={false} />
-                    </View>
-
-                </ScrollView>
+                <SeatLayout isDoubleDecker={false} isSleeper={false} handleSeatSelection={(val) => handleSeatSelection(val)} />
 
                 <View style={{ paddingHorizontal: 16, marginVertical: 12 }}>
                     <Text style={styles.headerTitleText}>Know your seat type</Text>
@@ -156,8 +123,8 @@ export default function SelectSeats({ route }) {
             </RBSheet>
 
             <View style={[styles.tableRow, { backgroundColor: '#fff', height: 80, alignItems: 'center' }]}>
-                <Text><Text style={{ fontWeight: 'bold' }}>Selected Seats</Text>(2)</Text>
-                <PrimaryButton style={{ backgroundColor: SecondaryColor }} onClick={() => navigation.navigate('AddPassenger')} title='Continue' />
+                <Text><Text style={{ fontWeight: 'bold' }}>Selected Seats</Text>({selectedSeatCount})</Text>
+                <PrimaryButton style={{ backgroundColor: SecondaryColor }} onClick={handlePassengerInformation} title='Continue' />
             </View>
         </SafeAreaView>
 
