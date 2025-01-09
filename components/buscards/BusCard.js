@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 
 function getBlueShade(index) {
-  const blueShades = ["#87CEEB", "#4682B4", "#5F9EA0", "#00BFFF", "#1E90FF"];
+  const blueShades = ["#87CEEB", "pink", "#5F9EA0", "#00BFFF", "#1E90FF"];
   return blueShades[index % blueShades.length];
 }
 
@@ -101,8 +101,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   busStand: {
-    color: "white",
-    backgroundColor: "limegreen",
+    color: "#000",
+    backgroundColor: "pink",
     fontSize: 14,
     left: 60,
     borderRadius: 8,
@@ -213,8 +213,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   offerText: {
-    color: "#fff",
+    color: "#000",
     fontSize: 14,
-    fontWeight: "bold",
   },
 });

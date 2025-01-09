@@ -14,10 +14,11 @@ import { useNavigation } from "@react-navigation/native";
 
 const PassengerData = ({ navContinue }) => {
   const [phone, setPhone] = useState("");
+  const [name, setName] = useState("");
   const [selectedState, setSelectedState] = useState("Madhya Pradesh");
   const navigation = useNavigation();
 
- // const bus = useSelector((state) => state.bus.selectedBus);
+  // const bus = useSelector((state) => state.bus.selectedBus);
 
   return (
     <ScrollView style={styles.container}>
@@ -51,6 +52,16 @@ const PassengerData = ({ navContinue }) => {
           Name and gender is not required. Mobile number is sufficient to make a
           booking on this bus.
         </Text>
+        <Text style={styles.name}>Passenger Name</Text>
+        <View style={styles.passengerInputContainer}>
+          <TextInput
+            style={styles.passengerInput}
+            placeholder="Passenger Name"
+            onChangeText={(text) => setName(text)}
+            value={name}
+          />
+        </View>
+
         <View style={styles.inputGroup}>
           <TextInput
             style={styles.input}
@@ -59,7 +70,7 @@ const PassengerData = ({ navContinue }) => {
             editable={false}
           />
           <TextInput
-            style={styles.input}
+            style={styles.number}
             placeholder="Phone"
             keyboardType="numeric"
             maxLength={10}
@@ -123,12 +134,24 @@ const styles = StyleSheet.create({
   seat: {
     fontSize: 14,
     color: "#000",
-    backgroundColor: "#87CEEB",
+    backgroundColor: "pink",
 
     borderRadius: 6,
     alignSelf: "flex-start",
     paddingHorizontal: 6,
     paddingVertical: 2,
+  },
+  passengerInputContainer: {
+    marginBottom: 10,
+    top: 8,
+  },
+  passengerInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 6,
+    padding: 10,
+    fontSize: 14,
+    color: "#000",
   },
 
   container: {
@@ -183,7 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   infoText: {
-    backgroundColor: "#87CEEB",
+    backgroundColor: "pink",
     borderRadius: 8,
     paddingHorizontal: 6,
     paddingVertical: 2,
@@ -195,8 +218,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 16,
   },
+
   input: {
-    flex: 1,
+    // flex: 1,
     height: 40,
     borderColor: "#CCC",
     borderWidth: 1,
@@ -205,10 +229,22 @@ const styles = StyleSheet.create({
     marginRight: 8,
     top: 12,
   },
+  number: {
+    top: 12,
+    marginRight: 2,
+    borderColor: "#CCC",
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingHorizontal: 8,
+    flex: 1,
+  },
   label: {
     fontSize: 16,
-    // fontWeight: "bold",
     marginBottom: 8,
+  },
+  name: {
+    fontSize: 16,
+    top: 8,
   },
   pickerContainer: {
     borderWidth: 1,

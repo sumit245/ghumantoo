@@ -162,19 +162,21 @@ const styles = StyleSheet.create({
     color: "#555",
   },
   noteContainer: {
-    backgroundColor: "#EDF4FF",
+    backgroundColor: "pink",
     padding: 12,
     marginTop: 16,
     borderRadius: 10,
   },
   noteText: {
     fontSize: 12,
-    color: "#555",
+    color: "#000",
   },
   dealContainer: {
-    backgroundColor: "#DFF8E0",
+    backgroundColor: "lightcyan",
     padding: 12,
     alignItems: "center",
+    marginHorizontal: 18,
+    borderRadius: 10,
   },
   dealText: {
     fontSize: 14,
