@@ -27,14 +27,14 @@ export default function BusCard({ bus, onClick }) {
       <View style={styles.row}>
         <View style={styles.timing}>
           <Text style={styles.time}>{bus.time}</Text>
-          <Text style={styles.separato}></Text>
+          <Text style={styles.separator}>—</Text>
           <Text style={styles.time}>{bus.seats[0]?.seat} seats</Text>
         </View>
       </View>
 
-      <View style={[styles.row, styles.priceRatingRow]}>
+      <View style={styles.priceRatingRow}>
         <View>
-          <Text style={styles.priceSubText}>From ₹ {bus.price}</Text>
+          <Text style={styles.priceSubText}>₹{bus.price}</Text>
         </View>
         <View style={styles.rating}>
           <Icon name="star" size={12} color="#ffffff" />
@@ -77,143 +77,107 @@ export default function BusCard({ bus, onClick }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#ffffff",
-    borderRadius: 10,
-    padding: 10,
-    margin: 10,
-    shadowColor: "#000",
-    paddingHorizontal: 16,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    marginVertical: 12,
+    padding: 16,
     elevation: 3,
   },
   vehicleInfo: {
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 5,
+    justifyContent: "space-between",
+    marginBottom: 8,
   },
   vehicleNumber: {
-    backgroundColor: "#FFC107",
-    color: "#000",
     fontWeight: "bold",
-    borderRadius: 8,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    marginRight: 8,
-    fontSize: 12,
+    backgroundColor: "#FFD700",
+    paddingHorizontal: 4,
+    borderRadius: 4,
+    // paddingVertical: 2,
   },
   busStand: {
-    color: "#000",
-    backgroundColor: "pink",
     fontSize: 14,
-    left: 60,
-    borderRadius: 8,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
+    backgroundColor: "pink",
+    paddingHorizontal: 4,
+    borderRadius: 4,
   },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 5,
+    marginVertical: 4,
   },
   timing: {
     flexDirection: "row",
     alignItems: "center",
   },
   departureTime: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
+    color: "#000",
+  },
+  separator: {
+    marginHorizontal: 4,
+    fontSize: 16,
+    color: "#000",
+  },
+  arrivalTime: {
+    fontSize: 16,
+    color: "#000",
   },
   time: {
     fontSize: 14,
-    color: "#8E8E8E",
-    bottom: 8,
-  },
-  separator: {
-    marginHorizontal: 5,
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#000",
-  },
-  separato: {
-    marginHorizontal: 5,
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#000",
-    bottom: 8,
-  },
-  arrivalTime: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  seatInfo: {
-    color: "#8E8E8E",
-    fontSize: 14,
-  },
-  highlightText: {
-    color: "#D35400",
-    fontWeight: "bold",
+    color: "#666",
   },
   priceRatingRow: {
-    marginVertical: 10,
-  },
-  price: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#007BFF",
-  },
-  strikeThrough: {
-    textDecorationLine: "line-through",
-    color: "#8E8E8E",
+    position: "relative",
   },
   priceSubText: {
-    fontSize: 16,
     position: "absolute",
-    bottom: 36,
+    bottom: 35,
+    left: 240,
+    fontSize: 18,
     fontWeight: "bold",
-    left: 200,
-    color: "black",
+    color: "#000",
   },
   rating: {
-    backgroundColor: "#FFC107",
+    position: "absolute",
+    top: 15,
+    left: 260,
     flexDirection: "row",
     alignItems: "center",
-    borderRadius: 5,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
+    backgroundColor: "#FFD700",
+    // paddingVertical: 2,
+    paddingHorizontal: 4,
+    borderRadius: 4,
   },
   ratingText: {
-    marginLeft: 5,
-    fontSize: 12,
-    color: "#ffffff",
+    marginLeft: 4,
+    // fontSize: 12,
     fontWeight: "bold",
+    color: "#fff",
   },
+
   providerName: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#000",
-    bottom: 46,
   },
   busType: {
     fontSize: 14,
-    color: "#8E8E8E",
-    bottom: 40,
+    color: "#666",
   },
-
   offerContainer: {
-    flexDirection: "row",
-    flexWrap: "nowrap",
-    overflow: "scroll",
+    marginTop: 8,
   },
   facilityBox: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginRight: 10,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
+    marginRight: 4,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+    borderRadius: 4,
   },
   offerText: {
+    fontSize: 12,
     color: "#000",
-    fontSize: 14,
+    // fontWeight: "bold",
   },
 });
