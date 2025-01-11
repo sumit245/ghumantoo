@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import { styles, width } from "../utils/styles";
-import Icon from "react-native-vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/MaterialIcons";
+
 import GCityTextInput from "./customs/GCityTextInput";
 import dayjs from "dayjs";
 
@@ -13,10 +14,12 @@ export default function LocationSelector({
   setPickupLocation,
   setDestinationLocation,
   toggleModalVisibile,
-  setDate
+  setDate,
 }) {
   const [isFocused, setIsFocused] = useState(false);
-  const [selection, setSelection] = useState(dayjs(selectedDate).format("YYYY-MM-DD"));
+  const [selection, setSelection] = useState(
+    dayjs(selectedDate).format("YYYY-MM-DD")
+  );
   const [quickDates] = useState(["Today", "Tomorrow"]);
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
@@ -26,7 +29,7 @@ export default function LocationSelector({
   useEffect(() => {
     handleDatePicker(isFocused);
     setSelection(dayjs(selectedDate).format("ddd,D MMM"));
-    setDate(dayjs(selectedDate).format("YYYY-MM-DD"))
+    setDate(dayjs(selectedDate).format("YYYY-MM-DD"));
   }, [isFocused, selectedDate]);
 
   const handlePickupChange = async (text) => {
@@ -53,11 +56,13 @@ export default function LocationSelector({
     }
   };
 
-  const handleQuickDate = (idx) => {
-    const day = dayjs().add(idx, "day").format("ddd,D MMM");
-    setSelection(day);
-    setDate(day)
-    console.log(day)
+  const handleQuickDate = (index) => {
+    const selectedDay = dayjs().add(index, "day");
+    const formattedDay = selectedDay.format("ddd, D MMM");
+    const fullDate = selectedDay.format("YYYY-MM-DD");
+    setSelection(formattedDay);
+    setDate(fullDate);
+    console.log("Selected Date:", fullDate);
   };
 
   return (
@@ -68,7 +73,31 @@ export default function LocationSelector({
         placeholder="Bhopal"
         onChangeText={handlePickupChange}
         value={pickup}
+        // iconSize={12}
       />
+      <TouchableOpacity
+        style={{
+          alignSelf: "center",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#333",
+          borderRadius: 25,
+          width: 45,
+          height: 45,
+          position: "absolute",
+          right: 10,
+          top: 45,
+        }}
+        onPress={() => {
+          const temp = pickup;
+          setPickup(destination);
+          setDestination(temp);
+          setPickupLocation(destination);
+          setDestinationLocation(pickup);
+        }}
+      >
+        <Icon name="swap-vert" size={24} color="#fff" />
+      </TouchableOpacity>
       {pickupSuggestions.length > 0 && (
         <FlatList
           data={pickupSuggestions}
@@ -117,11 +146,12 @@ export default function LocationSelector({
       )}
 
       <View style={[styles.pickDropSelector, { borderBottomWidth: 0 }]}>
-        <Icon name="calendar-number" size={28} color="#777" />
-        <View style={{ marginHorizontal: 10 }}>
+        <Icon name="calendar-month" size={28} color="#333" />
+        <View style={{ marginHorizontal: 8 }}>
           <Text style={styles.labelStyle}>Date of Journey</Text>
           <Text
-            style={[styles.title, { width: width / 3 }]}
+            style={{ fontSize: 20, fontWeight: "bold" }}
+            //style={[styles.title, { width: width / 3 }]}
             onPress={() => setIsFocused(!isFocused)}
           >
             {selection}

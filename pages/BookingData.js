@@ -1,34 +1,51 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import dayjs from "dayjs";
 
 export default function BookingData({ navContinue }) {
   const navigation = useNavigation();
+  const { date_of_journey, selectedBus, selectedSeats } = useSelector(
+    (state) => state.bus
+  );
+  const user = useSelector((state) => state.user);
+  useEffect(() => {
+    console.log(user);
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Pay ₹</Text>
+        <Text style={styles.headerText}>Pay ₹ </Text>
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Review booking</Text>
-        <Text style={styles.seatInfo}>1 Seat (2)</Text>
+        <Text style={styles.seatInfo}>{selectedSeats.length} Seat</Text>
       </View>
 
       <View style={styles.details}>
-        <Text style={styles.travelCompany}>Satna bus stand</Text>
+        {/* <Text style={styles.travelCompany}>Satna bus stand</Text> */}
 
         <View style={styles.row}>
-          <View style={styles.timeLocation}>
-            <Text style={styles.time}>05 Jan · 11:40</Text>
-            <Text style={styles.location}>Bus Stand Satna, </Text>
-            <Text style={styles.right}>Satna</Text>
+          <View>
+            <Text style={styles.time}>
+              {dayjs(date_of_journey).format("ddd,D MMM")} ·{" "}
+              {selectedBus.start_time}
+            </Text>
+            <Text style={styles.location}>{selectedBus.originLocation},</Text>
+            <Text style={styles.right}>{selectedBus.originCity}</Text>
           </View>
-          <View style={[styles.timeLocation, styles.rightAlign]}>
-            <Text style={styles.time}>05 Jan · 12:40</Text>
-            <Text style={styles.location}>Rewa Old Bus Stand,</Text>
-            <Text style={styles.right}>Rewa</Text>
+          <View>
+            <Text style={styles.time}>
+              {dayjs(date_of_journey).format("ddd,D MMM")} ·{" "}
+              {selectedBus.end_time}
+            </Text>
+            <Text style={styles.location}>
+              {selectedBus.destinationLocation},
+            </Text>
+            <Text style={styles.right}>{selectedBus.destinationCity}</Text>
           </View>
         </View>
 
@@ -132,15 +149,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     width: "100%",
   },
-  rightAlign: {
-    // right: 122,
-  },
-  right: {
-    fontSize: 16,
-  },
-  timeLocation: {
-    // flex: 1,
-  },
+
   time: {
     fontSize: 14,
     fontWeight: "bold",

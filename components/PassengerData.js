@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   View,
   Text,
@@ -18,35 +19,71 @@ const PassengerData = ({ navContinue }) => {
   const [name, setName] = useState("");
   const [selectedState, setSelectedState] = useState("Madhya Pradesh");
   const navigation = useNavigation();
-  const { date_of_journey, selectedBus, selectedSeats } = useSelector((state) => state.bus)
-  const user = useSelector(state => state.user)
+  const { date_of_journey, selectedBus, selectedSeats } = useSelector(
+    (state) => state.bus
+  );
+  const user = useSelector((state) => state.user);
+  const totalPrice = selectedSeats.length * (selectedBus?.price || 0);
+
   useEffect(() => {
-    console.log(user)
-  }, [])
+    console.log(user);
+  }, []);
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Passenger Information</Text>
-        <Text style={styles.subtitle}>{selectedBus.originCity} → {selectedBus.destinationCity}</Text>
+        <Text style={styles.subtitle}>
+          {selectedBus.originCity} → {selectedBus.destinationCity}
+        </Text>
       </View>
 
       <View style={styles.travelDetails}>
         <View style={styles.row}>
-          <Text style={styles.time}>{dayjs(date_of_journey).format('ddd,D MMM')} · {selectedBus.start_time}</Text>
-          <Text style={styles.time}>{dayjs(date_of_journey).format('ddd,D MMM')} · {selectedBus.end_time}</Text>
+          <Text style={styles.time}>
+            {dayjs(date_of_journey).format("ddd,D MMM")} ·{" "}
+            {selectedBus.start_time}
+          </Text>
+          <Text style={styles.time}>
+            {dayjs(date_of_journey).format("ddd,D MMM")} ·{" "}
+            {selectedBus.end_time}
+          </Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.location}>{selectedBus.originLocation},{selectedBus.originCity}</Text>
-          <Text style={styles.location}>{selectedBus.destinationLocation},{selectedBus.destinationCity}</Text>
+          <View>
+            <Text style={styles.location}>{selectedBus.originLocation},</Text>
+            <Text style={styles.location}>{selectedBus.originCity}</Text>
+          </View>
+          <View>
+            <Text style={styles.location}>
+              {selectedBus.destinationLocation},
+            </Text>
+            <Text style={styles.location}>{selectedBus.destinationCity}</Text>
+          </View>
         </View>
-        <Text style={styles.view}>Seat: {selectedSeats}</Text>
-        <Text style={styles.seat}>{Array.isArray(selectedSeats) && selectedSeats.length} Seat(s)</Text>
+
+        <View>
+          {/* <Text style={styles.view}>Seats:</Text> */}
+          <View style={styles.selectedSeatsContainer}>
+            {selectedSeats.map((seat, index) => (
+              <Text
+                key={index}
+                style={[styles.seatItem, { backgroundColor: "#f28b82" }]}
+              >
+                {seat}
+              </Text>
+            ))}
+          </View>
+          <Text style={styles.seat}>
+            <Icon name="seat-passenger" size={16} color="#000" />
+            {Array.isArray(selectedSeats) && selectedSeats.length} Seat(s)
+          </Text>
+        </View>
       </View>
 
       <View style={styles.contactDetails}>
         <Text style={styles.sectionTitle}>Contact Details</Text>
-        <Text style={styles.section}>Ticket details will be send to  </Text>
+        <Text style={styles.section}>Ticket details will be send to </Text>
         <Text style={styles.infoText}>
           Name and gender is not required. Mobile number is sufficient to make a
           booking on this bus.
@@ -97,12 +134,12 @@ const PassengerData = ({ navContinue }) => {
             </Picker>
           </View>
         </View>
-
       </View>
 
       <View style={styles.amountSection}>
         <Text style={styles.amountText}>Amount</Text>
-        <Text style={styles.amountText}>₹</Text>
+        {/* <Text style={styles.amountText}>₹</Text> */}
+        <Text style={styles.amountText}>₹{totalPrice}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -132,15 +169,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#000",
     backgroundColor: "pink",
-    borderRadius: 6,
+    borderRadius: 4,
     alignSelf: "flex-start",
     paddingHorizontal: 6,
-    paddingVertical: 2,
+    bottom: 12,
   },
-  passengerInputContainer: {
-    marginBottom: 10,
-    top: 8,
-  },
+
   passengerInput: {
     borderWidth: 1,
     borderColor: "#ccc",
@@ -175,16 +209,30 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 8,
   },
+
+  selectedSeatsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    top: 4,
+  },
+  seatItem: {
+    borderRadius: 4,
+    color: "#fff",
+    left: 150,
+    paddingHorizontal: 4,
+    marginRight: 4,
+    // flexBasis: "33.33%",
+  },
+
   time: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
+    color: "#000",
   },
   location: {
-    fontSize: 14,
-    color: "#555",
-    flexWrap: 'wrap',
+    // fontSize: 14,
+    color: "#777",
   },
 
   contactDetails: {
@@ -212,8 +260,6 @@ const styles = StyleSheet.create({
   },
   inputGroup: {
     flexDirection: "row",
-    // justifyContent: "space-between",
-    // marginBottom: 16,
   },
 
   input: {
@@ -234,10 +280,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
-    overflow: "hidden",
+    // overflow: "hidden",
   },
   picker: {
-    height: 50,
+    height: 55,
     width: "100%",
   },
   checkboxLabel: {
