@@ -1,5 +1,5 @@
-// export const API_URL = "http://192.168.1.9/vindhyashri"
-export const API_URL = "https://vindhyashrisolutions.com";
+export const API_URL = "http://192.168.1.5/vindhyashri"
+// export const API_URL = "https://vindhyashrisolutions.com";
 
 // User related actions
 export const SET_MOBILE_NUMBER = "SET_MOBILE_NUMBER";
@@ -27,4 +27,6 @@ export const SET_BOOKED_SEATS = "SET_BOOKED_SEATS"
 export const SET_TOTAL_SEATS = "SET_TOTAL_SEATS"
 export const SET_SEAT_LAYOUT = "SET_SEAT_LAYOUT"
 export const SET_SELECTED_SEATS = "SET_SELECTED_SEATS"
+export const SET_PICKUP_ID = "SET_PICKUP_ID"
+export const SET_DESTINATION_ID = "SET_DESTINATION_ID"
 

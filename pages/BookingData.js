@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import dayjs from "dayjs";
+import RazorpayCheckout from "react-native-razorpay";
 
 export default function BookingData({ navContinue }) {
   const navigation = useNavigation();
@@ -15,82 +16,7 @@ export default function BookingData({ navContinue }) {
     console.log(user);
   }, []);
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Pay ₹ </Text>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Review booking</Text>
-        <Text style={styles.seatInfo}>{selectedSeats.length} Seat</Text>
-      </View>
-
-      <View style={styles.details}>
-        {/* <Text style={styles.travelCompany}>Satna bus stand</Text> */}
-
-        <View style={styles.row}>
-          <View>
-            <Text style={styles.time}>
-              {dayjs(date_of_journey).format("ddd,D MMM")} ·{" "}
-              {selectedBus.start_time}
-            </Text>
-            <Text style={styles.location}>{selectedBus.originLocation},</Text>
-            <Text style={styles.right}>{selectedBus.originCity}</Text>
-          </View>
-          <View>
-            <Text style={styles.time}>
-              {dayjs(date_of_journey).format("ddd,D MMM")} ·{" "}
-              {selectedBus.end_time}
-            </Text>
-            <Text style={styles.location}>
-              {selectedBus.destinationLocation},
-            </Text>
-            <Text style={styles.right}>{selectedBus.destinationCity}</Text>
-          </View>
-        </View>
-
-        <Text style={styles.ticketLabel}>Your ticket will be sent to</Text>
-        <Text style={styles.ticketNumber}>+91</Text>
-
-        <View style={styles.noteContainer}>
-          <Text style={styles.noteText}>
-            Name and gender is not required. Mobile number is sufficient to make
-            a booking on this bus.
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.dealContainer}>
-        <Text style={styles.dealText}>Exclusive deal applied </Text>
-      </View>
-
-      <View style={styles.footer}>
-        <View style={styles.iconContainer}>
-          <Icon name="lock" size={24} color="#555" />
-          <Text style={styles.iconText}>Secure Payment</Text>
-        </View>
-        <View style={styles.iconContainer}>
-          <Icon name="credit-card-alt" size={24} color="#555" />
-          <Text style={styles.iconText}>Superfast Refunds</Text>
-        </View>
-        <View style={styles.iconContainer}>
-          <Icon name="thumbs-up" size={24} color="#555" />
-          <Text style={styles.iconText}>Trusted by 10K+ users</Text>
-        </View>
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            // navigation.navigate(BookingData);
-            navigation.navigate(navContinue);
-          }}
-        >
-          <Text style={styles.buttonText}>Continue</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    null
   );
 }
 

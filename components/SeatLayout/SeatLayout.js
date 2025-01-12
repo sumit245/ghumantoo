@@ -107,7 +107,7 @@ export default function SeatLayout({
                     <Image
                       source={
                         isSeatBooked(seat)
-                          ? SleeperIcon // Booked Seat Icon
+                          ? SeatDisabled // Booked Seat Icon
                           : seat.includes("selected")
                             ? SelectedSeatIcon // Selected Seat Icon
                             : SeatIcon // Available Seat Icon

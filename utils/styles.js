@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 6,
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     paddingHorizontal: 16,
+    paddingBottom: 100,
     backgroundColor: WhiteColor,
   },
   buttonTextPrimary: {
@@ -188,8 +189,8 @@ export const styles = StyleSheet.create({
   phoneTextInputStyle: {
     fontSize: 20,
     position: "absolute",
-    textAlignVertical: "top",
-    top: -4,
+    textAlignVertical: "center",
+    // top: -4,
     left: "4%",
     width: width - 60,
   },
@@ -221,7 +222,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     flexWrap: "wrap",
     maxWidth: width - 60,
-    marginBottom: 16,
+    // marginBottom: 16,
   },
   image: {
     width: "100%",
@@ -237,7 +238,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
     paddingVertical: 10,
-    height: height - 400,
+    height: height - 440,
   },
   orLine: {
     borderBottomColor: "#c7c7c7",
@@ -265,9 +266,10 @@ export const styles = StyleSheet.create({
     marginHorizontal: 6,
   },
   bottomContainer: {
-    minHeight: 100,
+    height: 200,
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 100
   },
   bottomText: {
     paddingBottom: 8,

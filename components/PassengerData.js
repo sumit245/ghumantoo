@@ -12,22 +12,65 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
-//import { selectBusRoute } from "../actions/busActions";
+import RazorpayCheckout from "react-native-razorpay";
+import { PrimaryColor } from '../utils/colors'
+import { bookTicket } from '../actions/busActions'
 
 const PassengerData = ({ navContinue }) => {
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const [selectedState, setSelectedState] = useState("Madhya Pradesh");
   const navigation = useNavigation();
-  const { date_of_journey, selectedBus, selectedSeats } = useSelector(
+  const { date_of_journey, selectedBus, selectedSeats, pickupId, destinationId } = useSelector(
     (state) => state.bus
   );
   const user = useSelector((state) => state.user);
   const totalPrice = selectedSeats.length * (selectedBus?.price || 0);
 
   useEffect(() => {
-    console.log(user);
+    console.log(selectedBus);
   }, []);
+
+  const handleTicketBooking = async () => {
+    console.log(selectedBus.id)
+    const data = {
+      date_of_journey: dayjs(date_of_journey).format('YYYY-MM-DD'),
+      pickup: pickupId,
+      destination: destinationId,
+      seats: selectedSeats.join(', '),
+      gender: 1,
+      mobile_number: phone,
+      passenger_names: [name]
+    }
+    const result = await bookTicket(selectedBus.id, data)
+    if (result) {
+      const { amount, currency, order_id } = result
+      const options = {
+        description: 'Credits towards consultation',
+        image: 'https://i.imgur.com/3g7nmJC.jpg',
+        currency,
+        key: 'rzp_live_AkjlcAJNXWb7EU',
+        amount,
+        name: 'Ghumantoo',
+        order_id, //Replace this with an order_id created using Orders API.
+        prefill: {
+          email: 'info@vindhyashrisolutions.com',
+          contact: phone,
+          name: name
+        },
+        theme: { color: PrimaryColor }
+      }
+      RazorpayCheckout.open(options).then((data) => {
+        // handle success
+        alert(`Success: ${data.razorpay_payment_id}`);
+      }).catch((error) => {
+        // handle failure
+        console.log(error)
+        alert(`Error: ${error.code} | ${error.description}`);
+      })
+    }
+    // navigation.navigate(navContinue);
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -138,15 +181,12 @@ const PassengerData = ({ navContinue }) => {
 
       <View style={styles.amountSection}>
         <Text style={styles.amountText}>Amount</Text>
-        {/* <Text style={styles.amountText}>₹</Text> */}
         <Text style={styles.amountText}>₹{totalPrice}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-            navigation.navigate(navContinue);
-          }}
+          onPress={handleTicketBooking}
         >
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
