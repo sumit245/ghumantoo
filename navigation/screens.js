@@ -166,8 +166,11 @@ export const stackScreens = [
     name: "ConfirmationPage",
     component: ConfirmationPage,
     options: {
-      headerShown: true,
+      headerShown: false,
       title: "Confirmation Page",
+      swipeEnabled: false,
+      gestureEnabled: false,
+
     },
   },
   {

@@ -8,68 +8,81 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import RazorpayCheckout from "react-native-razorpay";
-import { PrimaryColor } from '../utils/colors'
-import { bookTicket } from '../actions/busActions'
+import { PrimaryColor, White1Color } from '../utils/colors'
+import { bookTicket, confirmTicket } from '../actions/busActions'
 
 const PassengerData = ({ navContinue }) => {
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const [selectedState, setSelectedState] = useState("Madhya Pradesh");
+  const [loading, setLoading] = useState(false)
   const navigation = useNavigation();
   const { date_of_journey, selectedBus, selectedSeats, pickupId, destinationId } = useSelector(
     (state) => state.bus
   );
-  const user = useSelector((state) => state.user);
+
   const totalPrice = selectedSeats.length * (selectedBus?.price || 0);
 
-  useEffect(() => {
-    console.log(selectedBus);
-  }, []);
-
   const handleTicketBooking = async () => {
-    console.log(selectedBus.id)
-    const data = {
-      date_of_journey: dayjs(date_of_journey).format('YYYY-MM-DD'),
-      pickup: pickupId,
-      destination: destinationId,
-      seats: selectedSeats.join(', '),
-      gender: 1,
-      mobile_number: phone,
-      passenger_names: [name]
-    }
-    const result = await bookTicket(selectedBus.id, data)
-    if (result) {
-      const { amount, currency, order_id } = result
-      const options = {
-        description: 'Credits towards consultation',
-        image: 'https://i.imgur.com/3g7nmJC.jpg',
-        currency,
-        key: 'rzp_live_AkjlcAJNXWb7EU',
-        amount,
-        name: 'Ghumantoo',
-        order_id, //Replace this with an order_id created using Orders API.
-        prefill: {
-          email: 'info@vindhyashrisolutions.com',
-          contact: phone,
-          name: name
-        },
-        theme: { color: PrimaryColor }
+    setLoading(true)
+    try {
+      const ticketDetails = {
+        date_of_journey: dayjs(date_of_journey).format('YYYY-MM-DD'),
+        pickup: pickupId,
+        destination: destinationId,
+        seats: selectedSeats.join(', '),
+        gender: 1,
+        mobile_number: phone,
+        passenger_names: [name]
       }
-      RazorpayCheckout.open(options).then((data) => {
-        // handle success
-        alert(`Success: ${data.razorpay_payment_id}`);
-      }).catch((error) => {
-        // handle failure
-        console.log(error)
-        alert(`Error: ${error.code} | ${error.description}`);
-      })
+      const result = await bookTicket(selectedBus.id, ticketDetails)
+      if (result) {
+        const { ticket_id, amount, currency, order_id } = result
+        const options = {
+          description: `Payment for seat booking (${ticketDetails.seats}) from ${selectedBus.originCity} to ${selectedBus.destinationCity} on ${ticketDetails.date_of_journey} via Ghumantoo`,
+          image: 'https://vindhyashrisolutions.com/assets/images/logoIcon/logo.png',
+          currency,
+          key: 'rzp_live_AkjlcAJNXWb7EU',
+          amount,
+          name: 'Ghumantoo',
+          order_id, //Replace this with an order_id created using Orders API.
+          prefill: {
+            email: 'info@vindhyashrisolutions.com',
+            contact: phone,
+            name: name
+          },
+          theme: { color: PrimaryColor }
+        }
+        const paymentData = await RazorpayCheckout.open(options)
+        if (paymentData) {
+          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = paymentData;
+          const ticketParams = {
+            razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature,
+            ticket_id,
+            ticket_details: ticketDetails,
+          }
+          const { status, details } = await confirmTicket(ticketParams)
+          if (status === 201) {
+            console.log(details)
+            navigation.navigate('ConfirmationPage', { details })
+            // navigate to thank you page with params
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error during booking:", error.message || error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false)
     }
-    // navigation.navigate(navContinue);
   }
 
   return (
@@ -187,8 +200,14 @@ const PassengerData = ({ navContinue }) => {
         <TouchableOpacity
           style={styles.button}
           onPress={handleTicketBooking}
+          disabled={loading}
         >
-          <Text style={styles.buttonText}>Continue</Text>
+          {
+            loading ?
+              <ActivityIndicator size="small" color={White1Color} animating />
+              :
+              <Text style={styles.buttonText}>Proceed to pay</Text>
+          }
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -308,6 +327,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 8,
     marginRight: 8,
+    padding: 10,
+    color: '#000'
   },
   number: {
     marginRight: 2,

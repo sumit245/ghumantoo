@@ -1,71 +1,53 @@
 
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import { useState, useRef } from "react";
+import { View, Text, BackHandler, TouchableOpacity, SafeAreaView } from "react-native";
+import { useState, useRef, useEffect } from "react";
 import LottieView from "lottie-react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../utils/styles";
 import TicketComponent from "../components/TicketComponent";
+import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    Traveldate: "05 January",
-    Travelday: "Sunday",
-    Transportname: "ShivGanga Travels 2/2 AC,Sleeper",
-    Departuretime: "4:00 am",
-    DepartureAddress: "Satna",
-    TimeDuration: "1hr:15mins",
-    ArrivalTime: "5:15 am",
-    ArrivalAddress: "Rewa",
-    TicketNo: "TN6Q18603433",
-    PNR: "PNR64ZAJC6P",
-    Fare: "₹ 100.00",
-    BusProvider: "Satna Rewa Express",
-    BusType: "A/C Seater(2x2)",
-    PickUpPoint:
-      "Satna Railway Station, Satna",
-    DropPoint: "New Bus Stand, Rewa",
-  },
-];
-export default function ConfirmationPage() {
+export default function ConfirmationPage({ route, navigation }) {
   // Create a ref for the LottieView
-  const confettiRef = useRef();
+  const { boarding_details, date_of_journey, destination_name, drop_off_details, passenger_name, pnr, seats, source_name } = route.params?.details
+  const { selectedBus } = useSelector((state) => state.bus)
+  const [from, setFrom] = useState("")
+  const [to, setTo] = useState("")
+  const [departureTime, setDepartureTime] = useState("")
+  const [arrivalTime, setArrivalTime] = useState("")
+  useEffect(() => {
+    const { end_time, start_time, originCity, destinationCity } = selectedBus
+    console.log(selectedBus)
+    setFrom(destinationCity)
+    setTo(originCity)
+    setDepartureTime(start_time)
+    setArrivalTime(end_time)
+  }, [selectedBus])
   return (
-    <>
-      <LottieView
-        ref={confettiRef}
-        source={require("../assets/confetti.json")}
-        autoPlay={false}
-        loop={false}
-        style={styles.lottie}
-        resizeMode="cover"
-      />
-      <View style={styles.container}>
-        <View style={styles.checkDiv}>
-          <Icon name="checkbox-marked-circle" size={30} style={styles.check} />
-          <Text style={styles.confirmation}>Your booking is confirmed!</Text>
-        </View>
-        <View>
-          <TicketComponent
-            Traveldate={DATA[0].Traveldate}
-            Travelday={DATA[0].Travelday}
-            Transportname={DATA[0].Transportname}
-            Departuretime={DATA[0].Departuretime}
-            DepartureAddress={DATA[0].DepartureAddress}
-            TimeDuration={DATA[0].TimeDuration}
-            ArrivalTime={DATA[0].ArrivalTime}
-            ArrivalAddress={DATA[0].ArrivalAddress}
-            TicketNo={DATA[0].TicketNo}
-            PNR={DATA[0].PNR}
-            Fare={DATA[0].Fare}
-            BusProvider={DATA[0].BusProvider}
-            BusType={DATA[0].BusType}
-            PickUpPoint={DATA[0].PickUpPoint}
-            DropPoint={DATA[0].DropPoint}
-          />
-        </View>
+    <SafeAreaView style={[styles.container, { justifyContent: 'space-between' }]}>
+      <View style={styles.checkDiv}>
+        <Icon name="checkbox-marked-circle" size={30} style={styles.check} />
+        <Text style={styles.confirmation}>Hey {passenger_name}, your booking from {from} to {to} is confirmed!</Text>
       </View>
+      <TicketComponent
+        Traveldate={dayjs(date_of_journey).format("DD-MMM-YYYY")}
+        Travelday={dayjs(date_of_journey).format('ddd')}
+        passenger_name={passenger_name}
+        Departuretime={departureTime}
+        DepartureAddress={boarding_details}
+        // TimeDuration={"time_duration"}
+        ArrivalTime={arrivalTime}
+        ArrivalAddress={drop_off_details}
+        PNR={pnr}
+        Fare={100}
+        seats={seats}
+      />
+      <TouchableOpacity onPress={() => navigation.navigate('Main')}>
+        <Text>Continue Booking</Text>
+      </TouchableOpacity>
+
       <View style={styles.share}>
         <TouchableOpacity style={styles.down}>
           <Icon name="cancel" size={20} style={styles.end} />
@@ -76,6 +58,6 @@ export default function ConfirmationPage() {
           <Text style={styles.cancel}>SHARE</Text>
         </TouchableOpacity>
       </View>
-    </>
+    </SafeAreaView>
   );
 }

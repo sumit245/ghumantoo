@@ -1,5 +1,5 @@
-export const API_URL = "http://192.168.1.5/vindhyashri"
-// export const API_URL = "https://vindhyashrisolutions.com";
+// export const API_URL = "http://192.168.1.5/vindhyashri"
+export const API_URL = "https://vindhyashrisolutions.com";
 
 // User related actions
 export const SET_MOBILE_NUMBER = "SET_MOBILE_NUMBER";

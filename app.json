@@ -26,6 +26,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "react-native-share",
+      {
+        "android": [
+          "com.facebook.katana",
+          "com.instagram.android",
+          "com.twitter.android",
+          "com.social."
+        ]
+      }
+    ]
   }
 }

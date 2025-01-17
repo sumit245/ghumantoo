@@ -67,6 +67,21 @@ export const bookTicket = async (trip_id, data) => {
   return response.data
 }
 
+export const confirmTicket = async (data) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/confirm-payment`, {
+      params: data,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const { status, details } = response.data
+    return { status, details }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const setPassengerSeats = (selectedSeats, count,) => (dispatch) => {
   dispatch({ type: SET_SELECTED_SEATS, payload: selectedSeats })
 }

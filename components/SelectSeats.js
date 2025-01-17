@@ -40,11 +40,11 @@ const knowYourSeat = [
 export default function SelectSeats() {
     const [selectedSeatCount, setSelectedSeatCount] = useState(0)
     const [selectedSeats, setSelectedSeats] = useState([])
-    const refBottomSheet = useRef()
+    // const refBottomSheet = useRef()
 
-    useEffect(() => {
-        refBottomSheet.current.open()
-    }, [])
+    // useEffect(() => {
+    //     refBottomSheet.current.open()
+    // }, [])
 
 
     const navigation = useNavigation();
@@ -89,9 +89,12 @@ export default function SelectSeats() {
                     </View>
                 </View>
             </ScrollView>
-
+            <View style={[styles.tableRow, { backgroundColor: '#fff', height: 80, alignItems: 'center' }]}>
+                <Text><Text style={{ fontWeight: 'bold' }}>Selected Seats</Text>({selectedSeatCount})</Text>
+                <PrimaryButton style={{ backgroundColor: SecondaryColor }} onClick={handlePassengerInformation} title='Continue' />
+            </View>
             {/* TODO: Redesign this part for complete action */}
-            <RBSheet
+            {/* <RBSheet
                 ref={refBottomSheet}
                 useNativeDriver={false}
                 customStyles={{
@@ -120,12 +123,7 @@ export default function SelectSeats() {
                 }}
             >
 
-            </RBSheet>
-
-            <View style={[styles.tableRow, { backgroundColor: '#fff', height: 80, alignItems: 'center' }]}>
-                <Text><Text style={{ fontWeight: 'bold' }}>Selected Seats</Text>({selectedSeatCount})</Text>
-                <PrimaryButton style={{ backgroundColor: SecondaryColor }} onClick={handlePassengerInformation} title='Continue' />
-            </View>
+            </RBSheet> */}
         </SafeAreaView>
 
     )

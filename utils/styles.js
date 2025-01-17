@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 6,
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     paddingHorizontal: 16,
-    paddingBottom: 100,
+    // paddingBottom: 100,
     backgroundColor: WhiteColor,
   },
   buttonTextPrimary: {
@@ -106,7 +106,7 @@ export const styles = StyleSheet.create({
   },
   ticketCardHeader: {
     backgroundColor: PrimaryColor,
-    height: 230,
+    height: 200,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     padding: 8,
@@ -129,8 +129,9 @@ export const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   dividerInTicket: {
-    color: "#E1D9D1",
-    height: 2,
+    color: "#F1F9F1",
+    height: 1,
+    marginVertical: 8
   },
 
   ticketRowAlign: {
