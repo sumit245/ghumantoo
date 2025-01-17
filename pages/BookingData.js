@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import dayjs from "dayjs";
-import RazorpayCheckout from "react-native-razorpay";
 
 export default function BookingData({ navContinue }) {
   const navigation = useNavigation();

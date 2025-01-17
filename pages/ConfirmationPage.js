@@ -1,7 +1,6 @@
 
-import { View, Text, BackHandler, TouchableOpacity, SafeAreaView } from "react-native";
-import { useState, useRef, useEffect } from "react";
-import LottieView from "lottie-react-native";
+import { View, Text, TouchableOpacity, SafeAreaView, BackHandler } from "react-native";
+import { useState, useEffect } from "react";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../utils/styles";
@@ -17,6 +16,13 @@ export default function ConfirmationPage({ route, navigation }) {
   const [to, setTo] = useState("")
   const [departureTime, setDepartureTime] = useState("")
   const [arrivalTime, setArrivalTime] = useState("")
+  useEffect(() => {
+    const backhandler = BackHandler.addEventListener('hardwareBackPress',
+      () => navigation.navigate('Main')
+    )
+    return () => backhandler.remove()
+  }, [])
+
   useEffect(() => {
     const { end_time, start_time, originCity, destinationCity } = selectedBus
     console.log(selectedBus)
@@ -44,8 +50,8 @@ export default function ConfirmationPage({ route, navigation }) {
         Fare={100}
         seats={seats}
       />
-      <TouchableOpacity onPress={() => navigation.navigate('Main')}>
-        <Text>Continue Booking</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Main')} style={styles.buttonPrimary}>
+        <Text style={styles.buttonTextPrimary}>Continue Booking</Text>
       </TouchableOpacity>
 
       <View style={styles.share}>

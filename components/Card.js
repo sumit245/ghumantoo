@@ -15,7 +15,7 @@ export default function Card() {
           <TouchableOpacity key={id} style={{ ...styles.extra, backgroundColor: color }}>
             <View style={styles.card}>
               <Text style={styles.title}>{name}</Text>
-              <Text style={[styles.labelStyle, { lineHeight: 40 }]}>
+              <Text style={[styles.labelStyle,]}>
                 From
                 <Text style={styles.title}> ₹{startingFrom}</Text>
               </Text>
