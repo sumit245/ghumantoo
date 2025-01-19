@@ -3,15 +3,12 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  FlatList,
   SafeAreaView,
 } from "react-native";
 import React, { useState } from "react";
 import { styles } from "../utils/styles";
-import { Divider } from "react-native-paper";
 import { PrimaryColor } from "../utils/colors";
 import ReferralCards from "../components/ReferralCards";
-import Icon from "react-native-vector-icons/Ionicons";
 
 export default function ReferAndEarn() {
   const [tabIndex, setTabIndex] = useState(0);

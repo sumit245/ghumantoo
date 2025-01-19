@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, Image, SafeAreaView } from "react-native";
 import { styles, width } from "../utils/styles";
-import { DangerColor, SecondaryColor } from "../utils/colors";
+import { DangerColor, } from "../utils/colors";
 import { useNavigation } from "@react-navigation/native";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import { useDispatch } from "react-redux";
 import { authFromMobile } from "../actions/userActions";
 import GPhoneInput from "../components/GPhoneInput";
-import GUselessOr from "../components/GUselessOr";
 import TermsAndConditions from "../components/tnc/TermsAndConditions";
 
 export default function SignIn() {

@@ -7,6 +7,7 @@ import GCityTextInput from "./customs/GCityTextInput";
 import dayjs from "dayjs";
 
 import { fetchCounters } from "../actions/busActions";
+import { typography } from "../utils/typography";
 
 export default function LocationSelector({
   handleDatePicker,
@@ -164,7 +165,7 @@ export default function LocationSelector({
             style={[styles.buttonPrimary, styles.smallButtonPrimary]}
             onPress={() => handleQuickDate(index)}
           >
-            <Text style={[styles.buttonTextPrimary, { fontSize: 12 }]}>
+            <Text style={[styles.buttonTextPrimary, typography.font12]}>
               {quickDate}
             </Text>
           </TouchableOpacity>

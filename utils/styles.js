@@ -29,6 +29,7 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     paddingHorizontal: 8,
     color: WhiteColor,
+   
   },
   buttonPrimary: {
     backgroundColor: PrimaryColor,
@@ -36,8 +37,8 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: 48,
-    borderRadius: 8,
-    marginVertical: 12,
+    borderRadius: 24,
+    marginVertical: 14,
   },
   locationContainer: {
     borderRadius: 12,
@@ -969,10 +970,11 @@ export const styles = StyleSheet.create({
   },
   // Restyling by Sumit R Pratihast
   smallButtonPrimary: {
-    height: 24,
-    borderRadius: 4,
+    height: 28,
+    borderRadius: 14,
     marginVertical: 0,
     marginHorizontal: 4,
+    top:8,
   },
 
   bottomTabBar: {

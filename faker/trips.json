@@ -38,8 +38,7 @@
             "name": "Rewa Satna Express",
             "start_from": 11,
             "status": 1,
-            "stoppages": [Array
-            ],
+            "stoppages": [],
             "time": "1 hour 15 minutes",
             "updated_at": "2024-09-27T08: 38: 47.000000Z"
         },

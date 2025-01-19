@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 export default function BookingData({ navContinue }) {
@@ -12,9 +12,7 @@ export default function BookingData({ navContinue }) {
   useEffect(() => {
     console.log(user);
   }, []);
-  return (
-    null
-  );
+  return null;
 }
 
 const styles = StyleSheet.create({

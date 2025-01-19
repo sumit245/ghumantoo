@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { View, Text, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { RadioButton } from "react-native-paper";
 import { Black1Color } from "../utils/colors";
