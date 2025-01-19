@@ -58,6 +58,7 @@ export const getAvailableSeats = (id, date_of_journey) => async (dispatch) => {
 }
 
 export const bookTicket = async (trip_id, data) => {
+
   const response = await axios.get(`${API_URL}/api/bus/book-ticket/${trip_id}`, {
     params: data,
     headers: {

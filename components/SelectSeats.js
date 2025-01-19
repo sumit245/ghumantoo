@@ -40,12 +40,6 @@ const knowYourSeat = [
 export default function SelectSeats() {
     const [selectedSeatCount, setSelectedSeatCount] = useState(0)
     const [selectedSeats, setSelectedSeats] = useState([])
-    // const refBottomSheet = useRef()
-
-    // useEffect(() => {
-    //     refBottomSheet.current.open()
-    // }, [])
-
 
     const navigation = useNavigation();
     const dispatch = useDispatch()
@@ -65,7 +59,6 @@ export default function SelectSeats() {
         <SafeAreaView style={[styles.container, { paddingHorizontal: 0 }]}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <SeatLayout isDoubleDecker={false} isSleeper={false} handleSeatSelection={(val) => handleSeatSelection(val)} />
-
                 <View style={{ paddingHorizontal: 16, marginVertical: 12 }}>
                     <Text style={styles.headerTitleText}>Know your seat type</Text>
 

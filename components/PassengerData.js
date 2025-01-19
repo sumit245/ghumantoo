@@ -36,11 +36,12 @@ const PassengerData = ({ navContinue }) => {
         date_of_journey: dayjs(date_of_journey).format('YYYY-MM-DD'),
         pickup: pickupId,
         destination: destinationId,
-        seats: selectedSeats.join(', '),
+        seats: selectedSeats.join(','),
         gender: 1,
         mobile_number: phone,
         passenger_names: [name]
       }
+      // console.log(ticketDetails)
       const result = await bookTicket(selectedBus.id, ticketDetails)
       if (result) {
         const { ticket_id, amount, currency, order_id } = result

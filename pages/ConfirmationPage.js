@@ -54,7 +54,7 @@ export default function ConfirmationPage({ route, navigation }) {
         <Text style={styles.buttonTextPrimary}>Continue Booking</Text>
       </TouchableOpacity>
 
-      <View style={styles.share}>
+      {/* <View style={styles.share}>
         <TouchableOpacity style={styles.down}>
           <Icon name="cancel" size={20} style={styles.end} />
           <Text style={styles.cancel}>CANCEL</Text>
@@ -63,7 +63,7 @@ export default function ConfirmationPage({ route, navigation }) {
           <Icon name="share-variant" size={20} style={styles.end} />
           <Text style={styles.cancel}>SHARE</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 }
