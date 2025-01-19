@@ -74,7 +74,7 @@ export default function LocationSelector({
         placeholder="Bhopal"
         onChangeText={handlePickupChange}
         value={pickup}
-        // iconSize={12}
+      // iconSize={12}
       />
       <TouchableOpacity
         style={{

@@ -8,7 +8,7 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import { styles } from "../utils/styles";
+import { height, styles } from "../utils/styles";
 import {
   DangerColor,
   DarkGray,
@@ -21,34 +21,16 @@ import ReferAndEarn from "./ReferAndEarn";
 
 const DATA = [
   {
-    id: "2",
-    title: "Booking for women ",
-    icon: "woman-outline",
-  },
-  {
     id: "3",
     title: "Wallet",
     icon: "wallet-outline",
     whereTo: "Wallet",
   },
   {
-    id: "4",
-    title: "Cards",
-    icon: "card-outline",
-    whereTo: "Cards",
-  },
-
-  {
     id: "7",
     title: "Refer & Earn",
     icon: "share-social-outline",
     whereTo: "ReferAndEarn",
-  },
-
-  {
-    id: "8",
-    title: "Offers",
-    icon: "ticket-outline",
   },
   {
     id: "11",
@@ -96,46 +78,43 @@ export default function Account() {
 
   const navigation = useNavigation();
   return (
-    <SafeAreaView style={[styles.container, { marginHorizontal: 0 }]}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.headerTitle}>
-          <Text style={styles.headerTitleText}>My Account</Text>
-        </View>
+    <SafeAreaView style={[styles.container, { marginHorizontal: 0, justifyContent: 'space-between' }]}>
 
-        <TouchableOpacity
+      <TouchableOpacity
+        style={[
+          styles.row,
+          {
+            marginVertical: 8,
+            padding: 8,
+            backgroundColor: PureWhite,
+            height: height / 4,
+            alignItems: "center",
+          },
+        ]}
+        onPress={() => navigation.navigate("editProfile")}
+      >
+        <View
           style={[
             styles.row,
             {
-              marginVertical: 8,
+              marginVertical: 0.8,
               padding: 8,
               backgroundColor: PureWhite,
-              height: 100,
               alignItems: "center",
             },
           ]}
-          onPress={() => navigation.navigate("editProfile")}
         >
-          <View
-            style={[
-              styles.row,
-              {
-                marginVertical: 0.8,
-                padding: 8,
-                backgroundColor: PureWhite,
-                alignItems: "center",
-              },
-            ]}
-          >
-            <Icon name="person-circle-outline" size={48} color={PrimaryColor} />
-            <View>
-              <Text style={styles.labelStyle}>{name}</Text>
-              <Text style={styles.labelStyle}>{mobile_number}</Text>
-              <Text style={styles.labelStyle}>{email_id}</Text>
-            </View>
+          <Icon name="person-circle-outline" size={48} color={PrimaryColor} />
+          <View>
+            <Text style={styles.labelStyle}>{name}</Text>
+            <Text style={styles.labelStyle}>{mobile_number}</Text>
+            <Text style={styles.labelStyle}>{email_id}</Text>
           </View>
-          <Icon name="chevron-forward" size={32} color={DarkGray} />
-        </TouchableOpacity>
+        </View>
+        <Icon name="chevron-forward" size={32} color={DarkGray} />
+      </TouchableOpacity>
 
+      <View style={{ flex: 1 }}>
         {DATA.map((item) => (
           <Item
             key={item.id}
@@ -144,33 +123,34 @@ export default function Account() {
             onPress={() => navigation.navigate(item.whereTo)}
           />
         ))}
-        <View
+      </View>
+
+      <TouchableOpacity
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        onPress={() => console.log("Logout")}
+      >
+        <Icon
+          name="power"
+          color={DangerColor}
+          size={32}
+          style={{ padding: 4 }}
+        />
+        <Text
           style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            flex: 1,
-            marginTop: 15,
+            fontSize: 20,
+            fontWeight: "bold",
+            color: DarkGray,
+            padding: 4,
           }}
         >
-          <Icon
-            name="power"
-            color={DangerColor}
-            size={32}
-            style={{ padding: 4 }}
-          />
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              color: DarkGray,
-              padding: 4,
-            }}
-          >
-            Log out
-          </Text>
-        </View>
-      </ScrollView>
+          Log out
+        </Text>
+      </TouchableOpacity>
+
     </SafeAreaView>
   );
 }

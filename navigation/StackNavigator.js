@@ -1,7 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { stackScreens, unauthorizedScreens } from './screens';
 import { useEffect, useState } from 'react';
-import { OTPPage, SignIn } from '../pages';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator()

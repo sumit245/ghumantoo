@@ -18,9 +18,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 6,
-    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     paddingHorizontal: 16,
-    // paddingBottom: 100,
     backgroundColor: WhiteColor,
   },
   buttonTextPrimary: {
@@ -29,7 +27,7 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     paddingHorizontal: 8,
     color: WhiteColor,
-   
+
   },
   buttonPrimary: {
     backgroundColor: PrimaryColor,
@@ -974,7 +972,7 @@ export const styles = StyleSheet.create({
     borderRadius: 14,
     marginVertical: 0,
     marginHorizontal: 4,
-    top:8,
+    top: 8,
   },
 
   bottomTabBar: {

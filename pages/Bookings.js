@@ -6,13 +6,13 @@ import TabBarComponent from "../components/tabBar/TabBarComponent";
 export default function Bookings() {
   const [tabs] = useState([
     {
-      index: 1,
+      index: 0,
       name: "Completed",
     },
     {
-      index: 0,
+      index: 1,
       name: "Cancelled",
-    },
+    }
   ]);
 
   return (

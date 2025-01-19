@@ -1,5 +1,4 @@
 import {
-  // BottomTabNavigator,
   SignIn,
   SearchBuses,
   Passenger,
@@ -34,7 +33,7 @@ export const unauthorizedScreens = [
   },
   {
     name: "Main",
-    component: Home,
+    component: BottomTabNavigator,
     options: {
       headerShown: false,
     },
@@ -125,7 +124,7 @@ export const unauthorizedScreens = [
 export const stackScreens = [
   {
     name: "Main",
-    component: Home,
+    component: BottomTabNavigator,
     options: {
       headerShown: false,
     },
