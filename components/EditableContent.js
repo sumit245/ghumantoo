@@ -2,14 +2,11 @@ import { View, Text } from "react-native";
 import React from "react";
 import { useState } from "react";
 import { styles } from "../utils/styles";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { RadioButton } from "react-native-paper";
-import { Black1Color } from "../utils/colors";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import GPhoneInput from "../components/GPhoneInput";
 import { useNavigation } from "@react-navigation/native";
 import TextInput from "react-native-paper";
-
 import { useDispatch, useSelector } from "react-redux";
 import { editProfile } from "../actions/userActions";
 

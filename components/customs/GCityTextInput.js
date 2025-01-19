@@ -1,5 +1,5 @@
 import { View, Text, TextInput } from "react-native";
-import { styles, width } from "../../utils/styles";
+import { styles } from "../../utils/styles";
 import Icon from "react-native-vector-icons/Ionicons";
 import { PrimaryColor, Black1Color } from "../../utils/colors";
 

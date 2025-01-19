@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Image,
   Text,
@@ -17,23 +17,26 @@ import { verifyUserOTP } from "../actions/userActions";
 export default function OTPPage() {
   const navigation = useNavigation();
   const { mobile_number, message } = useSelector((state) => state.user);
-  const [otp, setOtp] = useState(0)
-  const dispatch = useDispatch()
+  const [otp, setOtp] = useState(0);
+  const dispatch = useDispatch();
 
   const verifyOTP = async () => {
-    const status = await dispatch(verifyUserOTP(mobile_number, otp))
+    const status = await dispatch(verifyUserOTP(mobile_number, otp));
     if (status === 200) {
-      navigation.navigate("Main")
+      navigation.navigate("Main");
     }
-  }
+  };
 
   return (
     <SafeAreaView
-      style={[styles.container, {
-        paddingHorizontal: 0,
-        marginHorizontal: 0,
-        justifyContent: "space-between",
-      },]}
+      style={[
+        styles.container,
+        {
+          paddingHorizontal: 0,
+          marginHorizontal: 0,
+          justifyContent: "space-between",
+        },
+      ]}
     >
       <Image
         source={require("../assets/hero.png")}
@@ -41,17 +44,25 @@ export default function OTPPage() {
         resizeMode="cover"
       />
       <View style={{ marginVertical: 12, alignItems: "center" }}>
-        <Text style={[styles.title, { marginTop: 60 }]}>Please Verify you Mobiler number</Text>
+        <Text style={[styles.title, { marginTop: 60 }]}>
+          Please Verify you Mobiler number
+        </Text>
         <Text style={styles.labelStyle}>A 6-digit {message}</Text>
       </View>
 
       <View style={{ minHeight: 200, marginHorizontal: 8 }}>
-        <Text style={{ letterSpacing: 1.2, fontSize: 16, marginLeft: 8, textTransform: 'uppercase' }}>One time Password</Text>
+        <Text
+          style={{
+            letterSpacing: 1.2,
+            fontSize: 16,
+            marginLeft: 8,
+            textTransform: "uppercase",
+          }}
+        >
+          One time Password
+        </Text>
         <OTPComponent digit={6} verifyOTP={(val) => setOtp(val)} />
-        <PrimaryButton
-          onClick={verifyOTP}
-          title="Verify"
-        />
+        <PrimaryButton onClick={verifyOTP} title="Verify" />
       </View>
 
       <View style={{ alignItems: "center", paddingBottom: 60 }}>

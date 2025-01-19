@@ -2,13 +2,14 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { info } from "./OfferInfo";
 import { styles } from "../utils/styles";
-import { Black1Color, BlackColor, PureWhite } from "../utils/colors";
+import { PureWhite } from "../utils/colors";
+import { typography } from "../utils/typography";
 
 export default function Offers() {
   return (
     <>
       <View style={styles.headerTitle}>
-        <Text style={styles.headerTitleText}>Coupons</Text>
+        <Text style={[typography.font20, typography.textBold]}>Coupons</Text>
         <Text style={styles.labelStyle}>
           Get best deals with heavy discount
         </Text>
@@ -27,7 +28,12 @@ export default function Offers() {
               resizeMode="contain"
             />
             <View>
-              <Text style={[styles.labelStyle, {color:PureWhite, fontWeight: "bold", }]}>
+              <Text
+                style={[
+                  styles.labelStyle,
+                  { color: PureWhite, fontWeight: "bold" },
+                ]}
+              >
                 {heading}
               </Text>
               <Text

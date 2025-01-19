@@ -22,6 +22,7 @@ import { styles, width } from "../utils/styles";
 import { PrimaryColor } from "../utils/colors";
 import { useDispatch } from "react-redux";
 import { getBuses, getBusOnRoute } from "../actions/busActions";
+import { typography } from "../utils/typography";
 
 export default function Home() {
   const [date, setDate] = useState(dayjs());
@@ -71,7 +72,15 @@ export default function Home() {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.headerTitle}>
-          <Text style={styles.headerTitleText}>Bus tickets</Text>
+          <Text
+            style={[
+              typography.font24,
+              typography.textBold,
+              // { color: "#A9A9Ac" },
+            ]}
+          >
+            Bus Tickets
+          </Text>
         </View>
 
         <LocationSelector

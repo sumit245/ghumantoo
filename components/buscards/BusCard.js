@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from "@react-navigation/native";
 
 function getBlueShade(index) {
   const blueShades = ["#87CEEB", "pink", "#5F9EA0", "#00BFFF", "#1E90FF"];

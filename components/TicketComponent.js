@@ -1,11 +1,7 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
 import { styles, width } from "../utils/styles";
 import { Divider } from "react-native-paper";
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import PrimaryButton from "./buttons/PrimaryButton";
-
-
 
 export default function TicketComponent({
   Traveldate,
@@ -27,13 +23,33 @@ export default function TicketComponent({
         <Text style={styles.stdText}>{Travelday}</Text>
         <Divider style={styles.dividerInTicket} />
         <View style={[styles.row, { marginVertical: 12 }]}>
-          <Text style={[styles.stdText, { fontSize: 20 }]}>{Departuretime}</Text>
-          <Text style={[styles.stdText, { textDecorationLine: "underline", }]}>{TimeDuration}</Text>
-          <Text style={[styles.stdText, { marginLeft: 10, fontSize: 20 }]}>{ArrivalTime}</Text>
+          <Text style={[styles.stdText, { fontSize: 20 }]}>
+            {Departuretime}
+          </Text>
+          <Text style={[styles.stdText, { textDecorationLine: "underline" }]}>
+            {TimeDuration}
+          </Text>
+          <Text style={[styles.stdText, { marginLeft: 10, fontSize: 20 }]}>
+            {ArrivalTime}
+          </Text>
         </View>
         <View style={[styles.row, { marginVertical: 12 }]}>
-          <Text style={[styles.stdText, { fontSize: 14, maxWidth: width / 2.6, flexWrap: 'wrap' }]}>From: {DepartureAddress}</Text>
-          <Text style={[styles.stdText, { fontSize: 14, maxWidth: width / 2.6, flexWrap: 'wrap' }]}>To: {ArrivalAddress}</Text>
+          <Text
+            style={[
+              styles.stdText,
+              { fontSize: 14, maxWidth: width / 2.6, flexWrap: "wrap" },
+            ]}
+          >
+            From: {DepartureAddress}
+          </Text>
+          <Text
+            style={[
+              styles.stdText,
+              { fontSize: 14, maxWidth: width / 2.6, flexWrap: "wrap" },
+            ]}
+          >
+            To: {ArrivalAddress}
+          </Text>
         </View>
       </View>
 
@@ -45,7 +61,9 @@ export default function TicketComponent({
       <View style={styles.ticketCardFooter}>
         <View style={styles.row}>
           <Text> Seat(s)</Text>
-          <Text style={styles.Fare}>{seats}- {passenger_name} </Text>
+          <Text style={styles.Fare}>
+            {seats}- {passenger_name}{" "}
+          </Text>
         </View>
         <Divider style={styles.dividerthin} />
         <View style={[styles.row, styles.external]}>
@@ -57,7 +75,9 @@ export default function TicketComponent({
           <Text>Total Fare :</Text>
           <Text style={styles.Fare}>{Fare}</Text>
         </View>
-        <Text style={{ textAlign: 'center', marginTop: 20 }}>Ticket Details are sent to your whatsapp 😍</Text>
+        <Text style={{ textAlign: "center", marginTop: 20 }}>
+          Ticket Details are sent to your whatsapp 😍
+        </Text>
       </View>
     </View>
   );

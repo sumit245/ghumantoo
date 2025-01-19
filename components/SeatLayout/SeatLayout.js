@@ -3,20 +3,17 @@ import { View, Image, TouchableOpacity } from "react-native";
 import SeatIcon from "../../assets/seat.png";
 import SeatDisabled from '../../assets/seats_disabled.png';
 import SelectedSeatIcon from "../../assets/selected_seat.png";
-import { styles } from '../../utils/styles';
+import { styles } from "../../utils/styles";
 import { useSelector } from "react-redux";
 
 export default function SeatLayout({
   isDoubleDecker = false,
-  deckPosition = 0,
-  isSleeper = false,
-  handleSeatSelection
+  handleSeatSelection,
 }) {
   const [seatMap, setSeatMap] = useState([]);
   const { bookedSeats, seatLayout, total_seats } = useSelector(state => state.bus);
   const [selectedSeats, setSelectedSeats] = useState([]);
 
-  // Generate seat map dynamically
   useEffect(() => {
     generateSeatMap();
   }, [seatLayout, total_seats]);
@@ -31,7 +28,6 @@ export default function SeatLayout({
     setSeatMap(newSeatMap);
   };
 
-  // Toggle seat selection
   const toggleSeatSelection = (seatId) => {
     setSelectedSeats(prevSelected => {
       const cleanSeatId = seatId.trim(); // Trim whitespace before processing
@@ -59,7 +55,6 @@ export default function SeatLayout({
         <View style={styles.seatMapContainer}>
           {seatMap.map((row, rowIndex) => (
             <View key={rowIndex} style={styles.row}>
-              {/* Render Column One */}
               <View style={styles.column}>
                 {row.columnOne.map((seat, colIndex) => (
                   <TouchableOpacity
@@ -82,7 +77,6 @@ export default function SeatLayout({
                 ))}
               </View>
 
-              {/* Render Column Two */}
               <View style={styles.column}>
                 {row.columnTwo.map((seat, colIndex) => (
                   <TouchableOpacity
