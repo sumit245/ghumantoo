@@ -2,21 +2,21 @@ import React, { useState } from "react";
 import { View, Text, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { RadioButton } from "react-native-paper";
-import { Black1Color } from "../utils/colors";
+import { AccentColor, WhiteColor } from "../utils/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { editProfile } from "../actions/userActions";
 import { styles } from "../utils/styles";
-import { useNavigation } from "@react-navigation/native";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import GPhoneInput from "../components/GPhoneInput";
+import { typography } from "../utils/typography";
+import { spacing } from "../utils/spacing.styles";
 
 export default function EditProfile() {
-  const navigation = useNavigation();
-
   const [checked, setChecked] = useState("second");
   const [editable, setEditable] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [uname, setUname] = useState("");
+  const [email, setEmail] = useState("");
 
   // Use useSelector hook to retrieve data from store
   const { email_id, mobile_number, name } = useSelector((state) => state.user);
@@ -24,25 +24,30 @@ export default function EditProfile() {
 
   const saveDetails = () => {
     setEditable(false);
-    // use useDispatch hook to save data to the store and call a function
-    dispatch(editProfile({ mobile_number: phoneNumber, name: uname }));
+    dispatch(
+      editProfile({ mobile_number: phoneNumber, name: uname, email_id: email })
+    );
   };
 
   if (!editable) {
     return (
       <View style={{ flex: 1, backgroundColor: "lightgrey" }}>
-        <View style={styles.main1}>
+        <View
+          style={[
+            spacing.mh2,
+            spacing.br3,
+            spacing.mt2,
+            spacing.p3,
+            { backgroundColor: WhiteColor, height: 300 },
+          ]}
+        >
           <View style={styles.row}>
-            <Text style={[styles.stdText, { color: Black1Color }]}>
+            <Text style={[typography.font16, typography.textBold]}>
               PERSONAL DETAILS
             </Text>
             <PrimaryButton
-              style={{ backgroundColor: "transparent", marginTop: -12 }}
-              textStyle={{
-                color: "dodgerblue",
-                fontSize: 16,
-                fontWeight: "bold",
-              }}
+              style={{ marginTop: -12 }}
+              textStyle={[typography.font16, { Color: AccentColor }]}
               title="Edit"
               onClick={() => setEditable(true)}
             />
@@ -55,43 +60,43 @@ export default function EditProfile() {
           >
             <Icon name="account-circle" size={40} />
 
-            <View style={{ marginLeft: 20 }}>
-              <Text style={styles.text1}>{name}</Text>
-              <Text style={styles.text1}>19</Text>
-              <Text style={styles.text1}>Gender</Text>
-              <View style={[styles.row, { padding: 0 }]}>
-                <Text style={styles.male}>Male</Text>
-                <RadioButton
-                  value="first"
-                  status={checked === "first" ? "checked" : "unchecked"}
-                  onPress={() => setChecked("first")}
-                  disabled
-                />
-                <Text style={styles.male}>Female</Text>
-                <RadioButton
-                  value="second"
-                  status={checked === "second" ? "checked" : "unchecked"}
-                  onPress={() => setChecked("second")}
-                  disabled
-                />
-              </View>
-              <Text style={styles.text1}>Mobile Number</Text>
-              <Text style={styles.text1}>{mobile_number}</Text>
+            <View style={[spacing.ml3]}>
+              <Text style={[typography.font20, typography.textBold]}>
+                {name}
+              </Text>
+              <Text
+                style={[
+                  {
+                    color:
+                      checked === "first" || checked === "second"
+                        ? "black"
+                        : "gray",
+                  },
+                ]}
+              >
+                Gender: {checked === "first" ? "Male" : "Female"}
+              </Text>
+
+              <Text style={[typography.font14]}>{mobile_number}</Text>
+              <Text style={[typography.font14]}>{email_id}</Text>
             </View>
           </View>
         </View>
-        <PrimaryButton
-          style={{ backgroundColor: "#fff", marginHorizontal: 8 }}
-          textStyle={{ color: "#777" }}
-          title="Change Email"
-        />
       </View>
     );
   } else {
     return (
-      <View style={{ flex: 1, backgroundColor: "lightgrey" }}>
-        <View style={[styles.main1, { height: 460 }]}>
-          <Text style={[styles.stdText, { color: "black" }]}>
+      <View style={{ flex: 1 }}>
+        <View
+          style={[
+            spacing.mh2,
+            spacing.br3,
+            spacing.mt2,
+            spacing.p3,
+            { backgroundColor: WhiteColor, height: 460 },
+          ]}
+        >
+          <Text style={[typography.font18, typography.textBold]}>
             PERSONAL DETAILS
           </Text>
 
@@ -103,160 +108,79 @@ export default function EditProfile() {
                 value={uname}
                 onChangeText={setUname}
               />
-              <Text style={[styles.stdText, { fontSize: 18, color: "#555" }]}>
-                Gender
-              </Text>
-              <View style={[styles.row, { marginBottom: 8 }]}>
-                <View style={styles.radioButton}>
-                  <Text style={{ fontSize: 14.8 }}>Male</Text>
+
+              <Text style={[typography.font14]}>Gender</Text>
+              <View style={[styles.row, spacing.mb2]}>
+                <View
+                  style={[
+                    spacing.pl2,
+                    spacing.bw1,
+                    spacing.mt2,
+                    spacing.br5,
+                    {
+                      flexDirection: "row",
+                      width: "48%",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      borderColor: checked === "first" ? "red" : "gray",
+                    },
+                  ]}
+                >
+                  <Text style={[typography.font14]}>Male</Text>
                   <RadioButton
                     value="first"
                     status={checked === "first" ? "checked" : "unchecked"}
                     onPress={() => setChecked("first")}
+                    color="red"
                   />
                 </View>
-                <View style={styles.radioButton}>
-                  <Text style={{ fontSize: 14.5 }}>Female</Text>
+                <View
+                  style={[
+                    spacing.pl2,
+                    spacing.bw1,
+                    spacing.mt2,
+                    spacing.br5,
+                    spacing.p1,
+                    {
+                      flexDirection: "row",
+                      width: "48%",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      borderColor: checked === "second" ? "red" : "gray",
+                    },
+                  ]}
+                >
+                  <Text style={[typography.font14]}>Female</Text>
                   <RadioButton
                     value="second"
                     status={checked === "second" ? "checked" : "unchecked"}
                     onPress={() => setChecked("second")}
+                    color="red"
                   />
                 </View>
               </View>
-              <Text style={styles.text1}>Mobile Number</Text>
 
+              <Text style={[typography.font14]}>Mobile Number</Text>
               <GPhoneInput onChangeText={setPhoneNumber} />
+              <Text style={[typography.font14]}>Email ID</Text>
+              <TextInput
+                placeholder="Email ID"
+                style={styles.input}
+                value={email}
+                onChangeText={setEmail}
+              />
             </View>
           </View>
-
-          <View style={[styles.row, { justifyContent: "flex-end" }]}>
-            <PrimaryButton
-              style={{ backgroundColor: "transparent", marginTop: -6 }}
-              textStyle={{
-                color: "dodgerblue",
-                fontSize: 16,
-                fontWeight: "bold",
-              }}
-              title="DONE"
-              onClick={() => saveDetails()}
-            />
-            <PrimaryButton
-              style={{ backgroundColor: "transparent", marginTop: -6 }}
-              textStyle={{
-                color: "dodgerblue",
-                fontSize: 16,
-                fontWeight: "bold",
-              }}
-              title="CANCEL"
-              onClick={() => setEditable(false) && showEditButton(true)}
-            />
-          </View>
         </View>
-        <PrimaryButton
-          style={{ backgroundColor: "#fff", marginHorizontal: 8 }}
-          textStyle={{ color: "#777" }}
-          title="Change Email"
-          onClick={() => navigation.navigate()}
-        />
+
+        <View style={{ flex: 1, justifyContent: "flex-end" }}>
+          <PrimaryButton
+            style={[spacing.mh2]}
+            title="Save Changes"
+            onClick={() => saveDetails()}
+          />
+        </View>
       </View>
     );
   }
 }
-
-//     marginHorizontal: 8,
-//     height: 300,
-//     marginTop: 20,
-//     padding: 12,
-//     borderRadius: 15,
-//   },
-//   title: {
-//     height: 100,
-//     backgroundColor: "orange",
-//   },
-//   headerTitleText: {
-//     alignItems: "center",
-//     fontSize: 20,
-//     marginTop: 39,
-//     marginLeft: 14,
-//     fontWeight: "bold",
-//   },
-//   first: {
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//   },
-//   second: {
-//     flexDirection: "row",
-//     margin: 20,
-//     padding: 10,
-//   },
-//   btnPhone: {
-//     height: 60,
-//     width: 290,
-//     borderColor: "#c7c7c7",
-//     borderWidth: 1,
-//     // backgroundColor: "#fff",
-//     borderRadius: 12,
-//     // alignItems: "center",
-//     flexDirection: "row",
-//     // justifyContent: "space-evenly",
-//     marginVertical: 5,
-//   },
-//   text: {
-//     marginBottom: 7,
-//     color: "darkgray",
-//   },
-//   edit: {
-//     color: "dodgerblue",
-//     fontWeight: "bold",
-//   },
-//   heading: {
-//     color: "gray",
-//     margin: 8,
-//   },
-//   radio: {
-//     flexDirection: "row",
-//   },
-//   email: {
-//     backgroundColor: WhiteColor,
-//     height: 50,
-//     marginTop: 50,
-//     marginHorizontal: 8,
-//     justifyContent: "center",
-//   },
-//   textemail: {
-//     fontSize: 16,
-//     marginHorizontal: 8,
-//     color: "grey",
-//   },
-
-//   phone: {
-//     width: 100, // Set the width of the PhoneInput component's containe
-//     height: 50,
-//   },
-//   down: {
-//     flexDirection: "row",
-//   },
-//   done: {
-//     color: "dodgerblue",
-//     marginHorizontal: 18,
-//     fontWeight: "bold",
-//   },
-
-//   male: {
-//     color: "gray",
-//     marginTop: 6,
-//   },
-//   female: {
-//     marginTop: 6,
-//   },
-//   input: {
-//     height: 55,
-//     borderWidth: 1,
-//     borderColor: "#ccc",
-//     borderRadius: 15,
-//     paddingHorizontal: 10,
-//     marginBottom: 10,
-//     fontSize: 18,
-//   },
-// });

@@ -18,6 +18,7 @@ import {
 import Wallet from "./Wallet";
 import Cards from "./Cards";
 import ReferAndEarn from "./ReferAndEarn";
+import { typography } from "../utils/typography";
 
 const DATA = [
   {
@@ -78,17 +79,27 @@ export default function Account() {
 
   const navigation = useNavigation();
   return (
-    <SafeAreaView style={[styles.container, { marginHorizontal: 0, justifyContent: 'space-between' }]}>
-
+    <SafeAreaView
+      style={[
+        styles.container,
+        {
+          marginHorizontal: 0,
+          justifyContent: "space-between",
+          paddingHorizontal: 16,
+          top: 10,
+        },
+      ]}
+    >
       <TouchableOpacity
         style={[
           styles.row,
           {
-            marginVertical: 8,
+            // marginVertical: 8,
             padding: 8,
-            backgroundColor: PureWhite,
-            height: height / 4,
+            backgroundColor: "#cf413a",
+            height: height / 6,
             alignItems: "center",
+            borderRadius: 14,
           },
         ]}
         onPress={() => navigation.navigate("editProfile")}
@@ -97,21 +108,30 @@ export default function Account() {
           style={[
             styles.row,
             {
-              marginVertical: 0.8,
-              padding: 8,
-              backgroundColor: PureWhite,
+             // marginVertical: 0.8,
+             // padding: 8,
               alignItems: "center",
             },
           ]}
         >
-          <Icon name="person-circle-outline" size={48} color={PrimaryColor} />
+          <Icon name="person-circle-outline" size={48} color={PureWhite} />
           <View>
-            <Text style={styles.labelStyle}>{name}</Text>
-            <Text style={styles.labelStyle}>{mobile_number}</Text>
-            <Text style={styles.labelStyle}>{email_id}</Text>
+            <Text
+              style={[
+                typography.font20,
+                typography.textBold,
+                { color: "white" },
+              ]}
+            >
+              {name}
+            </Text>
+            <Text style={{ color: "white", fontSize: 14 }}>
+              {mobile_number}
+            </Text>
+            <Text style={{ color: "white", fontSize: 14 }}>{email_id}</Text>
           </View>
         </View>
-        <Icon name="chevron-forward" size={32} color={DarkGray} />
+        <Icon name="chevron-forward" size={32} color={PureWhite} />
       </TouchableOpacity>
 
       <View style={{ flex: 1 }}>
@@ -150,7 +170,6 @@ export default function Account() {
           Log out
         </Text>
       </TouchableOpacity>
-
     </SafeAreaView>
   );
 }

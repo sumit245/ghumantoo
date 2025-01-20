@@ -18,7 +18,9 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 6,
+    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     paddingHorizontal: 16,
+    // paddingBottom: 100,
     backgroundColor: WhiteColor,
   },
   buttonTextPrimary: {
@@ -27,7 +29,6 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     paddingHorizontal: 8,
     color: WhiteColor,
-
   },
   buttonPrimary: {
     backgroundColor: PrimaryColor,
@@ -69,7 +70,7 @@ export const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 12,
-    color: "#777",
+    //color: "#777",
   },
   modalContainerStyle: {
     backgroundColor: WhiteColor,
@@ -130,7 +131,7 @@ export const styles = StyleSheet.create({
   dividerInTicket: {
     color: "#F1F9F1",
     height: 1,
-    marginVertical: 8
+    marginVertical: 8,
   },
 
   ticketRowAlign: {
@@ -269,7 +270,7 @@ export const styles = StyleSheet.create({
     height: 200,
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 100
+    marginBottom: 100,
   },
   bottomText: {
     paddingBottom: 8,
@@ -682,16 +683,16 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   radioButton: {
-    flexDirection: "row",
-    width: "48%",
-    borderColor: "#ccc",
-    borderWidth: 1,
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderRadius: 30,
-    height: 48,
-    marginTop: 10,
-    paddingLeft: 10,
+    // flexDirection: "row",
+    // width: "48%",
+    // borderColor: "#ccc",
+    // borderWidth: 1,
+    // alignItems: "center",
+    // justifyContent: "space-between",
+    // borderRadius: 30,
+    // height: 48,
+    // marginTop: 10,
+    // paddingLeft: 10,
   },
   stdText: {
     color: "#E1D9D1",
@@ -892,7 +893,7 @@ export const styles = StyleSheet.create({
     height: 32,
     width: 32,
     margin: 4,
-    alignSelf: 'flex-end'
+    alignSelf: "flex-end",
   },
   deckText: {
     fontWeight: "bold",
@@ -923,7 +924,7 @@ export const styles = StyleSheet.create({
   seatIcon: {
     height: 56,
     width: 56,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     margin: 2,
   },
   driverContainer: {
@@ -980,21 +981,5 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-start",
     fontWeight: "bold",
     height: 68,
-  },
-  main1: {
-    backgroundColor: WhiteColor,
-    marginHorizontal: 8,
-    height: 300,
-    marginTop: 20,
-    padding: 12,
-    borderRadius: 15,
-  },
-  male: {
-    color: "gray",
-    marginTop: 6,
-  },
-  text1: {
-    marginBottom: 7,
-    color: "darkgray",
   },
 });

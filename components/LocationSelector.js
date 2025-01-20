@@ -151,7 +151,7 @@ export default function LocationSelector({
         <View style={{ marginHorizontal: 8 }}>
           <Text style={styles.labelStyle}>Date of Journey</Text>
           <Text
-            style={{ fontSize: 20, fontWeight: "bold" }}
+            style={{ fontSize: 18, fontWeight: "bold" }}
             //style={[styles.title, { width: width / 3 }]}
             onPress={() => setIsFocused(!isFocused)}
           >

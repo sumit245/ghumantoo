@@ -7,26 +7,26 @@ import { Home, Bookings, Help, Account } from '../pages';
 const BottomTabs = createMaterialBottomTabNavigator()
 
 export const bottomTabScreens = [
-    {
-        name: "Home",
-        icon: "home",
-        component: Home,
-    },
-    {
-        name: "Bookings",
-        icon: "ticket",
-        component: Bookings,
-    },
-    {
-        name: "Help",
-        icon: "trail-sign",
-        component: Help,
-    },
-    {
-        name: "Account",
-        icon: "person",
-        component: Account,
-    },
+  {
+    name: "Home",
+    icon: "home",
+    component: Home,
+  },
+  {
+    name: "Bookings",
+    icon: "ticket",
+    component: Bookings,
+  },
+  {
+    name: "Help",
+    icon: "help-circle",
+    component: Help,
+  },
+  {
+    name: "Account",
+    icon: "person",
+    component: Account,
+  },
 ];
 
 
