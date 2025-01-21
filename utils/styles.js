@@ -49,8 +49,6 @@ export const styles = StyleSheet.create({
     padding: 6,
     borderBottomWidth: 1,
     borderColor: "#c7c7c7",
-    // width: (width / 2) - 60, // Aligns with input width
-    // marginLeft: 10, // Center under the TextInput
   },
   imaginaryBox: {
     borderWidth: 1,
@@ -272,11 +270,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 100,
   },
-  bottomText: {
-    paddingBottom: 8,
-    fontWeight: "bold",
-    fontSize: 16,
-  },
+
   title: {
     fontSize: 20,
     fontWeight: "600",
@@ -342,17 +336,17 @@ export const styles = StyleSheet.create({
   },
 
   mainCard: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    width: 340,
-    height: 200,
-    shadowColor: DarkGray, // Black shadow
-    elevation: 4,
-    marginHorizontal: 4,
-    alignItems: "center",
-    backgroundColor: AccentColor,
-    borderRadius: 12,
-    margin: 8,
+    // flexDirection: "row",
+    // justifyContent: "space-evenly",
+    // width: 340,
+    // height: 200,
+    // shadowColor: DarkGray, 
+    // elevation: 4,
+    // marginHorizontal: 4,
+    // alignItems: "center",
+    // backgroundColor: AccentColor,
+    // borderRadius: 12,
+    // margin: 8,
   },
   imageDiv: {
     width: 100,
@@ -419,26 +413,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 4,
     justifyContent: "center",
   },
-  arrowContainer: {
-    position: "absolute",
-    right: 16,
-    alignSelf: "center",
-    top: 25,
-  },
-  sections: {
-    color: "gray",
-    paddingLeft: 8,
-  },
-  logout: {
-    height: 50,
-    backgroundColor: WhiteColor,
-    margin: 8,
-    justifyContent: "center",
-    paddingLeft: 8,
-  },
-  logoutText: {
-    color: "gray",
-  },
+
   tickets: {
     height: 180,
     backgroundColor: PureWhite,
@@ -682,18 +657,6 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
   },
-  radioButton: {
-    // flexDirection: "row",
-    // width: "48%",
-    // borderColor: "#ccc",
-    // borderWidth: 1,
-    // alignItems: "center",
-    // justifyContent: "space-between",
-    // borderRadius: 30,
-    // height: 48,
-    // marginTop: 10,
-    // paddingLeft: 10,
-  },
   stdText: {
     color: "#E1D9D1",
     fontWeight: "bold",
@@ -737,23 +700,6 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     margin: 12,
-  },
-  share: {
-    height: 66,
-    backgroundColor: WhiteColor,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    color: "black",
-    marginTop: 12,
-    padding: 20,
-  },
-  cancel: {
-    fontWeight: "bold",
-    fontSize: 12,
-  },
-  check: {
-    color: "green",
   },
   checkDiv: {
     flexDirection: "row",
@@ -835,8 +781,9 @@ export const styles = StyleSheet.create({
     height: 200,
     backgroundColor: "white",
     marginTop: -150,
-    marginHorizontal: 20,
+    marginHorizontal: 8,
     borderRadius: 10,
+    borderWidth:1,
   },
   wallet: {
     height: 65,

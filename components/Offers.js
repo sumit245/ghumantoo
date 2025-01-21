@@ -2,8 +2,9 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { info } from "./OfferInfo";
 import { styles } from "../utils/styles";
-import { PureWhite } from "../utils/colors";
+import { PureWhite, AccentColor } from "../utils/colors";
 import { typography } from "../utils/typography";
+import { spacing } from "../utils/spacing.styles";
 
 export default function Offers() {
   return (
@@ -21,7 +22,21 @@ export default function Offers() {
         showsHorizontalScrollIndicator={false}
       >
         {info.map(({ id, imageUrl, heading, validity, couponCode }) => (
-          <TouchableOpacity key={id} style={styles.mainCard}>
+          <TouchableOpacity
+            key={id}
+            style={[
+              spacing.br3,
+              spacing.mh1,
+              {
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                width: 340,
+                height: 200,
+                alignItems: "center",
+                backgroundColor: AccentColor,
+              },
+            ]}
+          >
             <Image
               source={{ uri: imageUrl }}
               style={[styles.imageOffers, styles.imageDiv]}

@@ -72,13 +72,7 @@ export default function Home() {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.headerTitle}>
-          <Text
-            style={[
-              typography.font24,
-              typography.textBold,
-              // { color: "#A9A9Ac" },
-            ]}
-          >
+          <Text style={[typography.font24, typography.textBold]}>
             Bus Tickets
           </Text>
         </View>
@@ -108,7 +102,6 @@ export default function Home() {
           onDismiss={() => setVisible(false)}
           contentContainerStyle={styles.modalContainerStyle}
         >
-          {/* Close Icon in the Top Right */}
           <TouchableOpacity
             style={styles.modalCloseIcon}
             onPress={() => setVisible(false)}
@@ -121,13 +114,10 @@ export default function Home() {
           </Text>
 
           <CalendarPicker
-            // mode="single"
             minDate={dayjs().toDate()}
             restrictMonthNavigation={true}
             width={width - 40}
             height={width - 40}
-            // maxDate={d}
-            // TODO:restrict maxdate to 4 months
             date={date}
             onDateChange={(params) => toggleVisibility(params)}
             selectedDayColor={PrimaryColor}

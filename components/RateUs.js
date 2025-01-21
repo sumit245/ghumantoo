@@ -2,19 +2,25 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { styles } from "../utils/styles";
 import { PureWhite } from "../utils/colors";
 import { typography } from "../utils/typography";
+import { spacing } from "../utils/spacing.styles";
 
 export default function RateUs() {
   return (
     <>
       <View style={styles.headerTitle}>
-        {/* <Text style={styles.headerTitleText}>Rate Us</Text> */}
         <Text style={[typography.font20, typography.textBold]}>Rate Us</Text>
       </View>
 
       <View
         style={[
-          styles.mainCard,
-          { backgroundColor: PureWhite, justifyContent: "none" },
+          spacing.mv2,
+          spacing.br3,
+          {
+            flexDirection: "row",
+            elevation: 3,
+            alignItems: "center",
+            backgroundColor: PureWhite,
+          },
         ]}
       >
         <Image

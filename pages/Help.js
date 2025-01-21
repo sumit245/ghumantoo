@@ -8,10 +8,16 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { styles } from "../utils/styles";
-import { PrimaryColor, PureWhite, BlackColor } from "../utils/colors";
+import {
+  PrimaryColor,
+  PureWhite,
+  Black1Color,
+  BlackColor,
+} from "../utils/colors";
 import { List } from "react-native-paper";
 import { faqs } from "../faker/faqs";
 import { typography } from "../utils/typography";
+import { spacing } from "../utils/spacing.styles";
 
 export default function Help() {
   const [expandedId, setExpandedId] = useState(null);
@@ -20,10 +26,8 @@ export default function Help() {
     setExpandedId((prevId) => (prevId === id ? null : id));
   };
   return (
-    <SafeAreaView
-      style={[styles.container, { marginHorizontal: 8, paddingHorizontal: 2 }]}
-    >
-      <View style={styles.headerTitle}>
+    <SafeAreaView style={[styles.container, spacing.ph1]}>
+      <View style={[spacing.p3]}>
         <View
           style={{
             flexDirection: "row",
@@ -31,9 +35,16 @@ export default function Help() {
             alignItems: "center",
           }}
         >
-          <Text style={[styles.headerTitleText, { color: PrimaryColor }]}>
+          <Text
+            style={[
+              typography.font24,
+              typography.textBold,
+              { color: PrimaryColor },
+            ]}
+          >
             Ghumantoo: Buddy
           </Text>
+
           <TouchableOpacity>
             <Icon
               name="chatbubble-ellipses-outline"
@@ -48,31 +59,41 @@ export default function Help() {
         <TouchableOpacity
           style={[
             styles.row,
-            {
-              marginVertical: 2,
-              paddingVertical: 12,
-              backgroundColor: PureWhite,
-            },
+            spacing.mv1,
+            spacing.pv2,
+            spacing.br2,
+            { backgroundColor: PureWhite },
           ]}
         >
-          <Text style={[styles.bottomText, { padding: 4 }]}>
+          <Text
+            style={[
+              typography.font14,
+              typography.textBold,
+              spacing.pb2,
+              spacing.p2,
+            ]}
+          >
             View all issues
           </Text>
           <Icon name="chevron-forward" size={20} />
         </TouchableOpacity>
 
         <View style={styles.headerTitle}>
-          <Text style={styles.headerTitleText}>FAQs(Select a help topic)</Text>
+          <Text style={[typography.font22, { color: Black1Color }]}>
+            FAQs(Select a help topic)
+          </Text>
         </View>
         {faqs.map((faq) => (
           <View
             key={faq.id}
-            style={{
-              marginBottom: 8,
-              backgroundColor: PureWhite,
-              borderRadius: 8,
-              padding: 12,
-            }}
+            style={[
+              spacing.br2,
+              spacing.mb2,
+              spacing.p3,
+              {
+                backgroundColor: PureWhite,
+              },
+            ]}
           >
             <TouchableOpacity
               style={{
@@ -85,13 +106,7 @@ export default function Help() {
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <List.Icon color={PrimaryColor} icon={faq.icon} />
                 <Text
-                  style={[
-                    typography.font14,
-                    typography.textBold,
-                    {
-                      marginLeft: 4,
-                    },
-                  ]}
+                  style={[typography.font14, typography.textBold, spacing.ml1]}
                 >
                   {faq.title}
                 </Text>
@@ -105,7 +120,9 @@ export default function Help() {
               />
             </TouchableOpacity>
             {expandedId === faq.id && (
-              <Text style={{ marginTop: 8, color: "#555", fontSize: 12 }}>
+              <Text
+                style={[typography.font12, spacing.mt2, { color: BlackColor }]}
+              >
                 {faq.description}
               </Text>
             )}

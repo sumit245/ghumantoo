@@ -19,6 +19,7 @@ import Wallet from "./Wallet";
 import Cards from "./Cards";
 import ReferAndEarn from "./ReferAndEarn";
 import { typography } from "../utils/typography";
+import { spacing } from "../utils/spacing.styles";
 
 const DATA = [
   {
@@ -82,24 +83,22 @@ export default function Account() {
     <SafeAreaView
       style={[
         styles.container,
+        spacing.ph1,
+        spacing.mb1,
         {
-          marginHorizontal: 0,
           justifyContent: "space-between",
-          paddingHorizontal: 16,
-          top: 10,
         },
       ]}
     >
       <TouchableOpacity
         style={[
           styles.row,
+          spacing.br2,
+          spacing.p2,
           {
-            // marginVertical: 8,
-            padding: 8,
-            backgroundColor: "#cf413a",
+            backgroundColor: PrimaryColor,
             height: height / 6,
             alignItems: "center",
-            borderRadius: 14,
           },
         ]}
         onPress={() => navigation.navigate("editProfile")}
@@ -108,8 +107,6 @@ export default function Account() {
           style={[
             styles.row,
             {
-             // marginVertical: 0.8,
-             // padding: 8,
               alignItems: "center",
             },
           ]}
@@ -120,15 +117,17 @@ export default function Account() {
               style={[
                 typography.font20,
                 typography.textBold,
-                { color: "white" },
+                { color: PureWhite },
               ]}
             >
               {name}
             </Text>
-            <Text style={{ color: "white", fontSize: 14 }}>
+            <Text style={[typography.font12, { color: PureWhite }]}>
               {mobile_number}
             </Text>
-            <Text style={{ color: "white", fontSize: 14 }}>{email_id}</Text>
+            <Text style={[typography.font12, { color: PureWhite }]}>
+              {email_id}
+            </Text>
           </View>
         </View>
         <Icon name="chevron-forward" size={32} color={PureWhite} />
@@ -153,19 +152,15 @@ export default function Account() {
         }}
         onPress={() => console.log("Logout")}
       >
-        <Icon
-          name="power"
-          color={DangerColor}
-          size={32}
-          style={{ padding: 4 }}
-        />
+        <Icon name="power" color={DangerColor} size={32} style={[spacing.p1]} />
         <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "bold",
-            color: DarkGray,
-            padding: 4,
-          }}
+          style={[
+            typography.font20,
+            typography.textBold,
+            {
+              color: DarkGray,
+            },
+          ]}
         >
           Log out
         </Text>

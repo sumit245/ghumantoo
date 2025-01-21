@@ -3,6 +3,7 @@ import { View, Text, SafeAreaView } from "react-native";
 import { styles } from "../utils/styles";
 import TabBarComponent from "../components/tabBar/TabBarComponent";
 import { typography } from "../utils/typography";
+import { spacing } from "../utils/spacing.styles";
 
 export default function Bookings() {
   const [tabs] = useState([
@@ -18,7 +19,7 @@ export default function Bookings() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headerTitle}>
+      <View style={[spacing.p2]}>
         <Text style={[typography.font24, typography.textBold]}>
           My Bookings
         </Text>
