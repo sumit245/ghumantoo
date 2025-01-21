@@ -20,7 +20,6 @@ export const styles = StyleSheet.create({
     marginHorizontal: 6,
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     paddingHorizontal: 16,
-    // paddingBottom: 100,
     backgroundColor: WhiteColor,
   },
   buttonTextPrimary: {
@@ -50,13 +49,7 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "#c7c7c7",
   },
-  imaginaryBox: {
-    borderWidth: 1,
-    borderColor: "#c7c7c7",
-    height: 180,
-    borderRadius: 2,
-    padding: 4,
-  },
+
   pickDropSelector: {
     flexDirection: "row",
     padding: 6,
@@ -68,7 +61,6 @@ export const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 12,
-    //color: "#777",
   },
   modalContainerStyle: {
     backgroundColor: WhiteColor,
@@ -91,11 +83,7 @@ export const styles = StyleSheet.create({
     width: width / 2.5,
     padding: 8,
   },
-  tabLink: {
-    textAlign: "center",
-    fontSize: 20,
-    textTransform: "uppercase",
-  },
+
   ticketCard: {
     backgroundColor: PureWhite,
     marginVertical: 12,
@@ -112,7 +100,6 @@ export const styles = StyleSheet.create({
   },
   ticketCardFooter: {
     height: 224,
-    // backgroundColor: '#A3A3A3',
     padding: 8,
     marginBottom: 10,
   },
@@ -120,26 +107,11 @@ export const styles = StyleSheet.create({
     color: "#E1D9D1",
     fontWeight: "bold",
   },
-  ticketDivider: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    width: "75%",
-    paddingBottom: 4,
-  },
+
   dividerInTicket: {
     color: "#F1F9F1",
     height: 1,
     marginVertical: 8,
-  },
-
-  ticketRowAlign: {
-    flexDirection: "row",
-  },
-
-  PickUpDropPoint: {
-    color: "#E1D9D1",
-    fontWeight: "600",
-    fontSize: 12,
   },
 
   BusProvider: {
@@ -153,19 +125,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  circle: {
-    height: 36,
-    width: 36,
-    backgroundColor: WhiteColor,
-    borderRadius: 18,
-    marginTop: -14,
-  },
-  noBookings: {
-    padding: 4,
-    justifyContent: "center",
-    height: 60,
-    backgroundColor: WhiteColor,
-  },
+
   // Start of phone text input
   inputStyle: {
     height: 48,
@@ -185,35 +145,7 @@ export const styles = StyleSheet.create({
     padding: 4,
     marginVertical: 4,
   },
-  phoneTextInputStyle: {
-    fontSize: 20,
-    position: "absolute",
-    textAlignVertical: "center",
-    // top: -4,
-    left: "4%",
-    width: width - 60,
-  },
-  phoneCodeTextStyle: {
-    fontSize: 20,
-  },
 
-  bottomTextButtons: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  roundedTextInput: {
-    height: 40,
-    width: 40,
-    borderRadius: 6,
-    backgroundColor: WhiteColor,
-    borderWidth: 1,
-  },
-  buttonWrapper: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginHorizontal: 20,
-  },
   termsCondition: {
     color: Black1Color,
     fontWeight: "bold",
@@ -227,43 +159,13 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: 240,
   },
-  headingSignIn: {
-    fontSize: 20,
-    textAlign: "center",
-    marginVertical: 20,
-    fontWeight: "bold",
-  },
   phone: {
     alignItems: "center",
     marginTop: 20,
     paddingVertical: 10,
     height: height - 440,
   },
-  orLine: {
-    borderBottomColor: "#c7c7c7",
-    borderBottomWidth: 1,
-    width: width / 2.6,
-    alignSelf: "center",
-  },
-  orText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: DarkGray,
-    marginHorizontal: 10,
-  },
-  otpTextInput: {
-    borderBottomWidth: 2,
-    borderBottomColor: PrimaryColor,
-    height: 48,
-    width: (width - 60) / 6 - 10,
-    fontSize: 24,
-    textAlign: "center",
-    shadowOpacity: 0.8,
-    shadowRadius: 4,
-    shadowColor: PrimaryColor,
-    shadowOffset: { width: 0, height: 2 },
-    marginHorizontal: 6,
-  },
+
   bottomContainer: {
     height: 200,
     justifyContent: "space-between",
@@ -277,17 +179,7 @@ export const styles = StyleSheet.create({
     lineHeight: 22,
     color: BlackColor,
   },
-  dividerRateUs: {
-    flexDirection: "row",
-    alignItems: "center", // Align items vertically
-    paddingHorizontal: 20, // Added horizontal padding
-    paddingBottom: 20, // Added bottom padding
-  },
-  imageRateUs: {
-    height: 100,
-    width: 100,
-    marginTop: 40,
-  },
+
   textContainer: {
     flex: 1, // Allow text to take remaining space
     marginLeft: 20, // Added left margin for separation
@@ -318,35 +210,13 @@ export const styles = StyleSheet.create({
     shadowColor: DarkGray, // Black shadow
     elevation: 4,
   },
-  availability: {
-    marginTop: 0,
-    textAlign: "center",
-    borderRadius: 2,
-    padding: 2,
-    fontWeight: "bold",
-    width: "100%",
-    fontSize: 15,
-  },
+
   extra: {
     marginTop: 20,
     height: 130,
     width: 140,
     borderRadius: 8,
     margin: 4,
-  },
-
-  mainCard: {
-    // flexDirection: "row",
-    // justifyContent: "space-evenly",
-    // width: 340,
-    // height: 200,
-    // shadowColor: DarkGray, 
-    // elevation: 4,
-    // marginHorizontal: 4,
-    // alignItems: "center",
-    // backgroundColor: AccentColor,
-    // borderRadius: 12,
-    // margin: 8,
   },
   imageDiv: {
     width: 100,
@@ -358,10 +228,7 @@ export const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 4,
   },
-  savings: {
-    fontWeight: "700",
-    marginBottom: 8,
-  },
+
   couponCode: {
     backgroundColor: DangerColor,
     margin: 12,
@@ -388,20 +255,7 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     textTransform: "capitalize",
   },
-  personalPortfolio: {
-    backgroundColor: WhiteColor,
-    margin: 8,
-    height: 100,
-    padding: 8,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  portfolioInfo: {
-    paddingLeft: 8,
-    paddingTop: 4,
-    alignItems: "flex-start",
-    width: "80%",
-  },
+
   icon: {
     paddingTop: 4,
   },
@@ -429,13 +283,6 @@ export const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
   },
-  busOfferContainer: {
-    backgroundColor: WarningColor,
-    alignItems: "center",
-    borderRadius: 8,
-    marginVertical: 20,
-    paddingVertical: 5,
-  },
   second: {
     marginTop: 20,
   },
@@ -446,9 +293,7 @@ export const styles = StyleSheet.create({
   departureTime: {
     fontWeight: "bold",
   },
-  journeyTime: {
-    color: "gray",
-  },
+
   seats: {
     color: "gray",
   },
@@ -468,32 +313,12 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     color: WhiteColor,
   },
-  iconDiv: {
-    flexDirection: "row",
-    backgroundColor: "limegreen",
-    alignItems: "center",
-    width: 50,
-    borderRadius: 6,
-    justifyContent: "center",
-  },
-  middle: {
-    position: "absolute",
-    left: 140,
-  },
+
   filter: {
     maxHeight: 50,
     backgroundColor: WhiteColor,
   },
-  items: {
-    paddingHorizontal: 8,
-    borderColor: "lightgray",
-    borderWidth: 1,
-    height: 40,
-    marginLeft: 16,
-    justifyContent: "center",
-    borderRadius: 8,
-    flexDirection: "row",
-  },
+
   filterButton: {
     padding: 4,
     borderColor: "#c7c7c7",
@@ -509,9 +334,7 @@ export const styles = StyleSheet.create({
   filterIcon: {
     marginRight: 5,
   },
-  filterText: {
-    fontWeight: "bold",
-  },
+
   paymentOption: {
     flexDirection: "row",
     alignItems: "center",
@@ -542,14 +365,7 @@ export const styles = StyleSheet.create({
   payButtonText: {
     fontSize: 15,
   },
-  buddy: {
-    fontWeight: "bold",
-    fontSize: 20,
-    color: "#ff8c00",
-  },
-  inner: {
-    marginTop: 40,
-  },
+
   head: {
     backgroundColor: WhiteColor,
     paddingLeft: 20,
@@ -558,19 +374,12 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  rightContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginRight: 20,
-  },
-  english: {
-    marginRight: 10,
-  },
+
   icon: {
     color: "#ff8c00",
     paddingRight: 8,
   },
-  icon2: {},
+
   second: {
     marginTop: 9,
     marginRight: 4,
@@ -581,28 +390,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  faq: {
-    marginTop: 15,
-    paddingTop: 19,
-    backgroundColor: WhiteColor,
-    paddingLeft: 20,
-    height: 600,
-    justifyContent: "space-between",
-    flexDirection: "column",
-  },
-  faqhead: {
-    fontSize: 20,
-    paddingLeft: 20,
-    paddingTop: 7,
-    fontWeight: "bold",
-  },
-  faqcontainer: {
-    flexDirection: "row",
-    padding: 7,
-    height: 50,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
+
   last: {
     alignItems: "flex-start",
     width: 300,
@@ -666,12 +454,6 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  Seatno: {
-    color: "black",
-    fontWeight: "bold",
-    marginTop: -15,
-  },
-
   TicketNo: {
     color: "black",
     fontWeight: "bold",
@@ -711,15 +493,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  lottie: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1000,
-    pointerEvents: "none",
-  },
+
   header: {
     backgroundColor: PrimaryColor,
     height: 250,
@@ -783,7 +557,7 @@ export const styles = StyleSheet.create({
     marginTop: -150,
     marginHorizontal: 8,
     borderRadius: 10,
-    borderWidth:1,
+    borderWidth: 1,
   },
   wallet: {
     height: 65,
