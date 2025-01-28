@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
@@ -23,26 +17,28 @@ import { spacing } from "../utils/spacing.styles";
 
 const DATA = [
   {
-    id: "3",
+    id: "1",
     title: "Wallet",
     icon: "wallet-outline",
     whereTo: "Wallet",
   },
   {
-    id: "7",
+    id: "2",
     title: "Refer & Earn",
     icon: "share-social-outline",
     whereTo: "ReferAndEarn",
   },
   {
-    id: "11",
+    id: "3",
     title: "About Us",
     icon: "information-circle-outline",
+    whereTo: "About",
   },
   {
-    id: "12",
+    id: "4",
     title: "Settings",
     icon: "settings-outline",
+    whereTo: "Setting",
   },
 ];
 
@@ -51,11 +47,9 @@ const Item = ({ title, icon, onPress }) => (
     style={[
       styles.row,
       {
-        marginVertical: 0.8,
-        padding: 8,
-        backgroundColor: PureWhite,
-        height: 63,
         alignItems: "center",
+        borderBottomWidth: 1,
+        borderBottomColor: "#ccc",
       },
     ]}
     onPress={onPress}
@@ -79,6 +73,11 @@ export default function Account() {
   const { email_id, mobile_number, name } = useSelector((state) => state.user);
 
   const navigation = useNavigation();
+
+  const handleLogout = () => {
+    console.log("Logging out");
+    navigation.navigate("SignIn");
+  };
   return (
     <SafeAreaView
       style={[
@@ -150,7 +149,7 @@ export default function Account() {
           justifyContent: "center",
           alignItems: "center",
         }}
-        onPress={() => console.log("Logout")}
+        onPress={handleLogout}
       >
         <Icon name="power" color={DangerColor} size={32} style={[spacing.p1]} />
         <Text

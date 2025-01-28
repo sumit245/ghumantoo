@@ -12,6 +12,8 @@ import ConfirmationPage from "./ConfirmationPage";
 import BookingData from "./BookingData";
 import ReferAndEarn from "./ReferAndEarn";
 import Wallet from "./Wallet";
+import About from "./About";
+import Setting from "./Setting";
 import Cards from "./Cards";
 import UpdateEmail from "./UpdateEmail";
 
@@ -29,6 +31,8 @@ export {
   ConfirmationPage,
   ReferAndEarn,
   Wallet,
+  About,
+  Setting,
   Cards,
   UpdateEmail,
   BookingData,

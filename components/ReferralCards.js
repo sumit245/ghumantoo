@@ -3,6 +3,8 @@ import React from "react";
 import { styles } from "../utils/styles";
 import Icon from "react-native-vector-icons/Ionicons";
 import { referral } from "./ReferralData";
+import { typography } from "../utils/typography";
+import { PureWhite } from "../utils/colors";
 
 export default function ReferralCards() {
   return (
@@ -43,8 +45,17 @@ export default function ReferralCards() {
                 </Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.referBtn}>
-              <Text style={{ color: "white", fontWeight: "bold" }}>
+
+            <TouchableOpacity
+              style={[
+                styles.referBtn,
+                {
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              ]}
+            >
+              <Text style={[typography.textBold, { color: PureWhite }]}>
                 {referToWhom}
               </Text>
             </TouchableOpacity>

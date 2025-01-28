@@ -8,10 +8,12 @@ import {
   ConfirmationPage,
   ReferAndEarn,
   Wallet,
+  About,
   Cards,
   UpdateEmail,
   Home,
   BookingData,
+  Setting,
 } from "../pages";
 
 import BottomTabNavigator from "./BottomTabNavigator";
@@ -96,6 +98,22 @@ export const unauthorizedScreens = [
     },
   },
   {
+    name: "About",
+    component: About,
+    options: {
+      headerShown: true,
+      title: "About",
+    },
+  },
+  {
+    name: "Setting",
+    component: Setting,
+    options: {
+      headerShown: true,
+      title: "Setting",
+    },
+  },
+  {
     name: "ReferAndEarn",
     component: ReferAndEarn,
     options: {
@@ -169,7 +187,6 @@ export const stackScreens = [
       title: "Confirmation Page",
       swipeEnabled: false,
       gestureEnabled: false,
-
     },
   },
   {
@@ -178,6 +195,22 @@ export const stackScreens = [
     options: {
       headerShown: true,
       title: "Wallet",
+    },
+  },
+  {
+    name: "About",
+    component: About,
+    options: {
+      headerShown: true,
+      title: "About",
+    },
+  },
+  {
+    name: "Setting",
+    component: Setting,
+    options: {
+      headerShown: true,
+      title: "Setting",
     },
   },
   {

@@ -80,7 +80,7 @@ export const styles = StyleSheet.create({
     padding: 4,
   },
   tab: {
-    width: width / 2.5,
+    // width: width / 2.5,
     padding: 8,
   },
 
@@ -144,6 +144,16 @@ export const styles = StyleSheet.create({
     borderColor: Black1Color,
     padding: 4,
     marginVertical: 4,
+  },
+  phoneTextInputStyle: {
+    fontSize: 20,
+    position: "absolute",
+    textAlignVertical: "center",
+    left: "4%",
+    width: width - 60,
+  },
+  phoneCodeTextStyle: {
+    fontSize: 20,
   },
 
   termsCondition: {
@@ -210,13 +220,17 @@ export const styles = StyleSheet.create({
     shadowColor: DarkGray, // Black shadow
     elevation: 4,
   },
-
   extra: {
     marginTop: 20,
     height: 130,
     width: 140,
     borderRadius: 8,
     margin: 4,
+  },
+  tabLink: {
+    textAlign: "center",
+    fontSize: 20,
+    textTransform: "uppercase",
   },
   imageDiv: {
     width: 100,
@@ -504,24 +518,8 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 20,
   },
-  headline: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
-    width: 200,
-    marginLeft: 110,
-  },
-  subheading: {
-    color: "white",
-    marginHorizontal: 50,
-    marginVertical: 8,
-    textAlign: "center",
-  },
+
   card1: {
-    height: 220,
-    shadowColor: "lightgrey", // Black shadow
-    elevation: 5,
     padding: 8,
     borderRadius: 8,
     marginVertical: 10,
@@ -542,13 +540,11 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   referBtn: {
-    backgroundColor: SecondaryColor,
+    backgroundColor: PrimaryColor,
     paddingHorizontal: 8,
     marginHorizontal: 30,
     height: 40,
-    borderRadius: 4,
-    alignItems: "center",
-    padding: 4,
+    borderRadius: 20,
     marginVertical: 8,
   },
   header2: {
