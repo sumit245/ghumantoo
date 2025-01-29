@@ -8,7 +8,7 @@ const Passenger = () => {
         heading="Passengers'"
         passenger="Passenger"
         child={false}
-        navContinue="BookingData"
+        // navContinue="BookingData"
       />
     </View>
   );

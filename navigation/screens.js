@@ -6,13 +6,10 @@ import {
   EditProfile,
   SelectSeat,
   ConfirmationPage,
-  ReferAndEarn,
   Wallet,
   About,
   Cards,
-  UpdateEmail,
   Home,
-  BookingData,
   Setting,
 } from "../pages";
 
@@ -80,14 +77,6 @@ export const unauthorizedScreens = [
       title: "Confirmation Page",
     },
   },
-  {
-    name: "BookingData",
-    component: BookingData,
-    options: {
-      headerShown: true,
-      title: "Booking Data",
-    },
-  },
 
   {
     name: "Wallet",
@@ -113,28 +102,13 @@ export const unauthorizedScreens = [
       title: "Setting",
     },
   },
-  {
-    name: "ReferAndEarn",
-    component: ReferAndEarn,
-    options: {
-      headerShown: true,
-      title: "Refer And Earn",
-    },
-  },
+
   {
     name: "Cards",
     component: Cards,
     options: {
       headerShown: true,
       title: "Cards",
-    },
-  },
-  {
-    name: "UpdateEmail",
-    component: UpdateEmail,
-    options: {
-      headerShown: true,
-      title: "UpdateEmail",
     },
   },
 ];
@@ -213,36 +187,13 @@ export const stackScreens = [
       title: "Setting",
     },
   },
-  {
-    name: "ReferAndEarn",
-    component: ReferAndEarn,
-    options: {
-      headerShown: true,
-      title: "Refer And Earn",
-    },
-  },
+
   {
     name: "Cards",
     component: Cards,
     options: {
       headerShown: true,
       title: "Cards",
-    },
-  },
-  {
-    name: "UpdateEmail",
-    component: UpdateEmail,
-    options: {
-      headerShown: true,
-      title: "UpdateEmail",
-    },
-  },
-  {
-    name: "BookingData",
-    component: BookingData,
-    options: {
-      headerShown: true,
-      title: "Booking Data",
     },
   },
 ];

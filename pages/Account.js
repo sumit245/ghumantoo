@@ -9,9 +9,6 @@ import {
   PrimaryColor,
   PureWhite,
 } from "../utils/colors";
-import Wallet from "./Wallet";
-import Cards from "./Cards";
-import ReferAndEarn from "./ReferAndEarn";
 import { typography } from "../utils/typography";
 import { spacing } from "../utils/spacing.styles";
 
@@ -22,12 +19,12 @@ const DATA = [
     icon: "wallet-outline",
     whereTo: "Wallet",
   },
-  {
-    id: "2",
-    title: "Refer & Earn",
-    icon: "share-social-outline",
-    whereTo: "ReferAndEarn",
-  },
+  // {
+  //   id: "2",
+  //   title: "Refer & Earn",
+  //   icon: "share-social-outline",
+  //   whereTo: "ReferAndEarn",
+  // },
   {
     id: "3",
     title: "About Us",
