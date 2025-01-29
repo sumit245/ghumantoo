@@ -80,7 +80,6 @@ export const styles = StyleSheet.create({
     padding: 4,
   },
   tab: {
-    // width: width / 2.5,
     padding: 8,
   },
 
@@ -463,19 +462,10 @@ export const styles = StyleSheet.create({
     color: "#E1D9D1",
     fontWeight: "bold",
   },
-  Travelday: {
-    color: "#E1D9D1",
-    fontWeight: "bold",
-  },
-
   TicketNo: {
     color: "black",
     fontWeight: "bold",
     marginTop: -5,
-  },
-  PNR: {
-    color: "black",
-    fontWeight: "bold",
   },
   Fare: {
     color: "black",
@@ -570,13 +560,6 @@ export const styles = StyleSheet.create({
     marginVertical: 14,
   },
 
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 4,
-  },
-
   roundedTable: {
     borderWidth: 1,
     borderColor: "#c7c7c7",
@@ -630,6 +613,8 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 4,
+    alignItems: "center",
+    padding: 4,
   },
   column: {
     flexDirection: "row",
@@ -653,28 +638,6 @@ export const styles = StyleSheet.create({
     borderTopWidth: 1,
     paddingTop: 8,
   },
-  passengerFloatingBtn: {
-    position: "absolute",
-    backgroundColor: "#f99333",
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-    borderRadius: 8,
-  },
-
-  passengerFloatingText: {
-    color: Black1Color,
-    fontWeight: "600",
-  },
-
-  headerPassengerJS: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderBottomWidth: 0.8,
-    borderBottomColor: "grey",
-    paddingBottom: 5,
-    marginBottom: 15,
-  },
-
   subHeadingBottomSheet: {
     marginTop: -10,
     fontSize: 16,
@@ -684,7 +647,7 @@ export const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 30,
   },
-  // Restyling by Sumit R Pratihast
+
   smallButtonPrimary: {
     height: 28,
     borderRadius: 14,
@@ -696,7 +659,6 @@ export const styles = StyleSheet.create({
   bottomTabBar: {
     backgroundColor: WhiteColor,
     justifyContent: "flex-start",
-    fontWeight: "bold",
     height: 68,
   },
 });
