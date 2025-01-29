@@ -153,12 +153,7 @@ const PassengerData = ({ navContinue }) => {
         </Text>
         <View style={{ marginVertical: 4 }}>
           <Text style={styles.label}>Passenger Name</Text>
-          {/* <TextInput
-            style={styles.passengerInput}
-            placeholder="Passenger Name"
-            onChangeText={(text) => setName(text)}
-            value={name}
-          /> */}
+
           <TextInput
             style={styles.passengerInput}
             placeholder="Passenger Name"
