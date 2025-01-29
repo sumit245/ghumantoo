@@ -11,7 +11,7 @@ export default function Offers() {
     <>
       <View style={styles.headerTitle}>
         <Text style={[typography.font20, typography.textBold]}>Coupons</Text>
-        <Text style={styles.labelStyle}>
+        <Text style={[typography.font16]}>
           Get best deals with heavy discount
         </Text>
       </View>
@@ -45,7 +45,7 @@ export default function Offers() {
             <View>
               <Text
                 style={[
-                  styles.labelStyle,
+                  typography.font16,
                   { color: PureWhite, fontWeight: "bold" },
                 ]}
               >
@@ -53,7 +53,7 @@ export default function Offers() {
               </Text>
               <Text
                 style={[
-                  styles.labelStyle,
+                  typography.font16,
                   { color: PureWhite, fontWeight: "bold" },
                 ]}
               >

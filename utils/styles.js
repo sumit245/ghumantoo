@@ -1,13 +1,10 @@
 import { StyleSheet, Dimensions, StatusBar, Platform } from "react-native";
 import {
-  WarningColor,
-  AccentColor,
   Black1Color,
   DangerColor,
   DarkGray,
   PrimaryColor,
   PureWhite,
-  SecondaryColor,
   WhiteColor,
   BlackColor,
 } from "./colors";
@@ -38,18 +35,6 @@ export const styles = StyleSheet.create({
     borderRadius: 24,
     marginVertical: 14,
   },
-  locationContainer: {
-    borderRadius: 12,
-    padding: 10,
-    borderWidth: 1,
-    backgroundColor: PureWhite,
-  },
-  suggestionItem: {
-    padding: 6,
-    borderBottomWidth: 1,
-    borderColor: "#c7c7c7",
-  },
-
   pickDropSelector: {
     flexDirection: "row",
     padding: 6,
@@ -59,9 +44,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 4,
   },
-  labelStyle: {
-    fontSize: 12,
-  },
+
   modalContainerStyle: {
     backgroundColor: WhiteColor,
     marginHorizontal: 8,
@@ -95,28 +78,13 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     padding: 8,
-    marginBottom: 0,
   },
   ticketCardFooter: {
     height: 224,
     padding: 8,
     marginBottom: 10,
   },
-  BusType: {
-    color: "#E1D9D1",
-    fontWeight: "bold",
-  },
 
-  dividerInTicket: {
-    color: "#F1F9F1",
-    height: 1,
-    marginVertical: 8,
-  },
-
-  BusProvider: {
-    color: "#E1D9D1",
-    fontWeight: "bold",
-  },
   cardDivider: {
     position: "relative",
     width: width,
@@ -125,7 +93,6 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 
-  // Start of phone text input
   inputStyle: {
     height: 48,
     width: width - 40,
@@ -137,7 +104,7 @@ export const styles = StyleSheet.create({
     height: 48,
     width: width - 40,
     borderRadius: 8,
-    marginVertical: 5,
+    marginVertical: 4,
     backgroundColor: WhiteColor,
     borderWidth: 1,
     borderColor: Black1Color,
@@ -151,9 +118,6 @@ export const styles = StyleSheet.create({
     left: "4%",
     width: width - 60,
   },
-  phoneCodeTextStyle: {
-    fontSize: 20,
-  },
 
   termsCondition: {
     color: Black1Color,
@@ -162,7 +126,6 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     flexWrap: "wrap",
     maxWidth: width - 60,
-    // marginBottom: 16,
   },
   image: {
     width: "100%",
@@ -190,14 +153,8 @@ export const styles = StyleSheet.create({
   },
 
   textContainer: {
-    flex: 1, // Allow text to take remaining space
-    marginLeft: 20, // Added left margin for separation
-  },
-  text: {
-    marginTop: 15,
-    marginBottom: 4, // Added bottom margin for separation
-    fontWeight: "bold",
-    fontSize: 19,
+    flex: 1,
+    marginLeft: 20,
   },
   button: {
     backgroundColor: "#ff8c00",
@@ -216,7 +173,7 @@ export const styles = StyleSheet.create({
     width: 140,
     borderRadius: 8,
     padding: 12,
-    shadowColor: DarkGray, // Black shadow
+    shadowColor: DarkGray,
     elevation: 4,
   },
   extra: {
@@ -226,11 +183,7 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     margin: 4,
   },
-  tabLink: {
-    textAlign: "center",
-    fontSize: 20,
-    textTransform: "uppercase",
-  },
+
   imageDiv: {
     width: 100,
     height: 200,
@@ -258,80 +211,14 @@ export const styles = StyleSheet.create({
     width: 100,
   },
   headerTitle: {
-    backgroundColor: WhiteColor,
     height: 60,
     padding: 8,
   },
   headerTitleText: {
-    color: Black1Color,
-    fontSize: 24,
-    fontWeight: "bold",
-    textTransform: "capitalize",
-  },
-
-  icon: {
-    paddingTop: 4,
-  },
-
-  item: {
-    marginHorizontal: 8,
-    height: 50,
     backgroundColor: WhiteColor,
-    paddingLeft: 4,
-    justifyContent: "center",
+    height: 60,
+    padding: 8,
   },
-
-  tickets: {
-    height: 180,
-    backgroundColor: PureWhite,
-    marginTop: 20,
-    marginHorizontal: 12,
-    borderRadius: 16,
-    padding: 18,
-  },
-  horizontal: {
-    flexDirection: "row",
-  },
-  vertical: {
-    flexDirection: "column",
-    justifyContent: "space-between",
-  },
-  second: {
-    marginTop: 20,
-  },
-  right: {
-    position: "absolute",
-    right: 0,
-  },
-  departureTime: {
-    fontWeight: "bold",
-  },
-
-  seats: {
-    color: "gray",
-  },
-  startingFrom: {
-    fontWeight: "bold",
-  },
-  busProvider: {
-    fontWeight: "bold",
-  },
-  busType: {
-    color: "gray",
-  },
-  arrivalTime: {
-    fontWeight: "bold",
-  },
-  ratings: {
-    fontWeight: "bold",
-    color: WhiteColor,
-  },
-
-  filter: {
-    maxHeight: 50,
-    backgroundColor: WhiteColor,
-  },
-
   filterButton: {
     padding: 4,
     borderColor: "#c7c7c7",
@@ -343,9 +230,6 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 8,
-  },
-  filterIcon: {
-    marginRight: 5,
   },
 
   paymentOption: {
@@ -375,9 +259,6 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     borderRadius: 5,
   },
-  payButtonText: {
-    fontSize: 15,
-  },
 
   head: {
     backgroundColor: WhiteColor,
@@ -404,10 +285,6 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  last: {
-    alignItems: "flex-start",
-    width: 300,
-  },
   divide: {
     flexDirection: "row",
     alignItems: "center",
@@ -418,20 +295,6 @@ export const styles = StyleSheet.create({
     backgroundColor: "grey",
     marginTop: 10,
     marginBottom: 10,
-  },
-  lightText: {
-    color: "darkgray",
-  },
-  headerText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  passengerItem: {
-    marginBottom: 20,
-    backgroundColor: "#ffffff",
-    padding: 25,
-    borderRadius: 12,
   },
 
   input: {
@@ -444,60 +307,16 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     backgroundColor: "transparent",
   },
-  halfInput: {
-    width: "48%",
-  },
-  continueButton: {
-    backgroundColor: "#f99333",
-    paddingVertical: 8,
-    alignItems: "center",
-    borderRadius: 12,
-  },
-  continueButtonText: {
-    color: WhiteColor,
-    fontSize: 24,
-    fontWeight: "bold",
-  },
   stdText: {
     color: "#E1D9D1",
     fontWeight: "bold",
   },
-  TicketNo: {
-    color: "black",
-    fontWeight: "bold",
-    marginTop: -5,
-  },
-  Fare: {
-    color: "black",
-    fontWeight: "bold",
-  },
-  external: {
-    paddingTop: 12,
-    alignItems: "flex-start",
-    marginBottom: 2,
-  },
-  dividerthin: {
-    height: 1,
-    color: "#d5dcde",
-  },
-  confirmation: {
-    fontSize: 20,
-    color: "green",
-    fontWeight: "bold",
-    textAlign: "center",
-    margin: 12,
-  },
+
   checkDiv: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
   },
-  down: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
   header: {
     backgroundColor: PrimaryColor,
     height: 250,
@@ -536,21 +355,6 @@ export const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     marginVertical: 8,
-  },
-  header2: {
-    height: 200,
-    backgroundColor: "white",
-    marginTop: -150,
-    marginHorizontal: 8,
-    borderRadius: 10,
-    borderWidth: 1,
-  },
-  wallet: {
-    height: 65,
-    marginHorizontal: 20,
-    borderRadius: 4,
-    marginVertical: 15,
-    padding: 4,
   },
   heading1: {
     fontSize: 18,
@@ -595,20 +399,6 @@ export const styles = StyleSheet.create({
     margin: 4,
     alignSelf: "flex-end",
   },
-  deckText: {
-    fontWeight: "bold",
-    fontSize: 16,
-    position: "absolute",
-  },
-  seatLayoutContainer: {
-    padding: 8,
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#c7c7c7",
-    width: 340,
-    marginLeft: 20,
-  },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -619,9 +409,6 @@ export const styles = StyleSheet.create({
   column: {
     flexDirection: "row",
     flexWrap: "wrap",
-  },
-  seatButton: {
-    padding: 2,
   },
   seatIcon: {
     height: 56,

@@ -12,18 +12,17 @@ import { styles } from "../utils/styles";
 import TicketComponent from "../components/TicketComponent";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
+import { typography } from "../utils/typography";
+import { spacing } from "../utils/spacing.styles";
 
 export default function ConfirmationPage({ route, navigation }) {
-  // Create a ref for the LottieView
   const {
     boarding_details,
     date_of_journey,
-    destination_name,
     drop_off_details,
     passenger_name,
     pnr,
     seats,
-    source_name,
   } = route.params?.details;
   const { selectedBus } = useSelector((state) => state.bus);
   const [from, setFrom] = useState("");
@@ -55,7 +54,17 @@ export default function ConfirmationPage({ route, navigation }) {
           size={30}
           style={{ color: "green" }}
         />
-        <Text style={styles.confirmation}>
+        <Text
+          style={[
+            typography.font20,
+            typography.textBold,
+            spacing.m3,
+            {
+              color: "green",
+              textAlign: "center",
+            },
+          ]}
+        >
           Hey {passenger_name}, your booking from {from} to {to} is confirmed!
         </Text>
       </View>
@@ -65,7 +74,6 @@ export default function ConfirmationPage({ route, navigation }) {
         passenger_name={passenger_name}
         Departuretime={departureTime}
         DepartureAddress={boarding_details}
-        // TimeDuration={"time_duration"}
         ArrivalTime={arrivalTime}
         ArrivalAddress={drop_off_details}
         PNR={pnr}

@@ -19,10 +19,11 @@ import Card from "../components/Card";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import LocationSelector from "../components/LocationSelector";
 import { styles, width } from "../utils/styles";
-import { PrimaryColor } from "../utils/colors";
+import { Black1Color, PrimaryColor, WhiteColor } from "../utils/colors";
 import { useDispatch } from "react-redux";
 import { getBuses, getBusOnRoute } from "../actions/busActions";
 import { typography } from "../utils/typography";
+import { spacing } from "../utils/spacing.styles";
 
 export default function Home() {
   const [date, setDate] = useState(dayjs());
@@ -71,7 +72,15 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.headerTitle}>
+        <View
+          style={[
+            spacing.p2,
+            {
+              backgroundColor: WhiteColor,
+              height: 60,
+            },
+          ]}
+        >
           <Text style={[typography.font24, typography.textBold]}>
             Bus Tickets
           </Text>
@@ -108,8 +117,15 @@ export default function Home() {
           >
             <Icon name="close" size={24} color={PrimaryColor} />
           </TouchableOpacity>
-
-          <Text style={[styles.headerTitleText, { textAlign: "center" }]}>
+          <Text
+            style={[
+              typography.font22,
+              {
+                color: Black1Color,
+                textAlign: "center",
+              },
+            ]}
+          >
             Pick a date to travel
           </Text>
 

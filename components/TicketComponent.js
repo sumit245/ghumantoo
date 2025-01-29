@@ -2,6 +2,8 @@ import { View, Text } from "react-native";
 import React from "react";
 import { styles, width } from "../utils/styles";
 import { Divider } from "react-native-paper";
+import { spacing } from "../utils/spacing.styles";
+import { typography } from "../utils/typography";
 
 export default function TicketComponent({
   Traveldate,
@@ -21,9 +23,9 @@ export default function TicketComponent({
       <View style={styles.ticketCardHeader}>
         <Text style={styles.stdText}>{Traveldate}</Text>
         <Text style={styles.stdText}>{Travelday}</Text>
-        <Divider style={styles.dividerInTicket} />
-        <View style={[styles.row, { marginVertical: 12 }]}>
-          <Text style={[styles.stdText, { fontSize: 20 }]}>
+        <Divider style={[spacing.mv2]} />
+        <View style={[styles.row, spacing.mv2]}>
+          <Text style={[styles.stdText, typography.font20]}>
             {Departuretime}
           </Text>
           <Text style={[styles.stdText, { textDecorationLine: "underline" }]}>
@@ -61,19 +63,20 @@ export default function TicketComponent({
       <View style={styles.ticketCardFooter}>
         <View style={styles.row}>
           <Text> Seat(s)</Text>
-          <Text style={styles.Fare}>
-            {seats}- {passenger_name}{" "}
+
+          <Text>
+            {seats} - {passenger_name}{" "}
           </Text>
         </View>
-        <Divider style={styles.dividerthin} />
-        <View style={[styles.row, styles.external]}>
+        <Divider />
+        <View style={[styles.row]}>
           <Text>PNR </Text>
-          <Text style={styles.Fare}>{PNR}</Text>
+          <Text>{PNR}</Text>
         </View>
-        <Divider style={styles.dividerthin} />
-        <View style={[styles.row, styles.external]}>
+        <Divider />
+        <View style={[styles.row]}>
           <Text>Total Fare :</Text>
-          <Text style={styles.Fare}>{Fare}</Text>
+          <Text>{Fare}</Text>
         </View>
         <Text style={{ textAlign: "center", marginTop: 20 }}>
           Ticket Details are sent to your whatsapp 😍

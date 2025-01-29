@@ -4,6 +4,7 @@ import { styles } from "../../utils/styles";
 import { PrimaryColor } from "../../utils/colors";
 import TicketComponent from "../TicketComponent";
 import { Tickets } from "../../faker/tickets";
+import { typography } from "../../utils/typography";
 
 export default function TabBarComponent({ tabs, tabData }) {
   const [tabIndex, setTabIndex] = useState(0);
@@ -43,7 +44,17 @@ export default function TabBarComponent({ tabs, tabData }) {
               ]}
               onPress={() => toggleTabIndex(index)}
             >
-              <Text style={styles.tabLink}>{tab.name}</Text>
+              <Text
+                style={[
+                  typography.font20,
+                  {
+                    textAlign: "center",
+                    textTransform: "uppercase",
+                  },
+                ]}
+              >
+                {tab.name}
+              </Text>
             </TouchableOpacity>
           ))}
       </View>

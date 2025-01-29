@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 import SeatIcon from "../../assets/seat.png";
-import SeatDisabled from '../../assets/seats_disabled.png';
+import SeatDisabled from "../../assets/seats_disabled.png";
 import SelectedSeatIcon from "../../assets/selected_seat.png";
 import { styles } from "../../utils/styles";
+import { spacing } from "../../utils/spacing.styles";
 import { useSelector } from "react-redux";
 
 export default function SeatLayout({
@@ -11,7 +12,9 @@ export default function SeatLayout({
   handleSeatSelection,
 }) {
   const [seatMap, setSeatMap] = useState([]);
-  const { bookedSeats, seatLayout, total_seats } = useSelector(state => state.bus);
+  const { bookedSeats, seatLayout, total_seats } = useSelector(
+    (state) => state.bus
+  );
   const [selectedSeats, setSelectedSeats] = useState([]);
 
   useEffect(() => {
@@ -22,17 +25,23 @@ export default function SeatLayout({
     const [columnsLeft, columnsRight] = seatLayout.split("x").map(Number);
     const rows = Math.ceil(total_seats / (columnsLeft + columnsRight));
     const newSeatMap = Array.from({ length: rows }, (_, rowIndex) => ({
-      columnOne: Array.from({ length: columnsLeft }, (_, colIndex) => `${rowIndex + 1}-${String.fromCharCode(65 + colIndex)}`.trim()),
-      columnTwo: Array.from({ length: columnsRight }, (_, colIndex) => `${rowIndex + 1}-${String.fromCharCode(65 + columnsLeft + colIndex)}`.trim()),
+      columnOne: Array.from({ length: columnsLeft }, (_, colIndex) =>
+        `${rowIndex + 1}-${String.fromCharCode(65 + colIndex)}`.trim()
+      ),
+      columnTwo: Array.from({ length: columnsRight }, (_, colIndex) =>
+        `${rowIndex + 1}-${String.fromCharCode(
+          65 + columnsLeft + colIndex
+        )}`.trim()
+      ),
     }));
     setSeatMap(newSeatMap);
   };
 
   const toggleSeatSelection = (seatId) => {
-    setSelectedSeats(prevSelected => {
+    setSelectedSeats((prevSelected) => {
       const cleanSeatId = seatId.trim(); // Trim whitespace before processing
       return prevSelected.includes(cleanSeatId)
-        ? prevSelected.filter(seat => seat !== cleanSeatId) // Remove seat from array
+        ? prevSelected.filter((seat) => seat !== cleanSeatId) // Remove seat from array
         : [...prevSelected, cleanSeatId]; // Add seat to array
     });
   };
@@ -41,13 +50,16 @@ export default function SeatLayout({
     handleSeatSelection(selectedSeats);
   }, [selectedSeats]);
 
-  const isSeatBooked = (seatId) => bookedSeats.includes(seatId.trim()); // Trim whitespace before checking
+  const isSeatBooked = (seatId) => bookedSeats.includes(seatId.trim());
 
   return (
-    <View style={[styles.container, styles.seatLayoutContainer]}>
+    <View style={[styles.container, spacing.p1, spacing.br2, spacing.bw1]}>
       {!isDoubleDecker && (
         <View style={styles.driverContainer}>
-          <Image source={require("../../assets/steering-wheel.png")} style={styles.steeringWheel} />
+          <Image
+            source={require("../../assets/steering-wheel.png")}
+            style={styles.steeringWheel}
+          />
         </View>
       )}
 
@@ -59,7 +71,8 @@ export default function SeatLayout({
                 {row.columnOne.map((seat, colIndex) => (
                   <TouchableOpacity
                     key={colIndex}
-                    style={styles.seatButton}
+                    // style={styles.seatButton}
+                    style={[spacing.p1]}
                     disabled={isSeatBooked(seat)}
                     onPress={() => toggleSeatSelection(seat)}
                   >
@@ -68,8 +81,8 @@ export default function SeatLayout({
                         isSeatBooked(seat)
                           ? SeatDisabled
                           : selectedSeats.includes(seat)
-                            ? SelectedSeatIcon
-                            : SeatIcon
+                          ? SelectedSeatIcon
+                          : SeatIcon
                       }
                       style={styles.seatIcon}
                     />
@@ -81,7 +94,7 @@ export default function SeatLayout({
                 {row.columnTwo.map((seat, colIndex) => (
                   <TouchableOpacity
                     key={colIndex}
-                    style={styles.seatButton}
+                    style={[spacing.p1]}
                     disabled={isSeatBooked(seat)}
                     onPress={() => toggleSeatSelection(seat)}
                   >
@@ -90,8 +103,8 @@ export default function SeatLayout({
                         isSeatBooked(seat)
                           ? SeatDisabled
                           : selectedSeats.includes(seat)
-                            ? SelectedSeatIcon
-                            : SeatIcon
+                          ? SelectedSeatIcon
+                          : SeatIcon
                       }
                       style={styles.seatIcon}
                     />

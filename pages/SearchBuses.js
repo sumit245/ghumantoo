@@ -16,8 +16,9 @@ import { styles } from "../utils/styles";
 import { filters } from "../faker/filters";
 import BusCard from "../components/buscards/BusCard";
 import { useDispatch, useSelector } from "react-redux";
-import { PureWhite } from "../utils/colors";
+import { PureWhite, WhiteColor } from "../utils/colors";
 import { getAvailableSeats } from "../actions/busActions";
+import { spacing } from "../utils/spacing.styles";
 
 export default function SearchBuses() {
   const [filterOptions] = useState(filters);
@@ -46,7 +47,7 @@ export default function SearchBuses() {
     >
       <ScrollView
         horizontal={true}
-        style={styles.filter}
+        style={[{ maxHeight: 50, backgroundColor: WhiteColor }]}
         contentContainerStyle={{ padding: 6, alignItems: "flex-start" }}
         showsHorizontalScrollIndicator={false}
       >
@@ -56,7 +57,7 @@ export default function SearchBuses() {
             key={idx}
           >
             {item.iconname && (
-              <Icon name={item.iconname} size={20} style={styles.filterIcon} />
+              <Icon name={item.iconname} size={20} style={[spacing.mr1]} />
             )}
             <Text>{item.text}</Text>
           </TouchableOpacity>

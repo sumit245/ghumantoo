@@ -11,7 +11,7 @@ export default function Card() {
         <Text style={[typography.font20, typography.textBold]}>
           Top Destinations
         </Text>
-        <Text style={styles.labelStyle}>From Delhi</Text>
+        <Text style={[typography.font16]}>From Delhi</Text>
       </View>
       <ScrollView
         style={{ marginVertical: 12 }}
@@ -25,12 +25,20 @@ export default function Card() {
           >
             <View style={styles.card}>
               <Text style={styles.title}>{name}</Text>
-              <Text style={[styles.labelStyle]}>
+              <Text style={[typography.font16]}>
                 From
                 <Text style={styles.title}> ₹{startingFrom}</Text>
               </Text>
             </View>
-            <Text style={styles.headerText}>{availability}</Text>
+            <Text
+              style={[
+                typography.font16,
+                typography.textBold,
+                { textAlign: "center" },
+              ]}
+            >
+              {availability}
+            </Text>
           </TouchableOpacity>
         ))}
       </ScrollView>

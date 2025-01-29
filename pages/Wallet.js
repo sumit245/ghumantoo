@@ -2,7 +2,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { styles } from "../utils/styles";
 import Icon from "react-native-vector-icons/Ionicons";
-import { AccentColor, WhiteColor } from "../utils/colors";
+import { AccentColor, PureWhite, WhiteColor } from "../utils/colors";
 import { spacing } from "../utils/spacing.styles";
 import { typography } from "../utils/typography";
 
@@ -10,14 +10,20 @@ export default function Wallet() {
   return (
     <View>
       <View style={[styles.header, { height: 200 }]}></View>
-      <View style={[styles.header2]}>
+      <View
+        style={[
+          spacing.mh2,
+          spacing.br2,
+          spacing.bw1,
+          {
+            height: 200,
+            backgroundColor: PureWhite,
+            bottom: 100,
+          },
+        ]}
+      >
         <View style={styles.row1}>
-          <Icon
-            name="wallet"
-            size={60}
-            color="black"
-            // style={{ marginHorizontal: 10, marginVertical: 10, paddingTop: 10 }}
-          />
+          <Icon name="wallet" size={60} color="black" />
           <Text style={{ color: "gray", marginTop: 25 }}>
             TOTAL WALLET BALANCE
           </Text>
@@ -28,16 +34,18 @@ export default function Wallet() {
               fontWeight: "bold",
               fontSize: 23,
               marginLeft: 60,
-              // marginTop: -35,
             }}
           >
             Rs 0.00
           </Text>
           <View
             style={[
-              styles.wallet,
+              spacing.br1,
+              spacing.mv3,
               styles.row1,
-              { justifyContent: "space-around" },
+              spacing.mh4,
+
+              { justifyContent: "space-around", height: 65 },
             ]}
           >
             <View
@@ -63,8 +71,11 @@ export default function Wallet() {
           </View>
           <View
             style={[
-              styles.header2,
-              { marginTop: 30, height: 150, marginHorizontal: -2 },
+              spacing.mh1,
+              spacing.br2,
+              spacing.bw1,
+
+              { marginTop: 30, height: 150 },
             ]}
           >
             <View style={styles.row1}>

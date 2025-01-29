@@ -34,7 +34,7 @@ export default function RateUs() {
         <View>
           <Text style={styles.title}>Enjoying ghumantoo?</Text>
           <Text
-            style={[styles.labelStyle, { flexWrap: "wrap", maxWidth: 200 }]}
+            style={[typography.font16, , { flexWrap: "wrap", maxWidth: 200 }]}
           >
             Share your experience with us and help spread the word!
           </Text>

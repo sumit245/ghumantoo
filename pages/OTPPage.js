@@ -47,7 +47,7 @@ export default function OTPPage() {
         <Text style={[styles.title, { marginTop: 60 }]}>
           Please Verify you Mobiler number
         </Text>
-        <Text style={styles.labelStyle}>A 6-digit {message}</Text>
+        <Text style={[typography.font16]}>A 6-digit {message}</Text>
       </View>
 
       <View style={{ minHeight: 200, marginHorizontal: 8 }}>
@@ -66,7 +66,7 @@ export default function OTPPage() {
       </View>
 
       <View style={{ alignItems: "center", paddingBottom: 60 }}>
-        <Text style={styles.labelStyle}>Didn't you receive any code?</Text>
+        <Text style={[typography.font16]}>Didn't you receive any code?</Text>
 
         <TouchableOpacity onPress={() => alert("New code sent")}>
           <Text

@@ -8,6 +8,8 @@ import dayjs from "dayjs";
 
 import { fetchCounters } from "../actions/busActions";
 import { typography } from "../utils/typography";
+import { spacing } from "../utils/spacing.styles";
+import { PureWhite, AccentColor } from "../utils/colors";
 
 export default function LocationSelector({
   handleDatePicker,
@@ -67,14 +69,14 @@ export default function LocationSelector({
   };
 
   return (
-    <View style={[styles.locationContainer]}>
+    <View style={[spacing.p2, spacing.br3, spacing.bw1, { color: PureWhite }]}>
       <GCityTextInput
         label="From"
         icon="bus"
         placeholder="Bhopal"
         onChangeText={handlePickupChange}
         value={pickup}
-      // iconSize={12}
+        // iconSize={12}
       />
       <TouchableOpacity
         style={{
@@ -105,7 +107,7 @@ export default function LocationSelector({
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity
-              style={styles.suggestionItem}
+              style={[spacing.p1, spacing.bbw05]}
               onPress={() => {
                 setPickupLocation(item.id);
                 setPickup(item.name);
@@ -133,7 +135,7 @@ export default function LocationSelector({
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity
-              style={styles.suggestionItem}
+              style={[spacing.p1, spacing.bbw05]}
               onPress={() => {
                 setDestinationLocation(item.id);
                 setDestination(item.name);
@@ -148,11 +150,10 @@ export default function LocationSelector({
 
       <View style={[styles.pickDropSelector, { borderBottomWidth: 0 }]}>
         <Icon name="calendar-month" size={28} color="#333" />
-        <View style={{ marginHorizontal: 8 }}>
-          <Text style={styles.labelStyle}>Date of Journey</Text>
+        <View style={[spacing.mh2]}>
+          <Text style={[typography.font14]}>Date of Journey</Text>
           <Text
-            style={{ fontSize: 18, fontWeight: "bold" }}
-            //style={[styles.title, { width: width / 3 }]}
+            style={[typography.font16, { fontWeight: "bold" }]}
             onPress={() => setIsFocused(!isFocused)}
           >
             {selection}
@@ -174,5 +175,3 @@ export default function LocationSelector({
     </View>
   );
 }
-
-// Take two inputs and travel date values and perform search when button is pressed
