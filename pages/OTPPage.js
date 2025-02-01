@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import { styles } from "../utils/styles";
+import { typography } from '../utils/typography'
 import OTPComponent from "../components/OTPComponent";
 import { useNavigation } from "@react-navigation/native";
 import { PrimaryColor } from "../utils/colors";

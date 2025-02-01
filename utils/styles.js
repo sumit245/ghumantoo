@@ -122,7 +122,8 @@ export const styles = StyleSheet.create({
   termsCondition: {
     color: Black1Color,
     fontWeight: "bold",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 18,
     textAlign: "center",
     flexWrap: "wrap",
     maxWidth: width - 60,
@@ -139,10 +140,9 @@ export const styles = StyleSheet.create({
   },
 
   bottomContainer: {
-    height: 200,
+    height: 260,
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 100,
   },
 
   title: {

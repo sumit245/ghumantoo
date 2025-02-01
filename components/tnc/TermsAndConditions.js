@@ -7,11 +7,11 @@ export default function TermsAndConditions({ text }) {
         <Text style={styles.termsCondition}>
             {text}
             <TouchableOpacity onPress={() => Linking.openURL("https://vindhyashrisolutions.com/policy/69/privacy-policy")}>
-                <Text style={{ textDecorationLine: 'underline', color: PrimaryColor, fontSize: 12, textAlignVertical: 'top', position: 'relative', top: 4 }}> Terms and Conditions </Text>
+                <Text style={{ textDecorationLine: 'underline', color: PrimaryColor, fontSize: 14, textAlignVertical: 'top', position: 'relative', }}> Terms and Conditions </Text>
             </TouchableOpacity>
-            {" "}and
+            {" "}and{" "}
             <TouchableOpacity onPress={() => Linking.openURL("https://vindhyashrisolutions.com/policy/71/terms-and-conditions")}>
-                <Text style={{ textDecorationLine: 'underline', color: PrimaryColor, fontSize: 12, textAlignVertical: 'bottom' }}> Privacy Policy</Text>
+                <Text style={{ textDecorationLine: 'underline', color: PrimaryColor, fontSize: 14, textAlignVertical: 'bottom' }}> Privacy Policy</Text>
             </TouchableOpacity>
         </Text>
     )

@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, SafeAreaView, TouchableOpacity, FlatList } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { typography } from "../utils/typography";
 import { spacing } from "../utils/spacing.styles";
 
