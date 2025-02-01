@@ -138,6 +138,19 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     height: height - 440,
   },
+  otpTextInput: {
+    borderBottomWidth: 2,
+    borderBottomColor: PrimaryColor,
+    height: 48,
+    width: (width - 60) / 6 - 10,
+    fontSize: 24,
+    textAlign: "center",
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    shadowColor: PrimaryColor,
+    shadowOffset: { width: 0, height: 2 },
+    marginHorizontal: 6,
+  },
 
   bottomContainer: {
     height: 260,
@@ -449,3 +462,5 @@ export const styles = StyleSheet.create({
     height: 68,
   },
 });
+
+// ===============================
