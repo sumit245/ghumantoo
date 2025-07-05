@@ -4,8 +4,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { typography } from "../utils/typography";
 import { spacing } from "../utils/spacing.styles";
 import { PureWhite } from "../utils/colors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Setting = ({ navigation }) => {
+  const logout = async () => {
+    await AsyncStorage.clear()
+    navigation.goBack()
+  }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f8f9fa" }}>
       <TouchableOpacity
@@ -40,7 +45,7 @@ const Setting = ({ navigation }) => {
             backgroundColor: PureWhite,
           },
         ]}
-        onPress={() => navigation.navigate("Logout")}
+        onPress={logout}
       >
         <Text
           style={[typography.font16, typography.textBold, { color: "#d32f2f" }]}

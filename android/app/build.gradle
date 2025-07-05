@@ -86,13 +86,13 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.dashandots.ghumantoo'
+    namespace 'com.dashandots.vindhyashribus'
     defaultConfig {
-        applicationId 'com.dashandots.ghumantoo'
+        applicationId 'com.dashandots.vindhyashribus'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "1.0.9"
+        versionCode 1
+        versionName "1.0.0"
     }
     signingConfigs {
         debug {
@@ -102,10 +102,10 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('ghumantoo.keystore')
-            storePassword 'Da$handot$'
-            keyAlias 'ghumanto_release_key'
-            keyPassword 'Da$handot$'
+            storeFile file('vindhyashri_release.keystore')
+            storePassword 'vindhyashri'
+            keyAlias 'vindhyashri'
+            keyPassword 'vindhyashri'
         }
     }
     buildTypes {
@@ -116,7 +116,7 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.release
-            shrinkResources(findProperty('android.enableShrinkResourcesInReleaseBuilds')?.toBoolean() ?: false)
+            shrinkResources (findProperty('android.enableShrinkResourcesInReleaseBuilds')?.toBoolean() ?: false)
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             crunchPngs (findProperty('android.enablePngCrunchInReleaseBuilds')?.toBoolean() ?: true)

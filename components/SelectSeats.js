@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, SafeAreaView, ScrollView } from "react-native";
 import { styles } from "../utils/styles";
 import SeatLayout from "./SeatLayout/SeatLayout";
 import PrimaryButton from "./buttons/PrimaryButton";
 import { useNavigation } from "@react-navigation/native";
 import { SecondaryColor } from "../utils/colors";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPassengerSeats } from "../actions/busActions";
 
 const knowYourSeat = [
@@ -38,14 +38,11 @@ const knowYourSeat = [
 export default function SelectSeats() {
   const [selectedSeatCount, setSelectedSeatCount] = useState(0);
   const [selectedSeats, setSelectedSeats] = useState([]);
-  // const refBottomSheet = useRef()
-
-  // useEffect(() => {
-  //     refBottomSheet.current.open()
-  // }, [])
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+  const { total_seats, seatLayout } = useSelector(state => state.bus)
 
   const handleSeatSelection = (val) => {
     setSelectedSeats(val);
@@ -57,11 +54,16 @@ export default function SelectSeats() {
     navigation.navigate("AddPassenger");
   };
 
+  useEffect(() => {
+    console.log(seatLayout)
+  }, [])
+
+
   return (
     <SafeAreaView style={[styles.container, { paddingHorizontal: 0 }]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <SeatLayout
-          isDoubleDecker={false}
+          isDoubleDecker={seatLayout.lower_deck && seatLayout.upper_deck ? true : false}
           isSleeper={false}
           handleSeatSelection={(val) => handleSeatSelection(val)}
         />
@@ -134,37 +136,6 @@ export default function SelectSeats() {
           title="Continue"
         />
       </View>
-      {/* TODO: Redesign this part for complete action */}
-      {/* <RBSheet
-                ref={refBottomSheet}
-                useNativeDriver={false}
-                customStyles={{
-                    wrapper: {
-                        backgroundColor: 'transparent',
-                    },
-                    container: {
-                        backgroundColor: '#fff',
-                        borderTopLeftRadius: 40,
-                        borderTopRightRadius: 40,
-                        elevation: 2,
-                        padding: 20
-                    },
-
-                    draggableIcon: {
-                        backgroundColor: '#777',
-                    },
-                }}
-                customModalProps={{
-                    animationType: 'slide',
-                    statusBarTranslucent: true,
-                }}
-                draggable={true}
-                customAvoidingViewProps={{
-                    enabled: false,
-                }}
-            >
-
-            </RBSheet> */}
     </SafeAreaView>
   );
 }

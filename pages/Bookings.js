@@ -19,11 +19,9 @@ export default function Bookings() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={[spacing.p2]}>
-        <Text style={[typography.font24, typography.textBold]}>
-          My Bookings
-        </Text>
-      </View>
+      <Text style={[typography.font24, typography.textBold, spacing.p2, spacing.ml4]}>
+        My Bookings
+      </Text>
       <TabBarComponent tabs={tabs} />
     </SafeAreaView>
   );

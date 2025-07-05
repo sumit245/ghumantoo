@@ -1,40 +1,35 @@
 import React, { useState } from "react";
 import { View, Text, Image, SafeAreaView } from "react-native";
 import { styles, width } from "../utils/styles";
-import { DangerColor, } from "../utils/colors";
+import { DangerColor, PureWhite, WhiteColor, } from "../utils/colors";
 import { useNavigation } from "@react-navigation/native";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import { useDispatch } from "react-redux";
 import { authFromMobile } from "../actions/userActions";
 import GPhoneInput from "../components/GPhoneInput";
 import TermsAndConditions from "../components/tnc/TermsAndConditions";
+import { ActivityIndicator } from "react-native-paper";
 
 export default function SignIn() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(false)
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const sendOTP = async () => {
+    setLoading(true)
     if (phoneNumber.length !== 13) {
       setError(true)
       return
     }
     const actualNumber = phoneNumber.slice(3); // Removes "+91"
     await dispatch(authFromMobile(actualNumber));
+    setLoading(false)
     navigation.navigate("verification");
   };
   return (
-    <SafeAreaView
-      style={[
-        styles.container,
-        {
-          paddingHorizontal: 0,
-          marginHorizontal: 0,
-          // justifyContent: "space-between",
-        },
-      ]}
-    >
+    <SafeAreaView style={styles.container}>
       <Image
         source={require("../assets/hero.png")}
         style={styles.image}
@@ -49,17 +44,11 @@ export default function SignIn() {
         <PrimaryButton
           style={{ width: width - 38 }}
           onClick={sendOTP}
-          title="Send OTP"
+          title={
+            loading ?
+              <ActivityIndicator size="small" animating color={WhiteColor} /> :
+              "Send OTP"}
         />
-
-        {/* <GUselessOr /> */}
-        {/* <PrimaryButton
-          style={{ backgroundColor: SecondaryColor, width: width - 38 }}
-          title="CONTINUE WITH GOOGLE"
-          onClick={() => navigation.navigate("verification")}
-          isIconButton={true}
-          iconName="logo-google"
-        /> */}
       </View>
       <View style={styles.bottomContainer}>
         <TermsAndConditions text="By logging in, you agree to our " />

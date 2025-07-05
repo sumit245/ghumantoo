@@ -1,6 +1,11 @@
-import { GET_BUSES, SELECT_BUS, SET_BOOKED_SEATS, SET_DESTINATION_ID, SET_JOURNEY_DATE, SET_PICKUP_ID, SET_SEAT_LAYOUT, SET_SELECTED_SEATS, SET_TOTAL_SEATS } from "../utils/constants";
+import { GET_BUSES, SELECT_BUS, SET_BOOKED_SEATS, SET_DESTINATION_ID, SET_JOURNEY_DATE, SET_PICKUP_ID, SET_SEARCH_TOKEN, SET_SEAT_LAYOUT, SET_SELECTED_SEATS, SET_TOTAL_SEATS } from "../utils/constants";
 
-const busReducer = (state = {}, action) => {
+const initialState = {
+  bus: [],
+  buses: []
+};
+
+const busReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_PICKUP_ID:
       return { ...state, pickupId: action.payload }
@@ -20,6 +25,8 @@ const busReducer = (state = {}, action) => {
       return { ...state, selectedSeats: action.payload }
     case SELECT_BUS:
       return { ...state, selectedBus: action.payload };
+    case SET_SEARCH_TOKEN:
+      return { ...state, SearchTokenId: action.payload }
 
     default:
       return state;

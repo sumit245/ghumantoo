@@ -5,6 +5,7 @@ import { PrimaryColor } from "../../utils/colors";
 import TicketComponent from "../TicketComponent";
 import { Tickets } from "../../faker/tickets";
 import { typography } from "../../utils/typography";
+import { spacing } from "../../utils/spacing.styles";
 
 export default function TabBarComponent({ tabs, tabData }) {
   const [tabIndex, setTabIndex] = useState(0);
@@ -20,14 +21,14 @@ export default function TabBarComponent({ tabs, tabData }) {
     (index) => {
       if (index >= 0 && index < tabLength) {
         setTabIndex(index);
-        setData(index === 0 ? Tickets : []);
+        setData(index === 0 ? [] : []);
       }
     },
     [tabLength]
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <>
       <View style={styles.tabContainer}>
         {Array.isArray(tabs) &&
           tabs.map((tab, index) => (
@@ -35,11 +36,12 @@ export default function TabBarComponent({ tabs, tabData }) {
               key={index}
               activeOpacity={0.5}
               style={[
-                styles.tab,
+                spacing.p2,
+                spacing.mh3,
                 {
                   borderBottomColor:
                     tabIndex === index ? PrimaryColor : "#ededed",
-                  borderBottomWidth: tabIndex === index ? 4 : 0,
+                  borderBottomWidth: tabIndex === index ? 2 : 0,
                 },
               ]}
               onPress={() => toggleTabIndex(index)}
@@ -96,11 +98,11 @@ export default function TabBarComponent({ tabs, tabData }) {
                 marginTop: 200,
               }}
             >
-              You do not have any Cancelled trips
+              You do not have any trips
             </Text>
           </View>
         )}
       />
-    </View>
+    </>
   );
 }

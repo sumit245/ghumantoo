@@ -97,7 +97,7 @@ const PassengerData = ({ navContinue }) => {
       <View style={styles.header}>
         <Text style={styles.title}>Passenger Information</Text>
         <Text style={styles.subtitle}>
-          {selectedBus.originCity} → {selectedBus.destinationCity}
+          {selectedBus?.originCity || ""} → {selectedBus?.destinationCity || ""}
         </Text>
       </View>
 
@@ -105,23 +105,23 @@ const PassengerData = ({ navContinue }) => {
         <View style={styles.row}>
           <Text style={styles.time}>
             {dayjs(date_of_journey).format("ddd,D MMM")} ·{" "}
-            {selectedBus.start_time}
+            {selectedBus?.start_time || ""}
           </Text>
           <Text style={styles.time}>
             {dayjs(date_of_journey).format("ddd,D MMM")} ·{" "}
-            {selectedBus.end_time}
+            {selectedBus?.end_time || ""}
           </Text>
         </View>
         <View style={styles.row}>
           <View>
-            <Text style={styles.location}>{selectedBus.originLocation},</Text>
-            <Text style={styles.location}>{selectedBus.originCity}</Text>
+            <Text style={styles.location}>{selectedBus?.originLocation || ""},</Text>
+            <Text style={styles.location}>{selectedBus?.originCity || ""}</Text>
           </View>
           <View>
             <Text style={styles.location}>
-              {selectedBus.destinationLocation},
+              {selectedBus?.destinationLocation || ""},
             </Text>
-            <Text style={styles.location}>{selectedBus.destinationCity}</Text>
+            <Text style={styles.location}>{selectedBus?.destinationCity || ""}</Text>
           </View>
         </View>
 

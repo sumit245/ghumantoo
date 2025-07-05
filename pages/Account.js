@@ -11,6 +11,7 @@ import {
 } from "../utils/colors";
 import { typography } from "../utils/typography";
 import { spacing } from "../utils/spacing.styles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DATA = [
   {
@@ -71,9 +72,9 @@ export default function Account() {
 
   const navigation = useNavigation();
 
-  const handleLogout = () => {
-    console.log("Logging out");
-    navigation.navigate("SignIn");
+  const handleLogout = async () => {
+    const logout = await AsyncStorage.clear()
+    navigation.goBack();
   };
   return (
     <SafeAreaView

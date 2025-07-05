@@ -1,3 +1,142 @@
-import SelectSeat from "../components/SelectSeats";
+import React, { useState, useEffect } from "react";
+import { View, Text, SafeAreaView, ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import SeatLayout from "../components/SeatLayout/SeatLayout"
+import PrimaryButton from "../components/buttons/PrimaryButton";
+import { styles } from "../utils/styles";
+import { SecondaryColor } from "../utils/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { setPassengerSeats } from "../actions/busActions";
 
-export default SelectSeat;
+const knowYourSeat = [
+    {
+        id: 1,
+        seat_type: 1,
+        seater_description: "Some random information",
+        sleeper_description: "Some random text information",
+    },
+    {
+        id: 2,
+        seat_type: 2,
+        seater_description: "lorem ipsum",
+        sleeper_description: "sit dolor amet",
+    },
+    {
+        id: 3,
+        seat_type: 3,
+        seater_description: "Some random information ",
+        sleeper_description: "lorem ipsum sit dolor amet",
+    },
+    {
+        id: 4,
+        seat_type: 4,
+        seater_description: "Some random information",
+        sleeper_description: "Some random text information",
+    },
+];
+
+export default function SeatSelection() {
+    const [selectedSeatCount, setSelectedSeatCount] = useState(0);
+    const [selectedSeats, setSelectedSeats] = useState([]);
+
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
+
+    const { total_seats, seatLayout } = useSelector(state => state.bus)
+
+    const handleSeatSelection = (val) => {
+        setSelectedSeats(val);
+        setSelectedSeatCount(Array.isArray && val.length);
+    };
+
+    const handlePassengerInformation = () => {
+        dispatch(setPassengerSeats(selectedSeats));
+        navigation.navigate("AddPassenger");
+    };
+
+    // useEffect(() => {
+    //     console.log("Seat Layout is")
+    //     console.log(seatLayout.lower_deck?.rows)
+    // }, [])
+
+
+    return (
+        <SafeAreaView style={[styles.container, { paddingHorizontal: 0 }]}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <SeatLayout
+                    isDoubleDecker={seatLayout.lower_deck && seatLayout.upper_deck ? true : false}
+                    isSleeper={false}
+                    handleSeatSelection={(val) => handleSeatSelection(val)}
+                />
+
+                <View style={{ paddingHorizontal: 16, marginVertical: 12 }}>
+                    <Text style={styles.headerTitleText}>Know your seat type</Text>
+
+                    <View style={styles.roundedTable}>
+                        <View style={styles.tableRow}>
+                            <Text style={[styles.tableHeading, { width: "20%" }]}>Type</Text>
+                            <Text
+                                style={[
+                                    styles.tableDivision,
+                                    { width: "40%", fontWeight: "600", textAlign: "center" },
+                                ]}
+                            >
+                                Seater
+                            </Text>
+                            <Text
+                                style={[
+                                    styles.tableDivision,
+                                    { width: "40%", fontWeight: "600", textAlign: "center" },
+                                ]}
+                            >
+                                Sleeper
+                            </Text>
+                        </View>
+                        {knowYourSeat.map((seat, index) => (
+                            <View
+                                style={[styles.tableRow, { paddingVertical: 8 }]}
+                                key={index}
+                            >
+                                <Text style={[styles.tableHeading, { marginRight: 55 }]}>
+                                    {seat.seat_type}
+                                </Text>
+                                <Text
+                                    style={[
+                                        styles.tableDivision,
+                                        { width: "40%", fontWeight: "400", textAlign: "center" },
+                                    ]}
+                                >
+                                    {seat.seater_description}
+                                </Text>
+                                <Text
+                                    style={[
+                                        styles.tableDivision,
+                                        { width: "40%", fontWeight: "400", textAlign: "right" },
+                                    ]}
+                                >
+                                    {seat.sleeper_description}
+                                </Text>
+                            </View>
+                        ))}
+                    </View>
+                </View>
+            </ScrollView>
+            <View
+                style={[
+                    styles.tableRow,
+                    { backgroundColor: "#fff", height: 80, alignItems: "center" },
+                ]}
+            >
+                <Text>
+                    <Text style={{ fontWeight: "bold" }}>Selected Seats</Text>(
+                    {selectedSeatCount})
+                </Text>
+                <PrimaryButton
+                    style={{ backgroundColor: SecondaryColor }}
+                    onClick={handlePassengerInformation}
+                    title="Continue"
+                />
+            </View>
+        </SafeAreaView>
+    );
+}

@@ -1,4 +1,4 @@
-import { Linking, Text, TouchableOpacity } from 'react-native'
+import { Linking, Text } from 'react-native'
 import { styles } from '../../utils/styles'
 import { PrimaryColor } from '../../utils/colors'
 
@@ -6,13 +6,9 @@ export default function TermsAndConditions({ text }) {
     return (
         <Text style={styles.termsCondition}>
             {text}
-            <TouchableOpacity onPress={() => Linking.openURL("https://vindhyashrisolutions.com/policy/69/privacy-policy")}>
-                <Text style={{ textDecorationLine: 'underline', color: PrimaryColor, fontSize: 14, textAlignVertical: 'top', position: 'relative', }}> Terms and Conditions </Text>
-            </TouchableOpacity>
+            <Text style={{ textDecorationLine: 'underline', color: PrimaryColor, fontWeight: 600, }} onPress={() => Linking.openURL("https://vindhyashrisolutions.com/policy/69/privacy-policy")}> Terms and Conditions </Text>
             {" "}and{" "}
-            <TouchableOpacity onPress={() => Linking.openURL("https://vindhyashrisolutions.com/policy/71/terms-and-conditions")}>
-                <Text style={{ textDecorationLine: 'underline', color: PrimaryColor, fontSize: 14, textAlignVertical: 'bottom' }}> Privacy Policy</Text>
-            </TouchableOpacity>
+            <Text style={{ textDecorationLine: 'underline', color: PrimaryColor, fontWeight: 600, }} onPress={() => Linking.openURL("https://vindhyashrisolutions.com/policy/71/terms-and-conditions")}> Privacy Policy</Text>
         </Text>
     )
 }

@@ -1,22 +1,22 @@
 export const Destinations = [
   {
     id: 1,
-    name: "Dehradun",
-    startingFrom: "199",
+    name: "Satna",
+    startingFrom: "79",
     availability: "RTC available",
     color: "pink",
   },
   {
     id: 2,
-    name: "Gorakhpur",
-    startingFrom: "523",
+    name: "Indore",
+    startingFrom: "159",
     availability: "163+ buses",
     color: "khaki",
   },
   {
     id: 3,
-    name: "Manali",
-    startingFrom: "299",
+    name: "Nagpur",
+    startingFrom: "549",
     availability: "RTC available",
     color: "lightcyan",
   },

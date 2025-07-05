@@ -1,120 +1,89 @@
 import React, { useState, useEffect } from "react";
-import { View, Image, TouchableOpacity } from "react-native";
-import SeatIcon from "../../assets/seat.png";
-import SeatDisabled from "../../assets/seats_disabled.png";
-import SelectedSeatIcon from "../../assets/selected_seat.png";
+import { View, Image, TouchableOpacity, Text } from "react-native";
+import { useSelector } from "react-redux";
 import { styles } from "../../utils/styles";
 import { spacing } from "../../utils/spacing.styles";
-import { useSelector } from "react-redux";
+import SeatIcon from "../../assets/seat.png";
+import SeatSleeperIcon from "../../assets/sleeper.png";
+import SeatDisabled from "../../assets/seats_disabled.png";
+import SelectedSeatIcon from "../../assets/selected_seat.png";
 
-export default function SeatLayout({
-  isDoubleDecker = false,
-  handleSeatSelection,
-}) {
-  const [seatMap, setSeatMap] = useState([]);
-  const { bookedSeats, seatLayout, total_seats } = useSelector(
-    (state) => state.bus
-  );
+export default function SeatLayout({ handleSeatSelection }) {
+  const { seatLayout } = useSelector((state) => state.bus);
+  const [seatMapLower, setSeatMapLower] = useState([]);
+  const [seatMapUpper, setSeatMapUpper] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
 
   useEffect(() => {
-    generateSeatMap();
-  }, [seatLayout, total_seats]);
+    const lower = seatLayout?.lower_deck?.rows || {};
+    const upper = seatLayout?.upper_deck?.rows || {};
+    console.log("API Lower Deck Seat Rows: ", lower);
+    console.log("API Upper Deck Seat Rows: ", upper);
 
-  const generateSeatMap = () => {
-    const [columnsLeft, columnsRight] = seatLayout.split("x").map(Number);
-    const rows = Math.ceil(total_seats / (columnsLeft + columnsRight));
-    const newSeatMap = Array.from({ length: rows }, (_, rowIndex) => ({
-      columnOne: Array.from({ length: columnsLeft }, (_, colIndex) =>
-        `${rowIndex + 1}-${String.fromCharCode(65 + colIndex)}`.trim()
-      ),
-      columnTwo: Array.from({ length: columnsRight }, (_, colIndex) =>
-        `${rowIndex + 1}-${String.fromCharCode(
-          65 + columnsLeft + colIndex
-        )}`.trim()
-      ),
-    }));
-    setSeatMap(newSeatMap);
-  };
+    const lowerDeck = Object.values(lower);
+    const upperDeck = Object.values(upper);
+
+    // Flatten to count total seats parsed
+    const lowerSeats = lowerDeck.flat().length;
+    const upperSeats = upperDeck.flat().length;
+    console.log(`Parsed Lower Deck Seats: ${lowerSeats}`);
+    console.log(`Parsed Upper Deck Seats: ${upperSeats}`);
+    setSeatMapLower(lowerDeck);
+    setSeatMapUpper(upperDeck);
+  }, [seatLayout]);
 
   const toggleSeatSelection = (seatId) => {
-    setSelectedSeats((prevSelected) => {
-      const cleanSeatId = seatId.trim(); // Trim whitespace before processing
-      return prevSelected.includes(cleanSeatId)
-        ? prevSelected.filter((seat) => seat !== cleanSeatId) // Remove seat from array
-        : [...prevSelected, cleanSeatId]; // Add seat to array
-    });
+    const cleanId = seatId.trim();
+    setSelectedSeats((prev) =>
+      prev.includes(cleanId)
+        ? prev.filter((s) => s !== cleanId)
+        : [...prev, cleanId]
+    );
   };
 
   useEffect(() => {
     handleSeatSelection(selectedSeats);
   }, [selectedSeats]);
 
-  const isSeatBooked = (seatId) => bookedSeats.includes(seatId.trim());
+  const getSeatIcon = (seat) => {
+    if (!seat.is_available) return SeatDisabled;
+    if (selectedSeats.includes(seat.seat_id)) return SelectedSeatIcon;
+    return seat.category === "sleeper" ? SeatSleeperIcon : SeatIcon;
+  };
+
+  const renderDeck = (deckData, title) => (
+    <View style={{ marginBottom: 24 }}>
+      <Text style={[styles.deckTitle, spacing.mb1]}>{title}</Text>
+      <View style={styles.seatMapContainer}>
+        {deckData.map((row, rowIndex) => (
+          <View key={rowIndex} style={styles.row}>
+            {rowIndex === 2 && ( // For example: Insert aisle after row 2
+              <View style={styles.aisle} />
+            )}
+            {row.map((seat, colIndex) => (
+              <TouchableOpacity
+                key={seat.seat_id + colIndex}
+                style={[
+                  spacing.p1,
+                  rowIndex % 2 === 0 ? styles.alignRight : styles.alignLeft, // Example alignment logic
+                ]}
+                disabled={!seat.is_available}
+                onPress={() => toggleSeatSelection(seat.seat_id)}
+              >
+                <Image source={getSeatIcon(seat)} style={styles.seatIcon} />
+              </TouchableOpacity>
+            ))}
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+
 
   return (
     <View style={[styles.container, spacing.p1, spacing.br2, spacing.bw1]}>
-      {!isDoubleDecker && (
-        <View style={styles.driverContainer}>
-          <Image
-            source={require("../../assets/steering-wheel.png")}
-            style={styles.steeringWheel}
-          />
-        </View>
-      )}
-
-      {seatMap.length > 0 && (
-        <View style={styles.seatMapContainer}>
-          {seatMap.map((row, rowIndex) => (
-            <View key={rowIndex} style={styles.row}>
-              <View style={styles.column}>
-                {row.columnOne.map((seat, colIndex) => (
-                  <TouchableOpacity
-                    key={colIndex}
-                    // style={styles.seatButton}
-                    style={[spacing.p1]}
-                    disabled={isSeatBooked(seat)}
-                    onPress={() => toggleSeatSelection(seat)}
-                  >
-                    <Image
-                      source={
-                        isSeatBooked(seat)
-                          ? SeatDisabled
-                          : selectedSeats.includes(seat)
-                          ? SelectedSeatIcon
-                          : SeatIcon
-                      }
-                      style={styles.seatIcon}
-                    />
-                  </TouchableOpacity>
-                ))}
-              </View>
-
-              <View style={styles.column}>
-                {row.columnTwo.map((seat, colIndex) => (
-                  <TouchableOpacity
-                    key={colIndex}
-                    style={[spacing.p1]}
-                    disabled={isSeatBooked(seat)}
-                    onPress={() => toggleSeatSelection(seat)}
-                  >
-                    <Image
-                      source={
-                        isSeatBooked(seat)
-                          ? SeatDisabled
-                          : selectedSeats.includes(seat)
-                          ? SelectedSeatIcon
-                          : SeatIcon
-                      }
-                      style={styles.seatIcon}
-                    />
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </View>
-          ))}
-        </View>
-      )}
+      {seatMapLower.length > 0 && renderDeck(seatMapLower, "Lower Deck")}
+      {seatMapUpper.length > 0 && renderDeck(seatMapUpper, "Upper Deck")}
     </View>
   );
 }

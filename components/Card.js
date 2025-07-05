@@ -3,18 +3,19 @@ import React from "react";
 import { Destinations } from "./Data";
 import { styles } from "../utils/styles";
 import { typography } from "../utils/typography";
+import { spacing } from "../utils/spacing.styles";
 
 export default function Card() {
   return (
     <>
-      <View style={styles.headerTitle}>
-        <Text style={[typography.font20, typography.textBold]}>
-          Top Destinations
-        </Text>
-        <Text style={[typography.font16]}>From Delhi</Text>
-      </View>
+
+      <Text style={[typography.font24, typography.textBold, spacing.ml4]}>
+        Top Destinations
+      </Text>
+      <Text style={[typography.font16, spacing.ml4]}>From Rewa</Text>
+
       <ScrollView
-        style={{ marginVertical: 12 }}
+        style={[spacing.mv3, spacing.ml3]}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
       >

@@ -1,83 +1,49 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import { styles, width } from "../utils/styles";
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-
-import GCityTextInput from "./customs/GCityTextInput";
 import dayjs from "dayjs";
-
-import { fetchCounters } from "../actions/busActions";
+import GCityTextInput from "./customs/GCityTextInput";
+import { styles } from "../utils/styles";
 import { typography } from "../utils/typography";
 import { spacing } from "../utils/spacing.styles";
-import { PureWhite, AccentColor } from "../utils/colors";
+import { DarkGray, PureWhite } from "../utils/colors";
 
-export default function LocationSelector({
-  handleDatePicker,
-  selectedDate,
-  setPickupLocation,
-  setDestinationLocation,
-  toggleModalVisibile,
-  setDate,
-}) {
-  const [isFocused, setIsFocused] = useState(false);
-  const [selection, setSelection] = useState(
-    dayjs(selectedDate).format("YYYY-MM-DD")
-  );
-  const [quickDates] = useState(["Today", "Tomorrow"]);
-  const [pickup, setPickup] = useState("");
-  const [destination, setDestination] = useState("");
-  const [pickupSuggestions, setPickupSuggestions] = useState([]);
-  const [destinationSuggestions, setDestinationSuggestions] = useState([]);
+export default function LocationSelector({ handleDatePicker, selectedDate, setPickupLocation, setDestinationLocation, setDate, pickup, destination }) {
+  const [selection, setSelection] = useState("");
+  const quickDates = ["Today", "Tomorrow"];
+  const dropdownRef = useRef()
+  const pickupRef = useRef()
 
   useEffect(() => {
-    handleDatePicker(isFocused);
-    setSelection(dayjs(selectedDate).format("ddd,D MMM"));
+    setSelection(dayjs(selectedDate).format("ddd, D MMM"));
     setDate(dayjs(selectedDate).format("YYYY-MM-DD"));
-  }, [isFocused, selectedDate]);
-
-  const handlePickupChange = async (text) => {
-    setPickupLocation(text);
-    setPickup(text);
-    if (text.length > 1) {
-      // Trigger API call when input has more than 1 character
-      const suggestions = await fetchCounters(text);
-      setPickupSuggestions(suggestions);
-    } else {
-      setPickupSuggestions([]);
-    }
-  };
-
-  // Handle destination input change and fetch suggestions
-  const handleDestinationChange = async (text) => {
-    setDestinationLocation(text);
-    setDestination(text);
-    if (text.length > 1) {
-      const suggestions = await fetchCounters(text);
-      setDestinationSuggestions(suggestions);
-    } else {
-      setDestinationSuggestions([]);
-    }
-  };
+    // handleDatePicker(false);
+  }, [selectedDate]);
 
   const handleQuickDate = (index) => {
-    const selectedDay = dayjs().add(index, "day");
-    const formattedDay = selectedDay.format("ddd, D MMM");
-    const fullDate = selectedDay.format("YYYY-MM-DD");
-    setSelection(formattedDay);
-    setDate(fullDate);
-    console.log("Selected Date:", fullDate);
+    const selected = dayjs().add(index, "day");
+    setSelection(selected.format("ddd, D MMM"));
+    setDate(selected.format("YYYY-MM-DD"));
   };
 
+  const swapLocations = () => {
+    console.log(pickup + "and" + destination)
+    const temp = pickup;
+    setPickupLocation(destination);
+    setDestinationLocation(temp);
+  };
+
+
   return (
-    <View style={[spacing.p2, spacing.br3, spacing.bw1, { color: PureWhite }]}>
+    <View style={[spacing.p2, spacing.br3, spacing.bw1, spacing.mh4]}>
       <GCityTextInput
         label="From"
         icon="bus"
         placeholder="Bhopal"
-        onChangeText={handlePickupChange}
+        onChangeText={setPickupLocation}
         value={pickup}
-        // iconSize={12}
       />
+
       <TouchableOpacity
         style={{
           alignSelf: "center",
@@ -88,89 +54,44 @@ export default function LocationSelector({
           width: 45,
           height: 45,
           position: "absolute",
-          right: 10,
-          top: 45,
+          right: 8,
+          top: 64,
         }}
-        onPress={() => {
-          const temp = pickup;
-          setPickup(destination);
-          setDestination(temp);
-          setPickupLocation(destination);
-          setDestinationLocation(pickup);
-        }}
+        onPress={swapLocations}
       >
         <Icon name="swap-vert" size={24} color="#fff" />
       </TouchableOpacity>
-      {pickupSuggestions.length > 0 && (
-        <FlatList
-          data={pickupSuggestions}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={[spacing.p1, spacing.bbw05]}
-              onPress={() => {
-                setPickupLocation(item.id);
-                setPickup(item.name);
-                setPickupSuggestions([]);
-              }}
-            >
-              <Text>{item.name}</Text>
-            </TouchableOpacity>
-          )}
-        />
-      )}
-
-      {/* Destination Location Input */}
       <GCityTextInput
         label="To"
         icon="bus"
         placeholder="Indore"
-        onChangeText={handleDestinationChange}
+        onChangeText={setDestinationLocation}
         value={destination}
       />
-      {/* Display destination suggestions */}
-      {destinationSuggestions.length > 0 && (
-        <FlatList
-          data={destinationSuggestions}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={[spacing.p1, spacing.bbw05]}
-              onPress={() => {
-                setDestinationLocation(item.id);
-                setDestination(item.name);
-                setDestinationSuggestions([]);
-              }}
-            >
-              <Text>{item.name}</Text>
-            </TouchableOpacity>
-          )}
-        />
-      )}
-
       <View style={[styles.pickDropSelector, { borderBottomWidth: 0 }]}>
-        <Icon name="calendar-month" size={28} color="#333" />
-        <View style={[spacing.mh2]}>
-          <Text style={[typography.font14]}>Date of Journey</Text>
+        <Icon name="calendar-month" size={28} color={DarkGray} />
+        <View style={spacing.mh2}>
+          <Text style={typography.font14}>Date of Journey</Text>
           <Text
             style={[typography.font16, { fontWeight: "bold" }]}
-            onPress={() => setIsFocused(!isFocused)}
+            onPress={() => handleDatePicker(true)}
           >
             {selection}
           </Text>
         </View>
-        {/* Quick Date Selection */}
-        {quickDates.map((quickDate, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[styles.buttonPrimary, styles.smallButtonPrimary]}
-            onPress={() => handleQuickDate(index)}
-          >
-            <Text style={[styles.buttonTextPrimary, typography.font12]}>
-              {quickDate}
-            </Text>
-          </TouchableOpacity>
-        ))}
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }}>
+          {quickDates.map((label, idx) => (
+            <TouchableOpacity
+              key={label}
+              style={[styles.buttonPrimary, styles.smallButtonPrimary]}
+              onPress={() => handleQuickDate(idx)}
+            >
+              <Text style={[styles.buttonTextPrimary, typography.font12]}>
+                {label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
     </View>
   );

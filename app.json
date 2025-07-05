@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Ghumantoo",
-    "slug": "ghumantoo",
+    "name": "VindhyashriBus",
+    "slug": "vindhyashribus",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.dashandots.ghumantoo"
+      "package": "com.dashandots.vindhyashribus"
     },
     "web": {
       "favicon": "./assets/favicon.png"

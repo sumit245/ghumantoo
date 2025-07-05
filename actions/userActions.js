@@ -11,6 +11,7 @@ export const authFromMobile = (mobile_number) => async (dispatch) => {
         const response = await axios.post(`${API_URL}/api/send-otp`, { mobile_number: mobile_number })
         const { data } = response
         const { message, status } = data
+        console.log(message)
         dispatch({ type: SET_MOBILE_NUMBER, payload: mobile_number })
         dispatch({ type: SET_OTP_MESSAGE, payload: message })
         if (status !== 200) {

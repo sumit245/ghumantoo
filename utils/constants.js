@@ -1,5 +1,5 @@
-// export const API_URL = "http://192.168.1.5/vindhyashri"
-export const API_URL = "https://vindhyashrisolutions.com";
+export const API_URL = "http://192.168.1.2/ghumantoo_web"
+// export const API_URL = "https://vindhyashrisolutions.com";
 
 // User related actions
 export const SET_MOBILE_NUMBER = "SET_MOBILE_NUMBER";
@@ -15,6 +15,7 @@ export const SET_USER_EMAIL = "SET_USER_EMAIL";
 export const SET_USER_GENDER = "SET_USER_GENDER";
 
 // Bus related actions
+export const SET_SEARCH_TOKEN = "SET_SEARCH_TOKEN"
 export const SET_BUS_ID = "SET_BUS_ID";
 export const SET_BUS_NAME = "SET_BUS_NAME";
 export const SET_BUS_DESCRIPTION = "SET_BUS_DESCRIPTION";

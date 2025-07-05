@@ -1,23 +1,21 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { ScrollView } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import { info } from "./OfferInfo";
 import { styles } from "../utils/styles";
-import { PureWhite, AccentColor } from "../utils/colors";
+import { AccentColor, SecondaryColor, WhiteColor } from "../utils/colors";
 import { typography } from "../utils/typography";
 import { spacing } from "../utils/spacing.styles";
 
 export default function Offers() {
   return (
     <>
-      <View style={styles.headerTitle}>
-        <Text style={[typography.font20, typography.textBold]}>Coupons</Text>
-        <Text style={[typography.font16]}>
-          Get best deals with heavy discount
-        </Text>
-      </View>
+      <Text style={[typography.font24, typography.textBold, spacing.ml4]}>Coupons</Text>
+      <Text style={[typography.font16, spacing.ml4]}>
+        Get best deals with heavy discount
+      </Text>
+
 
       <ScrollView
-        style={{ marginVertical: 12 }}
+        style={[spacing.mv3, spacing.ml3]}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
       >
@@ -26,10 +24,9 @@ export default function Offers() {
             key={id}
             style={[
               spacing.br3,
-              spacing.mh1,
+              spacing.mr4,
               {
                 flexDirection: "row",
-                justifyContent: "space-evenly",
                 width: 340,
                 height: 200,
                 alignItems: "center",
@@ -39,25 +36,18 @@ export default function Offers() {
           >
             <Image
               source={{ uri: imageUrl }}
-              style={[styles.imageOffers, styles.imageDiv]}
+              style={[styles.imageDiv, spacing.mh2]}
               resizeMode="contain"
             />
-            <View>
+            <View style={{ flex: 1, justifyContent: "center" }}>
               <Text
                 style={[
                   typography.font16,
-                  { color: PureWhite, fontWeight: "bold" },
+                  spacing.ml3,
+                  { fontWeight: "bold", color: WhiteColor, flexWrap: 'wrap', marginBottom: 5, textTransform: 'capitalize' },
                 ]}
               >
-                {heading}
-              </Text>
-              <Text
-                style={[
-                  typography.font16,
-                  { color: PureWhite, fontWeight: "bold" },
-                ]}
-              >
-                Valid till {validity}
+                {heading} valid till {validity}
               </Text>
               <Text style={styles.couponCode}>{couponCode}</Text>
             </View>

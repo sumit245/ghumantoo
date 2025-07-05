@@ -1,0 +1,99 @@
+{
+    "ArrivalTime": "2025-06-29T19:50:00",
+    "AvailableSeats": 41,
+    "BoardingPointsDetails": [
+        {
+            "CityPointIndex": 1,
+            "CityPointLocation": "Kashmere Gate Metro Station Gate No-5",
+            "CityPointName": "ISBT Kashmiri Gate",
+            "CityPointTime": "2025-06-28T23:15:00"
+        },
+        {
+            "CityPointIndex": 2,
+            "CityPointLocation": "Akshardham Metro Station",
+            "CityPointName": "Akshardham Metro Station",
+            "CityPointTime": "2025-06-28T23:30:00"
+        },
+        {
+            "CityPointIndex": 3,
+            "CityPointLocation": "Anand Vihar Gazipur CNG Pump",
+            "CityPointName": "Anand Vihar",
+            "CityPointTime": "2025-06-28T23:40:00"
+        }
+    ],
+    "BusPrice": {
+        "AgentCommission": 252,
+        "BasePrice": 4200,
+        "Discount": 0,
+        "GST": {
+            "CGSTAmount": 0,
+            "CGSTRate": 0,
+            "IGSTAmount": 0,
+            "IGSTRate": 18,
+            "SGSTAmount": 0,
+            "SGSTRate": 0,
+            "TaxableAmount": 0
+        },
+        "OfferedPrice": 3948,
+        "OtherCharges": 0,
+        "PublishedPrice": 4200,
+        "ServiceCharges": 0,
+        "TDS": 12.6,
+        "Tax": 0
+    },
+    "BusType": "Ac Seater (2+2)",
+    "CancellationPolicies": [
+        {
+            "CancellationCharge": 10,
+            "CancellationChargeType": 2,
+            "FromDate": "2025-06-11T18:58:52",
+            "PolicyString": "Till 11:15 on 21 Jun 2025",
+            "TimeBeforeDept": "180$-1",
+            "ToDate": "2025-06-21T11:15:00"
+        },
+        {
+            "CancellationCharge": 25,
+            "CancellationChargeType": 2,
+            "FromDate": "2025-06-21T11:15:00",
+            "PolicyString": "Between 11:15 on 21 Jun 2025 - 11:15 on 25 Jun 2025",
+            "TimeBeforeDept": "84$180",
+            "ToDate": "2025-06-25T11:15:00"
+        },
+        {
+            "CancellationCharge": 50,
+            "CancellationChargeType": 2,
+            "FromDate": "2025-06-25T11:15:00",
+            "PolicyString": "Between 11:15 on 25 Jun 2025 - 11:15 on 27 Jun 2025",
+            "TimeBeforeDept": "36$84",
+            "ToDate": "2025-06-27T11:15:00"
+        },
+        {
+            "CancellationCharge": 100,
+            "CancellationChargeType": 2,
+            "FromDate": "2025-06-27T11:15:00",
+            "PolicyString": "Between 11:15 on 27 Jun 2025 - 08:15 on 28 Jun 2025",
+            "TimeBeforeDept": "15$36",
+            "ToDate": "2025-06-28T08:15:00"
+        }
+    ],
+    "DepartureTime": "2025-06-28T23:15:00",
+    "DroppingPointsDetails": [
+        {
+            "CityPointIndex": 1,
+            "CityPointLocation": "Patna",
+            "CityPointName": "Patna",
+            "CityPointTime": "2025-06-29T19:50:00"
+        }
+    ],
+    "IdProofRequired": false,
+    "IsDropPointMandatory": false,
+    "LiveTrackingAvailable": false,
+    "MTicketEnabled": true,
+    "MaxSeatsPerTicket": 6,
+    "OperatorId": 30193,
+    "PartialCancellationAllowed": true,
+    "ResultIndex": "TB-6",
+    "RouteId": "5001833652925367623",
+    "ServiceName": "Seat Seller",
+    "TravelName": "Ram Pratap Travels"
+}

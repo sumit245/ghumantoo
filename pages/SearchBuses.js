@@ -25,16 +25,22 @@ export default function SearchBuses() {
   const [filteredBuses, setFilteredBuses] = useState([]);
   const navigation = useNavigation();
 
-  const { buses, date_of_journey } = useSelector((state) => state.bus);
+  const { buses, date_of_journey, SearchTokenId } = useSelector((state) => state.bus);
+  const sele = useSelector(state => state)
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setFilteredBuses(buses);
-  }, [buses]);
+    setTimeout(() => {
+      console.log(sele)
+      if (buses) {
+        setFilteredBuses(buses);
+      }
+    }, 100)
+  }, []);
 
   const handleBusSelection = async (id) => {
-    await dispatch(getAvailableSeats(id, date_of_journey));
+    await dispatch(getAvailableSeats(id, SearchTokenId));
     navigation.navigate("selectSeat");
   };
 
@@ -68,9 +74,9 @@ export default function SearchBuses() {
         style={{ padding: 6, flex: 1 }}
         data={buses}
         renderItem={({ item }) => (
-          <BusCard bus={item} onClick={() => handleBusSelection(item.id)} />
+          <BusCard bus={item} onClick={() => handleBusSelection(item.ResultIndex)} />
         )}
-        keyExtractor={(item) => item.id + ""}
+        keyExtractor={(item) => item.ResultIndex + ""}
         showsVerticalScrollIndicator={false}
         initialNumToRender={5}
         ListEmptyComponent={() => (
@@ -78,7 +84,7 @@ export default function SearchBuses() {
             <Image
               source={require("../assets/no route.png")}
               style={[styles.image, { width: "100%", height: 330 }]}
-              // resizeMode="cover"
+            // resizeMode="cover"
             />
           </View>
         )}

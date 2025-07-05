@@ -14,9 +14,7 @@ export const { width, height } = Dimensions.get("screen");
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 6,
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    paddingHorizontal: 16,
     backgroundColor: WhiteColor,
   },
   buttonTextPrimary: {
@@ -31,39 +29,32 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    height: 48,
-    borderRadius: 24,
-    marginVertical: 14,
+    height: 48
   },
   pickDropSelector: {
     flexDirection: "row",
     padding: 6,
-    height: 60,
     borderBottomColor: "#c7c7c7",
     borderBottomWidth: 1,
     alignItems: "center",
     marginBottom: 4,
   },
-
   modalContainerStyle: {
     backgroundColor: WhiteColor,
-    marginHorizontal: 8,
+    marginHorizontal: 16,
     borderRadius: 8,
-    padding: 20,
+    alignSelf: 'center'
   },
   modalCloseIcon: {
     position: "absolute",
-    top: 0,
-    right: 0,
+    top: 8,
+    right: 8,
   },
   tabContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     padding: 4,
-  },
-  tab: {
-    padding: 8,
   },
 
   ticketCard: {
@@ -92,7 +83,15 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  otpTextInput: {
+    borderBottomColor: "#ccc",
+    borderBottomWidth: 1,
+    width: 48,
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 800
 
+  },
   inputStyle: {
     height: 48,
     width: width - 40,
@@ -146,7 +145,7 @@ export const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "600",
     lineHeight: 22,
     color: BlackColor,
@@ -189,11 +188,6 @@ export const styles = StyleSheet.create({
     height: 200,
     borderRadius: 4,
   },
-  imageOffers: {
-    height: "100%",
-    width: "100%",
-    borderRadius: 4,
-  },
 
   couponCode: {
     backgroundColor: DangerColor,
@@ -204,11 +198,10 @@ export const styles = StyleSheet.create({
     padding: 8,
     borderColor: WhiteColor,
     borderStyle: "dotted",
-    borderWidth: 4,
+    borderWidth: 2,
     borderRadius: 4,
     color: WhiteColor,
     fontWeight: "bold",
-    width: 100,
   },
   headerTitle: {
     height: 60,
@@ -411,14 +404,10 @@ export const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   seatIcon: {
-    height: 56,
-    width: 56,
+    height: 32,
+    width: 32,
     resizeMode: "contain",
     margin: 2,
-  },
-  driverContainer: {
-    alignItems: "center",
-    marginBottom: 16,
   },
   seatMapContainer: {
     borderTopColor: "#c7c7c7",
@@ -437,8 +426,8 @@ export const styles = StyleSheet.create({
 
   smallButtonPrimary: {
     height: 28,
+    padding: 2,
     borderRadius: 14,
-    marginVertical: 0,
     marginHorizontal: 4,
     top: 8,
   },
