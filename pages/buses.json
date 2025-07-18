@@ -1,0 +1,764 @@
+[
+    {
+        "ArrivalTime": "2025-07-31T08:30:00",
+        "AvailableSeats": 42,
+        "BoardingPointsDetails": [
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 195.24,
+            "BasePrice": 3253.95,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 3058.71,
+            "OtherCharges": 0,
+            "PublishedPrice": 3263.95,
+            "ServiceCharges": 0,
+            "TDS": 9.76,
+            "Tax": 0
+        },
+        "BusType": "Ve A/c Seater / Sleeper (2+1)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T14:00:00",
+        "DroppingPointsDetails": [
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 19980,
+        "PartialCancellationAllowed": true,
+        "ResultIndex": "TB-10",
+        "RouteId": "5001833653246970415",
+        "ServiceName": "Seat Seller",
+        "TravelName": "E Bus India"
+    },
+    {
+        "ArrivalTime": "2025-07-31T14:15:00",
+        "AvailableSeats": 40,
+        "BoardingPointsDetails": [
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 94.44,
+            "BasePrice": 1573.95,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 1479.51,
+            "OtherCharges": 0,
+            "PublishedPrice": 1583.95,
+            "ServiceCharges": 0,
+            "TDS": 4.72,
+            "Tax": 0
+        },
+        "BusType": "A/c Seater / Sleeper (2+2)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T15:00:00",
+        "DroppingPointsDetails": [
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 17256,
+        "PartialCancellationAllowed": false,
+        "ResultIndex": "TB-6",
+        "RouteId": "1001833653243839193",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Travel Point World Llp"
+    },
+    {
+        "ArrivalTime": "2025-07-31T10:15:00",
+        "AvailableSeats": 18,
+        "BoardingPointsDetails": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 100.74,
+            "BasePrice": 1678.95,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 1578.21,
+            "OtherCharges": 0,
+            "PublishedPrice": 1688.95,
+            "ServiceCharges": 0,
+            "TDS": 5.04,
+            "Tax": 0
+        },
+        "BusType": "A/c Seater / Sleeper (2+2)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T15:25:00",
+        "DroppingPointsDetails": [
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 30673,
+        "PartialCancellationAllowed": true,
+        "ResultIndex": "TB-15",
+        "RouteId": "5001833653247311317",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Maa Kali Travels"
+    },
+    {
+        "ArrivalTime": "2025-07-31T15:30:00",
+        "AvailableSeats": 56,
+        "BoardingPointsDetails": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 315,
+            "BasePrice": 5250,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 4935,
+            "OtherCharges": 0,
+            "PublishedPrice": 5260,
+            "ServiceCharges": 0,
+            "TDS": 15.75,
+            "Tax": 0
+        },
+        "BusType": "Bharat Benz A/c Seater / Sleeper (2+2)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T15:35:00",
+        "DroppingPointsDetails": [
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 25824,
+        "PartialCancellationAllowed": true,
+        "ResultIndex": "TB-13",
+        "RouteId": "5001833653247221695",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Jay Maa Kali Travels"
+    },
+    {
+        "ArrivalTime": "2025-07-31T16:00:00",
+        "AvailableSeats": 52,
+        "BoardingPointsDetails": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 74.97,
+            "BasePrice": 1249.5,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 1174.53,
+            "OtherCharges": 0,
+            "PublishedPrice": 1259.5,
+            "ServiceCharges": 0,
+            "TDS": 3.75,
+            "Tax": 0
+        },
+        "BusType": "A/c Sleeper (2+2)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T16:00:00",
+        "DroppingPointsDetails": [
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 20443,
+        "PartialCancellationAllowed": false,
+        "ResultIndex": "TB-7",
+        "RouteId": "1001833653248883445",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Panwar Tour And Travels"
+    },
+    {
+        "ArrivalTime": "2025-07-31T08:30:00",
+        "AvailableSeats": 38,
+        "BoardingPointsDetails": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 144.84,
+            "BasePrice": 2413.95,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 2269.11,
+            "OtherCharges": 0,
+            "PublishedPrice": 2423.95,
+            "ServiceCharges": 0,
+            "TDS": 7.24,
+            "Tax": 0
+        },
+        "BusType": "Bharat Benz A/c Seater / Sleeper (2+2)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T16:00:00",
+        "DroppingPointsDetails": [
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 29722,
+        "PartialCancellationAllowed": true,
+        "ResultIndex": "TB-12",
+        "RouteId": "5001833653247108294",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Star City Bus"
+    },
+    {
+        "ArrivalTime": "2025-07-31T11:30:00",
+        "AvailableSeats": 56,
+        "BoardingPointsDetails": [
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 315,
+            "BasePrice": 5250,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 4935,
+            "OtherCharges": 0,
+            "PublishedPrice": 5260,
+            "ServiceCharges": 0,
+            "TDS": 15.75,
+            "Tax": 0
+        },
+        "BusType": "Bharat Benz A/c Seater / Sleeper (2+2)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T16:00:00",
+        "DroppingPointsDetails": [
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 25824,
+        "PartialCancellationAllowed": true,
+        "ResultIndex": "TB-11",
+        "RouteId": "5001833653247091979",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Jay Maa Kali Travels"
+    },
+    {
+        "ArrivalTime": "2025-07-31T11:29:00",
+        "AvailableSeats": 36,
+        "BoardingPointsDetails": [
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 163.8,
+            "BasePrice": 2730,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 2566.2,
+            "OtherCharges": 0,
+            "PublishedPrice": 2740,
+            "ServiceCharges": 0,
+            "TDS": 8.19,
+            "Tax": 0
+        },
+        "BusType": "Ac Sleeper (2+1)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T16:30:00",
+        "DroppingPointsDetails": [
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 29255,
+        "PartialCancellationAllowed": false,
+        "ResultIndex": "TB-8",
+        "RouteId": "5001833653245593589",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Diva Bus"
+    },
+    {
+        "ArrivalTime": "2025-07-31T11:30:00",
+        "AvailableSeats": 36,
+        "BoardingPointsDetails": [
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 189,
+            "BasePrice": 3150,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 2961,
+            "OtherCharges": 0,
+            "PublishedPrice": 3160,
+            "ServiceCharges": 0,
+            "TDS": 9.45,
+            "Tax": 0
+        },
+        "BusType": "Ac Sleeper (2+1)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T16:30:00",
+        "DroppingPointsDetails": [
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 29255,
+        "PartialCancellationAllowed": false,
+        "ResultIndex": "TB-9",
+        "RouteId": "5001833653246863881",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Diva Bus"
+    },
+    {
+        "ArrivalTime": "2025-07-31T15:45:00",
+        "AvailableSeats": 46,
+        "BoardingPointsDetails": [
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 94.44,
+            "BasePrice": 1573.95,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 1479.51,
+            "OtherCharges": 0,
+            "PublishedPrice": 1583.95,
+            "ServiceCharges": 0,
+            "TDS": 4.72,
+            "Tax": 0
+        },
+        "BusType": "A/c Seater / Sleeper (2+2)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T17:00:00",
+        "DroppingPointsDetails": [
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 17256,
+        "PartialCancellationAllowed": false,
+        "ResultIndex": "TB-5",
+        "RouteId": "1001833653243206931",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Travel Point World Llp"
+    },
+    {
+        "ArrivalTime": "2025-07-31T09:00:00",
+        "AvailableSeats": 32,
+        "BoardingPointsDetails": [
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 119.64,
+            "BasePrice": 1993.95,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 1874.31,
+            "OtherCharges": 0,
+            "PublishedPrice": 2003.95,
+            "ServiceCharges": 0,
+            "TDS": 5.98,
+            "Tax": 0
+        },
+        "BusType": "A/c Seater / Sleeper (2+2)",
+        "CancellationPolicies": [
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T17:30:00",
+        "DroppingPointsDetails": [
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 34324,
+        "PartialCancellationAllowed": true,
+        "ResultIndex": "TB-1",
+        "RouteId": "5001833653249140821",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Vande Bharat Bus Service"
+    },
+    {
+        "ArrivalTime": "2025-07-31T10:00:00",
+        "AvailableSeats": 37,
+        "BoardingPointsDetails": [
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 125.94,
+            "BasePrice": 2098.95,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 1973.01,
+            "OtherCharges": 0,
+            "PublishedPrice": 2108.95,
+            "ServiceCharges": 0,
+            "TDS": 6.3,
+            "Tax": 0
+        },
+        "BusType": "A/c Seater / Sleeper (2+2)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T18:00:00",
+        "DroppingPointsDetails": [
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 30063,
+        "PartialCancellationAllowed": true,
+        "ResultIndex": "TB-3",
+        "RouteId": "5001833653249509144",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Rajdhani Express"
+    },
+    {
+        "ArrivalTime": "2025-07-31T10:00:00",
+        "AvailableSeats": 40,
+        "BoardingPointsDetails": [
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 132.24,
+            "BasePrice": 2203.95,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 2071.71,
+            "OtherCharges": 0,
+            "PublishedPrice": 2213.95,
+            "ServiceCharges": 0,
+            "TDS": 6.61,
+            "Tax": 0
+        },
+        "BusType": "A/c Seater / Sleeper (2+2)",
+        "CancellationPolicies": [
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T18:00:00",
+        "DroppingPointsDetails": [
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 34324,
+        "PartialCancellationAllowed": true,
+        "ResultIndex": "TB-2",
+        "RouteId": "5001833653249505669",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Vande Bharat Bus Service"
+    },
+    {
+        "ArrivalTime": "2025-07-31T10:30:00",
+        "AvailableSeats": 50,
+        "BoardingPointsDetails": [
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 125.94,
+            "BasePrice": 2098.95,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 1973.01,
+            "OtherCharges": 0,
+            "PublishedPrice": 2108.95,
+            "ServiceCharges": 0,
+            "TDS": 6.3,
+            "Tax": 0
+        },
+        "BusType": "A/c Seater / Sleeper (2+2)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T18:30:00",
+        "DroppingPointsDetails": [
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 30063,
+        "PartialCancellationAllowed": true,
+        "ResultIndex": "TB-4",
+        "RouteId": "5001833653249533987",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Rajdhani Express"
+    },
+    {
+        "ArrivalTime": "2025-07-31T12:30:00",
+        "AvailableSeats": 52,
+        "BoardingPointsDetails": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "BusPrice": {
+            "AgentCommission": 79.07,
+            "BasePrice": 1317.75,
+            "Discount": 0,
+            "GST": [Object
+            ],
+            "OfferedPrice": 1238.68,
+            "OtherCharges": 0,
+            "PublishedPrice": 1327.75,
+            "ServiceCharges": 0,
+            "TDS": 3.95,
+            "Tax": 0
+        },
+        "BusType": "A/c Sleeper (2+2)",
+        "CancellationPolicies": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "2025-07-30T19:00:00",
+        "DroppingPointsDetails": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "IdProofRequired": false,
+        "IsDropPointMandatory": false,
+        "LiveTrackingAvailable": false,
+        "MTicketEnabled": true,
+        "MaxSeatsPerTicket": 6,
+        "OperatorId": 20443,
+        "PartialCancellationAllowed": false,
+        "ResultIndex": "TB-14",
+        "RouteId": "5001833653247234351",
+        "ServiceName": "Seat Seller",
+        "TravelName": "Panwar Tour And Travels"
+    }
+]

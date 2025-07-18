@@ -5,7 +5,6 @@ import BusRoutes from "./BottomSheetVerticalData/BusRoute"
 import Boarding from "./BottomSheetVerticalData/Boarding"
 import Dropping from "./BottomSheetVerticalData/Dropping"
 import Rest from "./BottomSheetVerticalData/Rest"
-import Amenities from "./BottomSheetVerticalData/Amenities"
 import Reviews from "./BottomSheetVerticalData/Reviews"
 import Cancellation from "./BottomSheetVerticalData/Cancellation"
 import OtherPolicies from "./BottomSheetVerticalData/OtherPolicies"
@@ -37,24 +36,19 @@ const HorizontalData = [
         verticalData: <Rest />,
     },
     {
-        id: '6',
-        title: 'Amenities',
-        verticalData: <Amenities/>
-    },
-    {
         id: '7',
         title: 'Reviews',
-        verticalData: <Reviews/>
+        verticalData: <Reviews />
     },
     {
         id: '8',
         title: 'Cancellation policy',
-        verticalData: <Cancellation/>
+        verticalData: <Cancellation />
     },
     {
         id: '9',
         title: 'Other Policies',
-        verticalData: <OtherPolicies/>
+        verticalData: <OtherPolicies />
     },
 ]
 
@@ -81,7 +75,7 @@ const BottomSheetContent = () => {
 
             <SafeAreaView style={{ padding: 20 }}>
                 <FlatList
-                style={{marginBottom:80}}
+                    style={{ marginBottom: 80 }}
                     showsVerticalScrollIndicator={false}
                     data={HorizontalData}
                     renderItem={({ item }) => {

@@ -15,15 +15,23 @@ export const getBusOnRoute =
       DestinationId: destination,
       DateOfJourney: date_of_journey,
       UserIp: "103.209.223.52"
+    };
+
+    try {
+      const response = await axios.get(`${API_URL}/api/bus/search`, { params });
+      const { SearchTokenId, trips } = response.data;
+      dispatch({ type: GET_BUSES, payload: trips });
+      dispatch({ type: SET_SEARCH_TOKEN, payload: SearchTokenId });
+      dispatch({ type: SET_JOURNEY_DATE, payload: date_of_journey });
+      dispatch({ type: SET_PICKUP_ID, payload: pickup });
+      dispatch({ type: SET_DESTINATION_ID, payload: destination });
+      return SearchTokenId
+    } catch (error) {
+      console.error("getBusOnRoute error", error);
+      throw error;
     }
-    const response = await axios.get(`${API_URL}/api/bus/search`, { params })
-    const { SearchTokenId, trips } = response.data
-    dispatch({ type: GET_BUSES, payload: trips });
-    dispatch({ type: SET_SEARCH_TOKEN, payload: SearchTokenId })
-    dispatch({ type: SET_JOURNEY_DATE, payload: date_of_journey })
-    dispatch({ type: SET_PICKUP_ID, payload: pickup })
-    dispatch({ type: SET_DESTINATION_ID, payload: destination })
   };
+
 // Done
 
 export const fetchCounters = async (query) => {

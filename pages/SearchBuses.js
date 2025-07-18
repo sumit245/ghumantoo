@@ -16,33 +16,32 @@ import { styles } from "../utils/styles";
 import { filters } from "../faker/filters";
 import BusCard from "../components/buscards/BusCard";
 import { useDispatch, useSelector } from "react-redux";
-import { PureWhite, WhiteColor } from "../utils/colors";
+import { LightGray, PrimaryColor, PureWhite, WhiteColor } from "../utils/colors";
 import { getAvailableSeats } from "../actions/busActions";
 import { spacing } from "../utils/spacing.styles";
 
 export default function SearchBuses() {
   const [filterOptions] = useState(filters);
-  const [filteredBuses, setFilteredBuses] = useState([]);
+  const [appliedFilters, setAppliedFilters] = useState([])
   const navigation = useNavigation();
-
   const { buses, date_of_journey, SearchTokenId } = useSelector((state) => state.bus);
-  const sele = useSelector(state => state)
-
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setTimeout(() => {
-      console.log(sele)
-      if (buses) {
-        setFilteredBuses(buses);
-      }
-    }, 100)
-  }, []);
 
   const handleBusSelection = async (id) => {
     await dispatch(getAvailableSeats(id, SearchTokenId));
     navigation.navigate("selectSeat");
   };
+
+  const applyFilter = (idx, filter) => {
+    console.log(idx, filter)
+    // 1. check if the idx is in appliedFilters state, if present then remove else insert
+    setAppliedFilters(prev =>
+      prev.includes(idx)
+        ? prev.filter(i => i !== idx) // remove
+        : [...prev, idx] // add
+    );
+    console.log(buses)
+  }
 
   return (
     <SafeAreaView
@@ -54,20 +53,37 @@ export default function SearchBuses() {
       <ScrollView
         horizontal={true}
         style={[{ maxHeight: 50, backgroundColor: WhiteColor }]}
-        contentContainerStyle={{ padding: 6, alignItems: "flex-start" }}
+        contentContainerStyle={{ padding: 6, alignItems: "flex-start", marginLeft: 2 }}
         showsHorizontalScrollIndicator={false}
       >
-        {filterOptions.map((item, idx) => (
-          <TouchableOpacity
-            style={[styles.filterButton, { backgroundColor: PureWhite }]}
-            key={idx}
-          >
-            {item.iconname && (
-              <Icon name={item.iconname} size={20} style={[spacing.mr1]} />
-            )}
-            <Text>{item.text}</Text>
-          </TouchableOpacity>
-        ))}
+        {filterOptions.map((item, idx) => {
+          const isApplied = appliedFilters.includes(idx); // check if idx is in appliedFilters
+
+          return (
+            <TouchableOpacity
+              key={idx}
+              style={[
+                styles.filterButton,
+                {
+                  backgroundColor: PureWhite,
+                  borderColor: isApplied ? PrimaryColor : LightGray,
+                  elevation: isApplied ? 1 : 0
+                }
+              ]}
+              onPress={() =>
+                idx === 0
+                  ? navigation.navigate(item.onPress)
+                  : applyFilter(idx, item.onPress)
+              }
+            >
+              {item.iconname && (
+                <Icon name={item.iconname} size={20} style={[spacing.mr1]} />
+              )}
+              <Text>{item.text}</Text>
+            </TouchableOpacity>
+          );
+        })}
+
       </ScrollView>
 
       <FlatList
@@ -84,7 +100,7 @@ export default function SearchBuses() {
             <Image
               source={require("../assets/no route.png")}
               style={[styles.image, { width: "100%", height: 330 }]}
-            // resizeMode="cover"
+              resizeMode="cover"
             />
           </View>
         )}

@@ -44,15 +44,17 @@ export default function Home() {
     setIsError(true);
   }, []);
 
-  const searchBus = useCallback(() => {
+  const searchBus = useCallback(async () => {
     if (!pickup) return showError("Source of journey cannot be empty");
     if (!destination) return showError("Destination of journey cannot be empty");
     if (pickup === destination) return showError("Source and destination cannot be same");
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
     setLoading(true)
-    dispatch(getBusOnRoute(pickup, destination, formattedDate));
-    setLoading(false)
-    navigation.navigate("SearchBus");
+    const SearchToken = await dispatch(getBusOnRoute(pickup, destination, formattedDate));
+    if (SearchToken) {
+      setLoading(false)
+      navigation.navigate("SearchBus");
+    }
   }, [pickup, destination, date, dispatch, navigation, showError]);
 
   const handleDateChange = useCallback((selectedDate) => {
@@ -64,7 +66,13 @@ export default function Home() {
   const showModal = useCallback(() => setVisible(true), []);
   const dismissSnackbar = useCallback(() => setIsError(false), []);
 
-  if (loading) return <ActivityIndicator size="large" color={PrimaryColor} animating />
+  if (loading) {
+    return (
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={PrimaryColor} animating />
+      </SafeAreaView>
+    )
+  }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -111,6 +119,7 @@ export default function Home() {
 
           <CalendarPicker
             minDate={dayjs().toDate()}
+            maxDate={dayjs().add(90, 'day').toDate()}
             restrictMonthNavigation
             width={width - 40}
             height={width - 40}
