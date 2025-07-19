@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,8 +7,8 @@ import {
   ScrollView,
   SafeAreaView,
   Image,
+  ActivityIndicator
 } from "react-native";
-
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../utils/styles";
@@ -17,14 +16,15 @@ import { filters } from "../faker/filters";
 import BusCard from "../components/buscards/BusCard";
 import { useDispatch, useSelector } from "react-redux";
 import { LightGray, PrimaryColor, PureWhite, WhiteColor } from "../utils/colors";
-import { getAvailableSeats } from "../actions/busActions";
+import { getAvailableSeats, getBusOnRoute } from "../actions/busActions";
 import { spacing } from "../utils/spacing.styles";
 
+
 export default function SearchBuses() {
-  const [filterOptions] = useState(filters);
   const [appliedFilters, setAppliedFilters] = useState([])
+  const { buses, date_of_journey, destinationId, pickupId, SearchTokenId } = useSelector((state) => state.bus);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  const { buses, date_of_journey, SearchTokenId } = useSelector((state) => state.bus);
   const dispatch = useDispatch();
 
   const handleBusSelection = async (id) => {
@@ -32,15 +32,27 @@ export default function SearchBuses() {
     navigation.navigate("selectSeat");
   };
 
-  const applyFilter = (idx, filter) => {
-    console.log(idx, filter)
-    // 1. check if the idx is in appliedFilters state, if present then remove else insert
+  // This effect re-fetches buses whenever the applied filters change
+  useEffect(() => {
+    // Ensure we have the required parameters before making a call
+    if (pickupId && destinationId && date_of_journey) {
+      setLoading(true);
+      dispatch(getBusOnRoute(pickupId, destinationId, date_of_journey, appliedFilters))
+        .then(() => setLoading(false))
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    }
+  }, [appliedFilters, dispatch, pickupId, destinationId, date_of_journey]); // Dependency array
+
+  // Suggestion
+  const applyFilter = (filterName) => {
     setAppliedFilters(prev =>
-      prev.includes(idx)
-        ? prev.filter(i => i !== idx) // remove
-        : [...prev, idx] // add
+      prev.includes(filterName)
+        ? prev.filter(appliedName => appliedName !== filterName) // More descriptive variable
+        : [...prev, filterName]
     );
-    console.log(buses)
   }
 
   return (
@@ -50,14 +62,15 @@ export default function SearchBuses() {
         { marginHorizontal: 0, marginTop: 0, paddingHorizontal: 0 },
       ]}
     >
+      {/* Filter part here */}
       <ScrollView
         horizontal={true}
         style={[{ maxHeight: 50, backgroundColor: WhiteColor }]}
         contentContainerStyle={{ padding: 6, alignItems: "flex-start", marginLeft: 2 }}
         showsHorizontalScrollIndicator={false}
       >
-        {filterOptions.map((item, idx) => {
-          const isApplied = appliedFilters.includes(idx); // check if idx is in appliedFilters
+        {filters.map((item, idx) => {
+          const isApplied = appliedFilters.includes(item.onPress); // check if idx is in appliedFilters
 
           return (
             <TouchableOpacity
@@ -71,9 +84,9 @@ export default function SearchBuses() {
                 }
               ]}
               onPress={() =>
-                idx === 0
+                item.type === 'navigate'
                   ? navigation.navigate(item.onPress)
-                  : applyFilter(idx, item.onPress)
+                  : applyFilter(item.onPress)
               }
             >
               {item.iconname && (
@@ -86,25 +99,35 @@ export default function SearchBuses() {
 
       </ScrollView>
 
-      <FlatList
-        style={{ padding: 6, flex: 1 }}
-        data={buses}
-        renderItem={({ item }) => (
-          <BusCard bus={item} onClick={() => handleBusSelection(item.ResultIndex)} />
-        )}
-        keyExtractor={(item) => item.ResultIndex + ""}
-        showsVerticalScrollIndicator={false}
-        initialNumToRender={5}
-        ListEmptyComponent={() => (
-          <View>
-            <Image
-              source={require("../assets/no route.png")}
-              style={[styles.image, { width: "100%", height: 330 }]}
-              resizeMode="cover"
-            />
+      {/* Body part here */}
+      {
+        loading ? (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color={PrimaryColor} />
           </View>
-        )}
-      />
+
+        ) : (
+          <FlatList
+            style={{ padding: 6, flex: 1 }}
+            data={buses}
+            renderItem={({ item }) => (
+              <BusCard bus={item} onClick={() => handleBusSelection(item.ResultIndex)} />
+            )}
+            keyExtractor={(item) => item.ResultIndex + ""}
+            showsVerticalScrollIndicator={false}
+            initialNumToRender={20}
+            ListEmptyComponent={() => (
+              <View>
+                <Image
+                  source={require("../assets/no route.png")}
+                  style={[styles.image, { width: "100%", height: 330 }]}
+                  resizeMode="cover"
+                />
+              </View>
+            )}
+          />
+        )
+      }
     </SafeAreaView>
   );
 }

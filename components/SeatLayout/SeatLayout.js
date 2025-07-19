@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native'
 import { height, width } from '../../utils/styles';
 import { LightGray, PureWhite } from '../../utils/colors';
@@ -20,7 +20,6 @@ export default function SeatLayout({ lowerSeats = {}, upperSeats = {}, handleSea
   useEffect(() => {
     setHasLower(checkHasSeats(lowerSeats));
     setHasUpper(checkHasSeats(upperSeats));
-    console.log(upperSeats)
   }, [lowerSeats, upperSeats]);
 
   /**
@@ -101,7 +100,7 @@ export default function SeatLayout({ lowerSeats = {}, upperSeats = {}, handleSea
 
           const rowSeats = seatsData[rowKey] || [];
           const missingSeats = maxSeats - rowSeats.length;
-          console.log(missingSeats)
+
           return (
             <View key={rowKey} style={{
               flexDirection: "column",

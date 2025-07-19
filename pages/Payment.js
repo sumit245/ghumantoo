@@ -96,7 +96,7 @@ const Payment = () => {
           </View>
         </View>
 
-        <View style={{}}>
+        <View style={{ fontSize: 14 }}>
           <TouchableOpacity
             style={{
               paddingVertical: 15,

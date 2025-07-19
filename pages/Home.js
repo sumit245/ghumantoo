@@ -3,7 +3,6 @@ import {
   SafeAreaView,
   ScrollView,
   Text,
-  View,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
@@ -22,7 +21,7 @@ import PrimaryButton from "../components/buttons/PrimaryButton";
 import LocationSelector from "../components/LocationSelector";
 
 import { styles, width } from "../utils/styles";
-import { Black1Color, PrimaryColor, WhiteColor } from "../utils/colors";
+import { Black1Color, PrimaryColor, } from "../utils/colors";
 import { getBusOnRoute } from "../actions/busActions";
 import { typography } from "../utils/typography";
 import { spacing } from "../utils/spacing.styles";
@@ -49,12 +48,13 @@ export default function Home() {
     if (!destination) return showError("Destination of journey cannot be empty");
     if (pickup === destination) return showError("Source and destination cannot be same");
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
-    setLoading(true)
-    const SearchToken = await dispatch(getBusOnRoute(pickup, destination, formattedDate));
-    if (SearchToken) {
+    dispatch(getBusOnRoute(pickup, destination, formattedDate)).then(() => {
       setLoading(false)
       navigation.navigate("SearchBus");
-    }
+    }).catch(() => {
+      setLoading(false)
+    })
+
   }, [pickup, destination, date, dispatch, navigation, showError]);
 
   const handleDateChange = useCallback((selectedDate) => {
@@ -118,6 +118,7 @@ export default function Home() {
           </Text>
 
           <CalendarPicker
+            style={styles.calendarStyle}
             minDate={dayjs().toDate()}
             maxDate={dayjs().add(90, 'day').toDate()}
             restrictMonthNavigation

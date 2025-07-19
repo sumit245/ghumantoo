@@ -2,21 +2,25 @@ export const filters = [
   {
     iconname: "filter-variant",
     text: "Sort & Filter",
-    onPress: 'filterPage'
+    onPress: 'filterPage',
+    type: 'navigate'
   },
   {
     iconname: "air-conditioner",
     text: "AC",
-    onPress: 'fleetType(AC)'
+    onPress: 'A/c',
+    type: 'filter'
   },
   {
     iconname: "bed",
     text: "SLEEPER",
-    onPress: 'fleetType(sleeper)'
+    onPress: 'Sleeper',
+    type: 'filter'
   },
   {
     iconname: "seat",
     text: "SEATER",
-    onPress: 'fleetType(seater)'
+    onPress: 'Seater',
+    type: 'filter'
   },
 ];

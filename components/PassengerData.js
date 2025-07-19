@@ -45,7 +45,7 @@ const PassengerData = ({ navContinue }) => {
         mobile_number: phone,
         passenger_names: [name],
       };
-      // console.log(ticketDetails)
+
       const result = await bookTicket(selectedBus.id, ticketDetails);
       if (result) {
         const { ticket_id, amount, currency, order_id } = result;
@@ -78,15 +78,15 @@ const PassengerData = ({ navContinue }) => {
           };
           const { status, details } = await confirmTicket(ticketParams);
           if (status === 201) {
-            console.log(details);
+
             navigation.navigate("ConfirmationPage", { details });
             // navigate to thank you page with params
           }
         }
       }
     } catch (error) {
-      console.error("Error during booking:", error.message || error);
-      alert("Something went wrong. Please try again.");
+      alert("Error during booking:", error.message || error);
+
     } finally {
       setLoading(false);
     }

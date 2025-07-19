@@ -23,7 +23,7 @@ export default function ConfirmationPage({ route, navigation }) {
     passenger_name,
     pnr,
     seats,
-  } = route.params?.details;
+  } = useState(route.params || {});
   const { selectedBus } = useSelector((state) => state.bus);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -38,7 +38,6 @@ export default function ConfirmationPage({ route, navigation }) {
 
   useEffect(() => {
     const { end_time, start_time, originCity, destinationCity } = selectedBus;
-    console.log(selectedBus);
     setFrom(destinationCity);
     setTo(originCity);
     setDepartureTime(start_time);

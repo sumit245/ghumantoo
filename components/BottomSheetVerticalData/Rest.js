@@ -72,7 +72,8 @@ const Rest = () => {
         Traveller Experience
       </Text>
       <FlatList
-        style={[styles.row, { justifyContent: "none", flexWrap: "wrap" }]}
+        contentContainerStyle={[styles.row, { justifyContent: "none",flexWrap: 'wrap',marginTop: 15  }]}
+        numColumns={3}
         data={allExperiences}
         renderItem={renderTravelerExperienceItem}
         keyExtractor={(item, index) => index.toString()}

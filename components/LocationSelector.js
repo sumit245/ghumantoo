@@ -27,7 +27,6 @@ export default function LocationSelector({ handleDatePicker, selectedDate, setPi
   };
 
   const swapLocations = () => {
-    console.log(pickup + "and" + destination)
     const temp = pickup;
     setPickupLocation(destination);
     setDestinationLocation(temp);

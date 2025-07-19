@@ -1,8 +1,8 @@
-import { View, Text, FlatList } from "react-native"
+import React, { View, Text, FlatList } from "react-native"
 import { styles } from "../../utils/styles"
 import AntDesign from "react-native-vector-icons/AntDesign"
 
-const routeStops = ['Delhi', 'Mathura', 'Agra', 'Etawah', 'Kanpur', 'Fatehpur', 'Allahabad']
+const routeStops = ['Delhi', 'Mathura', 'Agra', 'Etawah']
 
 
 const BusRoute = () => {
@@ -17,23 +17,16 @@ const BusRoute = () => {
   );
 
   return (
-
-    <View >
-
-      <View>
-        <Text style={styles.headerTitleText}>Bus Route</Text>
-        <Text style={styles.subHeadingBottomSheet}>10h 30m</Text>
-
-        <FlatList
-          style={[styles.row, { justifyContent: 'none', flexWrap: 'wrap', marginTop: 15 }]}
-          data={routeStops}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      </View>
-
-    </View>
-
+    <>
+      <Text style={styles.headerTitleText}>Bus Route</Text>
+      <Text style={styles.subHeadingBottomSheet}>10h 30m</Text>
+      <FlatList
+        contentContainerStyle={[styles.row, { justifyContent: 'none', flexWrap: 'wrap', marginTop: 15 }]}
+        data={routeStops}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+      />
+    </>
   )
 }
 

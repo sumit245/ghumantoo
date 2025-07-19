@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import { seatLayout } from '../faker/seatlayout'
-import { View, Text, SafeAreaView, ScrollView } from 'react-native'
+import { SafeAreaView, ScrollView } from 'react-native'
 import { styles } from '../utils/styles'
 import SeatLayout from '../components/SeatLayout/SeatLayout'
 import { spacing } from '../utils/spacing.styles'

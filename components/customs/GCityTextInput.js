@@ -17,7 +17,6 @@ export default function GCityTextInput({ icon, label, placeholder, onChangeText,
 
   const getSuggestions = useCallback(async q => {
     const filterToken = q.toLowerCase()
-    console.log('getSuggestions', q)
     if (typeof q !== 'string' || q.length < 3) {
       setSuggestionsList(null)
       return

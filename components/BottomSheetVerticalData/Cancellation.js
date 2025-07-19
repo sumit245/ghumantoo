@@ -1,6 +1,8 @@
-import { View, Text, FlatList, StyleSheet } from "react-native"
+import React, { View, Text, FlatList, StyleSheet } from "react-native"
 import { styles } from "../../utils/styles"
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6"
+import { typography } from "../../utils/typography";
+import { spacing } from "../../utils/spacing.styles";
 
 
 
@@ -12,10 +14,16 @@ const cancellationPolicy = [
   { timeBeforeTravel: "From 6th May 08:00 AM", deduction: "100%" },
 ];
 
+const terms = [
+  "Cancellation charges are applicable as per the above table.",
+  "Cancellation charges are applicable on the total fare of the ticket.",
+  "Cancellation charges are applicable on the date of booking.",
+  "Cancellation charges are applicable on the date of cancellation.",
+  "Cancellation charges are applicable on the date of travel.",
+]
 
 
 const Cancellation = () => {
-
   const icon = <FontAwesome6 color='grey' name='star-of-life' size={11} />
 
   const renderItem = ({ item }) => (
@@ -25,49 +33,36 @@ const Cancellation = () => {
     </View>
   );
 
-  return (
-    <View>
-      <Text style={styles.headerTitleText}>Cancellation policy</Text>
+  const tableHeader = (
+    <View style={styles.tableRow}>
+      <Text style={[styles.tableHeading, { fontWeight: 'bold', fontSize: 18 }]}>Time Before Travel</Text>
+      <Text style={[styles.tableHeading, { fontWeight: 'bold', fontSize: 18 }]}>Deduction</Text>
+    </View>
+  );
 
-      <View style={styles.tableRow}>
-        <Text style={[styles.tableHeading, { fontWeight: 'bold', fontSize: 18 }]}>Time Before Travel</Text>
-        <Text style={[styles.tableHeading, { fontWeight: 'bold', fontSize: 18 }]}>Deduction</Text>
+  const tableFooter = () => (
+    terms.map((term, index) => (
+      <View style={[styles.row, { justifyContent: 'flex-start' }]} key={index}>
+        {icon}
+        <Text style={[typography.font12, spacing.pl1]}>{term}</Text>
       </View>
+    ))
+  )
 
+  return (
+    <>
+      <Text style={styles.headerTitleText}>Cancellation policy</Text>
       <FlatList
         data={cancellationPolicy}
+        ListHeaderComponent={tableHeader}
+        ListFooterComponent={tableFooter}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
       />
 
-      <View style={[styles.row, style1.container]}>
-        {icon}
-        <Text style={style1.text}> Please note that this ticket is non-refundable</Text>
-      </View>
-      <View style={[styles.row, style1.container]}>
-        {icon}
-        <Text style={style1.text}> Ticket cannot be Cancelled after Bus Departure time</Text>
-      </View>
-      <View style={[styles.row, style1.container]}>
-        {icon}
-        <Text style={style1.text}> Cancellation charges are calculate based on date of booked ticket</Text>
-      </View>
-    </View>
+    </>
   )
 }
 
-const style1 = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'none',
-    flexWrap: 'wrap'
-  },
-
-  text: {
-    marginBottom: 2,
-    fontWeight: '300',
-    fontSize: 13
-  }
-})
 
 export default Cancellation

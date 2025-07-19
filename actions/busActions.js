@@ -9,13 +9,17 @@ export const getBuses = (data) => (dispatch) => {
 
 
 export const getBusOnRoute =
-  (pickup, destination, date_of_journey) => async (dispatch) => {
+  (pickup, destination, date_of_journey, filters = []) => async (dispatch) => {
     const params = {
       OriginId: pickup,
       DestinationId: destination,
       DateOfJourney: date_of_journey,
       UserIp: "103.209.223.52"
     };
+
+    if (filters && filters.length > 0) {
+      params.fleetType = filters;
+    }
 
     try {
       const response = await axios.get(`${API_URL}/api/bus/search`, { params });
@@ -53,14 +57,13 @@ export const getAvailableSeats = (id, search_token) => async (dispatch) => {
         ResultIndex: id
       }
     })
-    console.log(response.data)
     const { html, availableSeats } = response.data
     // dispatch({ type: SELECT_BUS, payload: trip })
     // dispatch({ type: SET_BOOKED_SEATS, payload: bookedSeats })
     dispatch({ type: SET_SEAT_LAYOUT, payload: html.seat })
     dispatch({ type: SET_TOTAL_SEATS, payload: availableSeats })
   } catch (err) {
-    console.log(err)
+    return err
   }
 
 }
@@ -87,7 +90,7 @@ export const confirmTicket = async (data) => {
     const { status, details } = response.data
     return { status, details }
   } catch (error) {
-    console.log(error)
+    return error
   }
 }
 
