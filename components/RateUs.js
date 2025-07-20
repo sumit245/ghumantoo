@@ -1,3 +1,4 @@
+import React from 'react'
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { styles } from "../utils/styles";
 import { PureWhite } from "../utils/colors";

@@ -1,95 +1,89 @@
-import { View, Text, FlatList, SafeAreaView } from "react-native"
-import { styles } from "../utils/styles"
-import WhyThisBus from "./BottomSheetVerticalData/WhyThisBus"
-import BusRoutes from "./BottomSheetVerticalData/BusRoute"
-import Boarding from "./BottomSheetVerticalData/Boarding"
-import Dropping from "./BottomSheetVerticalData/Dropping"
-import Rest from "./BottomSheetVerticalData/Rest"
-import Reviews from "./BottomSheetVerticalData/Reviews"
-import Cancellation from "./BottomSheetVerticalData/Cancellation"
-import OtherPolicies from "./BottomSheetVerticalData/OtherPolicies"
+import React from 'react';
+import { View, FlatList, SafeAreaView, StyleSheet } from 'react-native';
 
-const HorizontalData = [
-    {
-        id: '1',
-        title: 'Why book this bus?',
-        verticalData: <WhyThisBus />,
-    },
-    {
-        id: '2',
-        title: 'Bus route',
-        verticalData: <BusRoutes />,
-    },
-    {
-        id: '3',
-        title: 'Boarding Point',
-        verticalData: <Boarding />,
-    },
-    {
-        id: '4',
-        title: 'Dropping points',
-        verticalData: <Dropping />,
-    },
-    {
-        id: '5',
-        title: 'Rest Stops',
-        verticalData: <Rest />,
-    },
-    {
-        id: '7',
-        title: 'Reviews',
-        verticalData: <Reviews />
-    },
-    {
-        id: '8',
-        title: 'Cancellation policy',
-        verticalData: <Cancellation />
-    },
-    {
-        id: '9',
-        title: 'Other Policies',
-        verticalData: <OtherPolicies />
-    },
-]
+// --- Import Refactored Components ---
+// These are the new, reusable components we created.
+import BusRoutes from './BottomSheetVerticalData/BusRoute';
+import TravelPointsList from './BottomSheetVerticalData/Boarding';
+import RestStopsInfo from './BottomSheetVerticalData/Rest';
+import RatingsAndReviews from './BottomSheetVerticalData/Reviews';
+import Cancellation from './BottomSheetVerticalData/Cancellation';
+import OtherPolicies from './BottomSheetVerticalData/OtherPolicies';
 
+import { restStopsData, ratingsInfoData, reviewsInfoData, travelerExperiencesData, totalReviewCountData } from '../faker/seatlayout'
+
+// --- FAKE DATA FOR PROPS ---
+// This data will be passed into our refactored components.
+
+
+
+// --- Main Component Definition ---
 
 const BottomSheetContent = () => {
+    // The data for the FlatList now renders the refactored components with their props.
+    const sheetSections = [
+        {
+            id: 'bus_route',
+            component: <BusRoutes />,
+        },
+        {
+            id: 'boarding_points',
+            component: <TravelPointsList points={boardingPointsData} />,
+        },
+        {
+            id: 'rest_stops',
+            component: <RestStopsInfo restStops={restStopsData} travelerExperiences={travelerExperiencesData} />,
+        },
+        {
+            id: 'reviews',
+            component: (
+                <RatingsAndReviews
+                    ratingsData={ratingsInfoData}
+                    reviewData={reviewsInfoData}
+                    totalReviews={totalReviewCountData}
+                />
+            ),
+        },
+        {
+            id: 'cancellation',
+            component: <Cancellation />,
+        },
+        {
+            id: 'other_policies',
+            component: <OtherPolicies />,
+        },
+    ];
+
+    const renderSection = ({ item }) => (
+        <View style={styles.sectionContainer}>{item.component}</View>
+    );
+
     return (
-        <View>
-            <SafeAreaView >
-                <FlatList
-                    data={HorizontalData}
-                    renderItem={({ item }) => {
-                        return (
-                            <View style={[styles.tableRow, { padding: 11, }]}>
-                                <Text style={{ fontSize: 16 }}>{item.title}</Text>
-                            </View>
+        <SafeAreaView style={styles.safeArea}>
+            <FlatList
+                style={styles.list}
+                showsVerticalScrollIndicator={false}
+                data={sheetSections}
+                renderItem={renderSection}
+                keyExtractor={(item) => item.id}
+            />
+        </SafeAreaView>
+    );
+};
 
-                        )
-                    }}
-                    keyExtractor={(item) => item.id}
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                />
-            </SafeAreaView>
+const styles = StyleSheet.create({
+    safeArea: {
+        flex: 1,
+        paddingHorizontal: 20,
+    },
+    list: {
+        marginBottom: 80,
+    },
+    sectionContainer: {
+        paddingVertical: 20,
+        borderBottomColor: '#e0e0e0',
+        borderBottomWidth: 1,
+    },
+});
 
-            <SafeAreaView style={{ padding: 20 }}>
-                <FlatList
-                    style={{ marginBottom: 80 }}
-                    showsVerticalScrollIndicator={false}
-                    data={HorizontalData}
-                    renderItem={({ item }) => {
-                        return (
-                            <View style={{ paddingVertical: 20, borderBottomColor: '#c7c7c7', borderBottomWidth: 1, }}>
-                                {item.verticalData}
-                            </View>
-                        )
-                    }}
-                />
-            </SafeAreaView>
-
-        </View>
-    )
-}
-
-export default BottomSheetContent
+export default BottomSheetContent;

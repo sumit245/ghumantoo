@@ -1,3 +1,4 @@
+import React from 'react'
 import PhoneInput from "react-native-phone-number-input";
 import { styles, width } from "../utils/styles";
 import { Black1Color, PrimaryColor } from "../utils/colors";

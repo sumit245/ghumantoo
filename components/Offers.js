@@ -1,5 +1,6 @@
+import React from 'react'
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
-import { info } from "./OfferInfo";
+import { offerInfo as info } from "../faker/seatlayout";
 import { styles } from "../utils/styles";
 import { AccentColor, SecondaryColor, WhiteColor } from "../utils/colors";
 import { typography } from "../utils/typography";

@@ -21,7 +21,7 @@ const BusRoute = () => {
       <Text style={styles.headerTitleText}>Bus Route</Text>
       <Text style={styles.subHeadingBottomSheet}>10h 30m</Text>
       <FlatList
-        contentContainerStyle={[styles.row, { justifyContent: 'none', flexWrap: 'wrap', marginTop: 15 }]}
+        horizontal
         data={routeStops}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}

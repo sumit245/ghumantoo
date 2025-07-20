@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import { styles } from "../../utils/styles";
 import { PrimaryColor } from "../../utils/colors";

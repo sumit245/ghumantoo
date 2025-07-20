@@ -1,47 +1,32 @@
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { stackScreens, unauthorizedScreens } from './screens';
-import { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from '../context/AuthContext'; // 1. Import the useAuth hook
 
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator();
 
-export default function StackNavigator({ isLoggedIn }) {
-    const [loggedIn, setLoggedIn] = useState(false)
+// It's cleaner to define the stacks as separate components
+const AppStack = () => (
+    <Stack.Navigator>
+        {stackScreens.map((screen, index) => (
+            <Stack.Screen name={screen.name} component={screen.component} options={screen.options} key={index} />
+        ))}
+    </Stack.Navigator>
+);
 
-    const getItemFromCache = async () => {
-        const response = await AsyncStorage.multiGet(['user_id', 'user_token'])
-        const userObject = Object.fromEntries(response);
-        if (userObject.user_id && userObject.user_token) {
-            setLoggedIn(true)
-        }
-    }
+const AuthStack = () => (
+    <Stack.Navigator>
+        {unauthorizedScreens.map((screen, index) => (
+            <Stack.Screen name={screen.name} component={screen.component} options={screen.options} key={index} />
+        ))}
+    </Stack.Navigator>
+);
 
-    useEffect(() => {
-        setLoggedIn(isLoggedIn)
-    }, [isLoggedIn])
+export default function StackNavigator() {
+    // 2. Get the user token from the global context
+    const { userToken } = useAuth();
 
-    useEffect(() => {
-        getItemFromCache()
-    }, [loggedIn])
-
-    if (loggedIn) {
-        return (
-            <Stack.Navigator>
-                {
-                    stackScreens.map((screen, index) => (
-                        <Stack.Screen name={screen.name} component={screen.component} options={screen.options} key={index} />
-                    ))
-                }
-            </Stack.Navigator>
-        )
-    }
-    return (
-        <Stack.Navigator>
-            {
-                unauthorizedScreens.map((screen, index) => (
-                    <Stack.Screen name={screen.name} component={screen.component} options={screen.options} key={index} />
-                ))
-            }
-        </Stack.Navigator>
-    )
+    // 3. Conditionally render the correct stack based on the token's existence
+    // This is fully reactive. When userToken changes, this component re-renders.
+    return userToken ? <AppStack /> : <AuthStack />;
 }

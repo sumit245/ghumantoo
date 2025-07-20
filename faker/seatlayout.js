@@ -26,3 +26,90 @@ export const seatLayout = {
             "type": "nseat"
         }]
 }
+
+
+export const offerInfo = [
+    {
+        id: 1,
+        imageUrl:
+            "https://img.freepik.com/premium-vector/discount-coupon-half-price-offer-promo-code-gift-voucher-coupons-template_622026-73.jpg",
+        heading: "Save upto Rs 250 on bus tickets on first booking",
+        validity: "20th Aug",
+        couponCode: "FIRST",
+    },
+    {
+        id: 2,
+        imageUrl:
+            "https://img.freepik.com/premium-vector/discount-coupon-half-price-offer-promo-code-gift-voucher-coupons-template_622026-73.jpg",
+        heading: "fLAT Rs 50 instant discount for rakhi",
+        validity: "08th Aug",
+        couponCode: "rAKHI50",
+    },
+    {
+        id: 3,
+        imageUrl:
+            "https://img.freepik.com/premium-vector/discount-coupon-half-price-offer-promo-code-gift-voucher-coupons-template_622026-73.jpg",
+        heading: "Save upto Rs 250 on bus tickets",
+        validity: "08th Aug",
+        couponCode: "Rakhi250",
+    },
+    {
+        id: 4,
+        imageUrl:
+            "https://img.freepik.com/premium-vector/discount-coupon-half-price-offer-promo-code-gift-voucher-coupons-template_622026-73.jpg",
+        heading: "Cashback upto 300 on each referal",
+        validity: "lifetime",
+        couponCode: "BUS300",
+    },
+]
+
+// Data for TravelPointsList (previously Boarding.js)
+export const boardingPointsData = [
+    {
+        time: '22:00',
+        date: '19 Jul',
+        name: 'Anand Vihar ISBT',
+        address: 'Inter State Bus Terminal, Anand Vihar, Delhi',
+    },
+    {
+        time: '22:45',
+        date: '19 Jul',
+        name: 'Noida Sector 62',
+        address: 'Near Fortis Hospital, Sector 62, Noida, UP',
+    },
+];
+
+// Data for RestStopsInfo (previously Rest.js)
+export const restStopsData = [
+    { name: 'Food Court Midway', time: '01:30 AM', duration: '25 Mins Stop' },
+];
+
+export const travelerExperiencesData = [
+    { text: 'Washroom Hygiene', good: true },
+    { text: 'Safety', good: true },
+    { text: 'Food Quality', good: false },
+    { text: 'Service', good: false },
+    { text: 'Comfort', good: true },
+];
+
+// Data for RatingsAndReviews (previously Reviews.js)
+export const ratingsInfoData = {
+    average: 4.6,
+    total: 444,
+    ratings: [
+        { star: 5, percent: 83 },
+        { star: 4, percent: 10 },
+        { star: 3, percent: 2 },
+        { star: 2, percent: 1 },
+        { star: 1, percent: 4 },
+    ],
+};
+export const reviewsInfoData = [
+    { icon: false, text: 'Punctuality (351)', good: true },
+    { icon: false, text: 'Staff Behaviour (317)', good: true },
+    { icon: false, text: 'Cleanliness (301)', good: true },
+    { icon: false, text: 'Driving (335)', good: true },
+    { icon: false, text: 'Rest stop hygiene (199)', good: false },
+    { icon: false, text: 'Comfort (280)', good: true },
+];
+export const totalReviewCountData = 381;

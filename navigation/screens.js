@@ -102,6 +102,14 @@ const commonScreens = [
       title: "Filter",
     }
   },
+  {
+    name: "ConfirmationPage",
+    component: ConfirmationPage,
+    options: {
+      headerShown: true,
+      title: "Confirmation Page",
+    },
+  },
 ];
 
 
@@ -128,31 +136,11 @@ export const unauthorizedScreens = [
       headerShown: false,
     },
   },
-  // Overriding ConfirmationPage for unauthorized stack if needed, otherwise could be in common
-  {
-    name: "ConfirmationPage",
-    component: ConfirmationPage,
-    options: {
-      headerShown: true,
-      title: "Confirmation Page",
-    },
-  },
   ...commonScreens, // Add all the common screens
 ];
 
 
 // Screens accessible to users who ARE logged in.
 export const stackScreens = [
-  // Specific override for ConfirmationPage in the authorized stack
-  {
-    name: "ConfirmationPage",
-    component: ConfirmationPage,
-    options: {
-      headerShown: false,
-      title: "Confirmation Page",
-      swipeEnabled: false,
-      gestureEnabled: false,
-    },
-  },
   ...commonScreens, // Add all the common screens
 ];

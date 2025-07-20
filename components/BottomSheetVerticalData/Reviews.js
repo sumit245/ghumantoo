@@ -1,83 +1,103 @@
-import { View, Text, FlatList } from "react-native";
-import { styles } from "../../utils/styles";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import Ratings from "../RatingComponent/Ratings";
-import Review from "../RatingComponent/Review";
-import PrimaryButton from "../buttons/PrimaryButton";
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { styles as globalStyles } from '../../utils/styles'; // Assuming global styles
+import Ratings from '../RatingComponent/Ratings'; // Your existing Ratings bar component
+import Review from '../RatingComponent/Review'; // Your existing Review tag component
+import PrimaryButton from '../buttons/PrimaryButton';
 
-const ratingsData = {
-  average: 4.6,
-  total: 444,
-  ratings: [
-    { star: 5, percent: 83 },
-    { star: 4, percent: 10 },
-    { star: 3, percent: 2 },
-    { star: 2, percent: 1 },
-    { star: 1, percent: 4 },
-  ],
-};
+// --- Sub-Component for the Header ---
+// Displays the main title and the average rating score.
+const RatingsHeader = ({ average, total }) => (
+  <View style={styles.headerContainer}>
+    <Text style={[globalStyles.headerTitleText, { fontSize: 24 }]}>
+      Reviews & Ratings
+    </Text>
+    <View style={styles.averageRatingContainer}>
+      <Text style={styles.averageRatingText}>
+        <AntDesign name="star" size={24} color="green" /> {average}
+      </Text>
+      <Text style={styles.totalRatingsText}>{total} Ratings</Text>
+    </View>
+  </View>
+);
 
-const reviewData = [
-  { icon: false, text: "Punctuality(351)", good: true },
-  { icon: false, text: "Rest stop hygiene(199)", good: true },
-  { icon: false, text: "Staff Behaviour(317)", good: true },
-  { icon: false, text: "Driving(335)", good: true },
-  { icon: false, text: "Cleanliness(301)", good: true },
-];
-
-const Reviews = () => {
-  const renderRating = ({ item }) => {
-    return <Ratings star={item.star} percent={item.percent} />;
-  };
-
-  const renderReview = ({ item }) => {
-    return <Review icon={item.icon} text={item.text} good={item.good} />;
-  };
-
+// --- Main Component ---
+// Accepts all data via props for maximum reusability.
+const RatingsAndReviews = ({ ratingsData, reviewData, totalReviews }) => {
   return (
-    <View>
-      <View style={styles.row}>
-        <Text style={[styles.headerTitleText, { fontSize: 24 }]}>
-          Reviews & Ratings
-        </Text>
-        <View>
-          <Text
-            style={[styles.headerTitleText, { fontSize: 24, color: "green" }]}
-          >
-            <AntDesign name="star" size={24} color="green" />{" "}
-            {ratingsData.average}
-          </Text>
-          <Text style={{ marginTop: -9 }}>{ratingsData.total} Ratings</Text>
-        </View>
+    // A ScrollView is better for this layout than nested FlatLists.
+    <ScrollView style={styles.container}>
+      {/* Header Section */}
+      <RatingsHeader average={ratingsData.average} total={ratingsData.total} />
+
+      {/* Ratings Bars Section */}
+      <View style={styles.ratingsListContainer}>
+        {ratingsData.ratings.map((rating) => (
+          // Assuming 'Ratings' is the component for a single bar
+          <Ratings key={rating.star} star={rating.star} percent={rating.percent} />
+        ))}
       </View>
 
-      <FlatList
-        data={ratingsData.ratings}
-        renderItem={renderRating}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      {/* Review Tags Section */}
+      <View style={styles.reviewTagsContainer}>
+        {reviewData.map((review) => (
+          <View key={review.text} style={styles.reviewTagWrapper}>
+            <Review icon={review.icon} text={review.text} good={review.good} />
+          </View>
+        ))}
+      </View>
 
-      <FlatList
-        style={[
-          styles.row,
-          {
-            justifyContent: "none",
-            flexWrap: "wrap",
-            marginTop: 25,
-            minHeight: 20,
-          },
-        ]}
-        data={reviewData}
-        renderItem={renderReview}
-        keyExtractor={(item) => item.text}
-      />
-
+      {/* "Read All" Button */}
       <PrimaryButton
-        style={{ opacity: 0.7, height: 40, marginTop: 35 }}
-        title="Read All Reviews (381)"
+        style={styles.readAllButton}
+        title={`Read All Reviews (${totalReviews})`}
       />
-    </View>
+    </ScrollView>
   );
 };
 
-export default Reviews;
+// --- Local Stylesheet ---
+// Organizes all component-specific styles in one place.
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  headerContainer: {
+    ...globalStyles.row, // Re-uses the row style for flexbox behavior
+    alignItems: 'flex-start', // Aligns children to the top
+  },
+  averageRatingContainer: {
+    alignItems: 'flex-end', // Aligns the score and total count to the right
+  },
+  averageRatingText: {
+    ...globalStyles.headerTitleText,
+    fontSize: 24,
+    color: 'green',
+  },
+  totalRatingsText: {
+    marginTop: -9,
+    fontSize: 14,
+    color: '#6c757d', // A standard gray for secondary text
+  },
+  ratingsListContainer: {
+    marginTop: 15,
+  },
+  reviewTagsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 25,
+  },
+  reviewTagWrapper: {
+    // This wrapper ensures consistent spacing for each tag in the grid.
+    marginRight: 10,
+    marginBottom: 10,
+  },
+  readAllButton: {
+    opacity: 0.7,
+    height: 40,
+    marginTop: 25,
+  },
+});
+
+export default RatingsAndReviews;

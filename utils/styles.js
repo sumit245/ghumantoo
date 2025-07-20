@@ -436,5 +436,6 @@ export const styles = StyleSheet.create({
     backgroundColor: WhiteColor,
     justifyContent: "flex-start",
     height: 68,
+    // marginBottom: Platform.OS === "android" ? 1000 : 0,
   },
 });
