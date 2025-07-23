@@ -12,25 +12,7 @@ const Setting = ({ navigation }) => {
     navigation.goBack()
   }
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#f8f9fa" }}>
-      <TouchableOpacity
-        style={[
-          spacing.p3,
-          spacing.mt2,
-          spacing.mh2,
-          spacing.br2,
-          {
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            backgroundColor: PureWhite,
-          },
-        ]}
-        onPress={() => navigation.navigate("Account")}
-      >
-        <Text style={[typography.font16, typography.textBold]}>Account</Text>
-        <Ionicons name="chevron-forward" size={20} color="#000" />
-      </TouchableOpacity>
+    <>
 
       <TouchableOpacity
         style={[
@@ -54,7 +36,7 @@ const Setting = ({ navigation }) => {
         </Text>
         <Ionicons name="log-out-outline" size={20} color="#d32f2f" />
       </TouchableOpacity>
-    </SafeAreaView>
+    </>
   );
 };
 

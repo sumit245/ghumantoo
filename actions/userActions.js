@@ -2,8 +2,6 @@
 
 import axios from "axios";
 import { AUTH_USER, LOGOUT, FORGOT_PASSWORD, SET_USER, API_URL, SET_MOBILE_NUMBER, SET_OTP_MESSAGE } from "../utils/constants";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
 
 
 export const authFromMobile = (mobile_number) => async (dispatch) => {
@@ -21,22 +19,26 @@ export const authFromMobile = (mobile_number) => async (dispatch) => {
     }
 }
 
+// In your actions/userActions.js
+
 export const verifyUserOTP = (mobile_number, otp) => async (dispatch) => {
     try {
+        const response = await axios.post(`${API_URL}/api/verify-otp`, { mobile_number: mobile_number, otp: otp });
+        const { message, status, data } = response.data;
+        const { user, token } = data;
 
-        const response = await axios.post(`${API_URL}/api/verify-otp`, { mobile_number: mobile_number, otp: otp })
-        const { message, status, data } = response.data
-        const { user, token } = data
-        const { id } = user
-        const idPair = ['user_id', String(id)]
-        const tokenPair = ['user_token', String(token)]
-        await AsyncStorage.multiSet([idPair, tokenPair])
-        dispatch({ type: AUTH_USER, payload: user })
-        return status
+        // The action still dispatches to Redux to update user info
+        dispatch({ type: AUTH_USER, payload: user });
+
+        // CRITICAL CHANGE: Return the status AND the token
+        return { status, token };
+
     } catch (error) {
-        return error
+        // It's better to return a structured error
+        const errorMessage = error.response?.data?.message || "An unexpected error occurred.";
+        return { status: error.response?.status || 500, message: errorMessage };
     }
-}
+};
 
 // Actions are higher order functions that consume the dispatch function from the store
 export const editProfile = (data) => (dispatch) => {
