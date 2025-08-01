@@ -74,7 +74,7 @@ export default function OTPPage() {
       </View>
 
       <View style={[spacing.mh4, spacing.p2, { minHeight: 200 }]}>
-        <Text style={{ fontSize: 16, textTransform: "uppercase" }}>
+        <Text style={{ fontSize: 16, textTransform: "uppercase",marginVertical: 8 }}>
           One time Password
         </Text>
         <OTPComponent digit={6} verifyOTP={(val) => setOtp(val)} />

@@ -9,27 +9,27 @@
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		5B0F15B48CF2FF7D4B0D9DFF /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0CBA9E8FBCDC981C8CFEA1 /* ExpoModulesProvider.swift */; };
-		5E3BBE0F413F4C597D278871 /* libPods-VindhyashriBus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FEAA8BA07E1E8DF749F50E98 /* libPods-VindhyashriBus.a */; };
-		9FCA3598FE074C8A40A018C9 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FE927832A98C0718126279B7 /* PrivacyInfo.xcprivacy */; };
+		7D4B574454BD625C2C7E4008 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 125DFB2AB43CBF9EFD6D5C74 /* PrivacyInfo.xcprivacy */; };
+		AFB4B5B2DB968D25047146A5 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8119EC9E3E4352EB2B0396 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		DB9634B5E3C4FC120B21E427 /* libPods-VindhyashriBus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFA06CBC61003FB15B68EC05 /* libPods-VindhyashriBus.a */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		125DFB2AB43CBF9EFD6D5C74 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = VindhyashriBus/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* VindhyashriBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VindhyashriBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = VindhyashriBus/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = VindhyashriBus/Info.plist; sourceTree = "<group>"; };
-		3EC56BA04E44821E038A5A49 /* Pods-VindhyashriBus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VindhyashriBus.release.xcconfig"; path = "Target Support Files/Pods-VindhyashriBus/Pods-VindhyashriBus.release.xcconfig"; sourceTree = "<group>"; };
-		59F794A25789F3FD8DC339C4 /* Pods-VindhyashriBus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VindhyashriBus.debug.xcconfig"; path = "Target Support Files/Pods-VindhyashriBus/Pods-VindhyashriBus.debug.xcconfig"; sourceTree = "<group>"; };
+		2248F00A1F345A87FDC0DBD7 /* Pods-VindhyashriBus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VindhyashriBus.debug.xcconfig"; path = "Target Support Files/Pods-VindhyashriBus/Pods-VindhyashriBus.debug.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = VindhyashriBus/SplashScreen.storyboard; sourceTree = "<group>"; };
-		AC0CBA9E8FBCDC981C8CFEA1 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-VindhyashriBus/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		AA47BA76DFD393FB3AA8DCF8 /* Pods-VindhyashriBus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VindhyashriBus.release.xcconfig"; path = "Target Support Files/Pods-VindhyashriBus/Pods-VindhyashriBus.release.xcconfig"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		DF8119EC9E3E4352EB2B0396 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-VindhyashriBus/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		DFA06CBC61003FB15B68EC05 /* libPods-VindhyashriBus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VindhyashriBus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = VindhyashriBus/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* VindhyashriBus-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "VindhyashriBus-Bridging-Header.h"; path = "VindhyashriBus/VindhyashriBus-Bridging-Header.h"; sourceTree = "<group>"; };
-		FE927832A98C0718126279B7 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = VindhyashriBus/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		FEAA8BA07E1E8DF749F50E98 /* libPods-VindhyashriBus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VindhyashriBus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E3BBE0F413F4C597D278871 /* libPods-VindhyashriBus.a in Frameworks */,
+				DB9634B5E3C4FC120B21E427 /* libPods-VindhyashriBus.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,7 +53,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				FE927832A98C0718126279B7 /* PrivacyInfo.xcprivacy */,
+				125DFB2AB43CBF9EFD6D5C74 /* PrivacyInfo.xcprivacy */,
 			);
 			name = VindhyashriBus;
 			sourceTree = "<group>";
@@ -62,17 +62,25 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				FEAA8BA07E1E8DF749F50E98 /* libPods-VindhyashriBus.a */,
+				DFA06CBC61003FB15B68EC05 /* libPods-VindhyashriBus.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7FAEADD5F6457739CE2703B6 /* VindhyashriBus */ = {
+		3A8791D36FD00143E051F7F8 /* VindhyashriBus */ = {
 			isa = PBXGroup;
 			children = (
-				AC0CBA9E8FBCDC981C8CFEA1 /* ExpoModulesProvider.swift */,
+				DF8119EC9E3E4352EB2B0396 /* ExpoModulesProvider.swift */,
 			);
 			name = VindhyashriBus;
+			sourceTree = "<group>";
+		};
+		4CA339C9AA13D182D13ADBB5 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				3A8791D36FD00143E051F7F8 /* VindhyashriBus */,
+			);
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -89,8 +97,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				CA8ABA36425B31A0E9598651 /* Pods */,
-				A5AC201EF036748F0A900A93 /* ExpoModulesProviders */,
+				954F94E51B1BA4E5390B9D90 /* Pods */,
+				4CA339C9AA13D182D13ADBB5 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -105,12 +113,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A5AC201EF036748F0A900A93 /* ExpoModulesProviders */ = {
+		954F94E51B1BA4E5390B9D90 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7FAEADD5F6457739CE2703B6 /* VindhyashriBus */,
+				2248F00A1F345A87FDC0DBD7 /* Pods-VindhyashriBus.debug.xcconfig */,
+				AA47BA76DFD393FB3AA8DCF8 /* Pods-VindhyashriBus.release.xcconfig */,
 			);
-			name = ExpoModulesProviders;
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
@@ -122,16 +132,6 @@
 			path = VindhyashriBus/Supporting;
 			sourceTree = "<group>";
 		};
-		CA8ABA36425B31A0E9598651 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				59F794A25789F3FD8DC339C4 /* Pods-VindhyashriBus.debug.xcconfig */,
-				3EC56BA04E44821E038A5A49 /* Pods-VindhyashriBus.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -140,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "VindhyashriBus" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				B0018635080F230EB66E896A /* [Expo] Configure project */,
+				D6D29598A3305D25F21CC404 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				0BAF0A5327C6AA30DFB31BEF /* [CP] Embed Pods Frameworks */,
+				ED37222E93041CC4DD030E95 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				9FCA3598FE074C8A40A018C9 /* PrivacyInfo.xcprivacy in Resources */,
+				7D4B574454BD625C2C7E4008 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,26 +240,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0BAF0A5327C6AA30DFB31BEF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VindhyashriBus/Pods-VindhyashriBus-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/razorpay-pod/Razorpay.framework/Razorpay",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Razorpay.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VindhyashriBus/Pods-VindhyashriBus-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -270,6 +250,7 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoSystemUI/ExpoSystemUI_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage/RNCAsyncStorage_resources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNSVG/RNSVGFilters.bundle",
@@ -302,6 +283,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoConstants_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoSystemUI_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCT-Folly_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNCAsyncStorage_resources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNSVGFilters.bundle",
@@ -334,7 +316,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VindhyashriBus/Pods-VindhyashriBus-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B0018635080F230EB66E896A /* [Expo] Configure project */ = {
+		D6D29598A3305D25F21CC404 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -353,6 +335,26 @@
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-VindhyashriBus/expo-configure-project.sh\"\n";
 		};
+		ED37222E93041CC4DD030E95 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VindhyashriBus/Pods-VindhyashriBus-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/razorpay-pod/Razorpay.framework/Razorpay",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Razorpay.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VindhyashriBus/Pods-VindhyashriBus-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -361,7 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				5B0F15B48CF2FF7D4B0D9DFF /* ExpoModulesProvider.swift in Sources */,
+				AFB4B5B2DB968D25047146A5 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,7 +372,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 59F794A25789F3FD8DC339C4 /* Pods-VindhyashriBus.debug.xcconfig */;
+			baseConfigurationReference = 2248F00A1F345A87FDC0DBD7 /* Pods-VindhyashriBus.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -406,7 +408,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3EC56BA04E44821E038A5A49 /* Pods-VindhyashriBus.release.xcconfig */;
+			baseConfigurationReference = AA47BA76DFD393FB3AA8DCF8 /* Pods-VindhyashriBus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

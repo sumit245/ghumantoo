@@ -65,7 +65,6 @@ export const getAvailableSeats = (id, search_token) => async (dispatch) => {
   } catch (err) {
     return err
   }
-
 }
 
 export const bookTicket = async (trip_id, data) => {

@@ -25,7 +25,8 @@ export default function FilterScreen() {
     // Calculate max price from the bus list once
     const maxPrice = useMemo(() => {
         if (buses.length === 0) return 1000; // Default max price if no buses are passed
-        return Math.ceil(Math.max(...buses.map(bus => bus.Fare.BaseFare)));
+        const maxPrice = Math.ceil(Math.max(...buses.map(bus => bus?.BusPrice?.PublishedPrice || 0)));
+        return maxPrice
     }, [buses]);
 
     // State for managing filters within this screen
@@ -43,7 +44,7 @@ export default function FilterScreen() {
 
     // Handler to apply all filters and navigate back
     const handleApplyFilters = () => {
-        navigation.navigate('SearchBuses', {
+        navigation.navigate('SearchBus', {
             appliedFilters: {
                 departureTime,
                 fleetTypes: selectedFleetTypes,

@@ -10,58 +10,75 @@ import {
   ActivityIndicator
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native"; // 1. Import useRoute
 import { styles } from "../utils/styles";
-import { filters } from "../faker/filters";
 import BusCard from "../components/buscards/BusCard";
 import { useDispatch, useSelector } from "react-redux";
 import { LightGray, PrimaryColor, PureWhite, WhiteColor } from "../utils/colors";
 import { getAvailableSeats, getBusOnRoute } from "../actions/busActions";
 import { spacing } from "../utils/spacing.styles";
 
+// Define the simple filters to show on this screen
+const simpleFilters = [
+  { text: 'Sort & Filter', screen: 'filterPage', type: 'navigate', iconname: 'sort' },
+  { text: 'AC', type: 'filter' },
+  { text: 'Non-AC', type: 'filter' },
+  { text: 'Sleeper', type: 'filter' },
+  { text: 'Seater', type: 'filter' },
+];
 
 export default function SearchBuses() {
-  const [appliedFilters, setAppliedFilters] = useState([])
   const { buses, date_of_journey, destinationId, pickupId, SearchTokenId } = useSelector((state) => state.bus);
   const [loading, setLoading] = useState(false);
+
+  // 2. The filter state is now an object to hold all filter types
+  const [activeFilters, setActiveFilters] = useState({
+    fleetTypes: [],
+    departureTime: null,
+    price: null,
+  });
+
   const navigation = useNavigation();
+  const route = useRoute(); // Hook to get params from other screens
   const dispatch = useDispatch();
+
+  // 3. This effect listens for new filters passed back from FilterScreen
+  useEffect(() => {
+    if (route.params?.appliedFilters) {
+      // When new filters are received, update the local state
+      setActiveFilters(prev => ({ ...prev, ...route.params.appliedFilters }));
+    }
+  }, [route.params?.appliedFilters]);
+
+  // 4. This effect re-fetches buses whenever the activeFilters object changes
+  useEffect(() => {
+    if (pickupId && destinationId && date_of_journey) {
+      setLoading(true);
+      // Pass the entire activeFilters object to the Redux action
+      dispatch(getBusOnRoute(pickupId, destinationId, date_of_journey, activeFilters))
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false));
+    }
+  }, [activeFilters, dispatch, pickupId, destinationId, date_of_journey]); // Dependency array updated
 
   const handleBusSelection = async (id) => {
     await dispatch(getAvailableSeats(id, SearchTokenId));
     navigation.navigate("selectSeat");
   };
 
-  // This effect re-fetches buses whenever the applied filters change
-  useEffect(() => {
-    // Ensure we have the required parameters before making a call
-    if (pickupId && destinationId && date_of_journey) {
-      setLoading(true);
-      dispatch(getBusOnRoute(pickupId, destinationId, date_of_journey, appliedFilters))
-        .then(() => setLoading(false))
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
-    }
-  }, [appliedFilters, dispatch, pickupId, destinationId, date_of_journey]); // Dependency array
-
-  // Suggestion
-  const applyFilter = (filterName) => {
-    setAppliedFilters(prev =>
-      prev.includes(filterName)
-        ? prev.filter(appliedName => appliedName !== filterName) // More descriptive variable
-        : [...prev, filterName]
-    );
-  }
+  // 5. This function now only toggles the simple fleetType filters
+  const toggleSimpleFilter = (filterName) => {
+    setActiveFilters(prev => {
+      const currentFleetTypes = prev.fleetTypes || [];
+      const newFleetTypes = currentFleetTypes.includes(filterName)
+        ? currentFleetTypes.filter(name => name !== filterName)
+        : [...currentFleetTypes, filterName];
+      return { ...prev, fleetTypes: newFleetTypes };
+    });
+  };
 
   return (
-    <SafeAreaView
-      style={[
-        styles.container,
-        { marginHorizontal: 0, marginTop: 0, paddingHorizontal: 0 },
-      ]}
-    >
+    <SafeAreaView style={[styles.container, { marginHorizontal: 0, marginTop: 0, paddingHorizontal: 0 }]}>
       {/* Filter part here */}
       <ScrollView
         horizontal={true}
@@ -69,8 +86,9 @@ export default function SearchBuses() {
         contentContainerStyle={{ padding: 6, alignItems: "flex-start", marginLeft: 2 }}
         showsHorizontalScrollIndicator={false}
       >
-        {filters.map((item, idx) => {
-          const isApplied = appliedFilters.includes(item.onPress); // check if idx is in appliedFilters
+        {simpleFilters.map((item, idx) => {
+          // 6. Check if the filter is applied from our new state object
+          const isApplied = activeFilters.fleetTypes?.includes(item.text);
 
           return (
             <TouchableOpacity
@@ -83,11 +101,18 @@ export default function SearchBuses() {
                   elevation: isApplied ? 1 : 0
                 }
               ]}
-              onPress={() =>
-                item.type === 'navigate'
-                  ? navigation.navigate(item.onPress)
-                  : applyFilter(item.onPress)
-              }
+              // 7. Update onPress logic to handle navigation or simple toggling
+              onPress={() => {
+                if (item.type === 'navigate') {
+                  // Pass current filters and bus data to the filter screen
+                  navigation.navigate(item.screen, {
+                    initialFilters: activeFilters,
+                    buses: buses
+                  });
+                } else {
+                  toggleSimpleFilter(item.text);
+                }
+              }}
             >
               {item.iconname && (
                 <Icon name={item.iconname} size={20} style={[spacing.mr1]} />
@@ -96,38 +121,35 @@ export default function SearchBuses() {
             </TouchableOpacity>
           );
         })}
-
       </ScrollView>
 
-      {/* Body part here */}
-      {
-        loading ? (
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator size="large" color={PrimaryColor} />
-          </View>
-
-        ) : (
-          <FlatList
-            style={{ padding: 6, flex: 1 }}
-            data={buses}
-            renderItem={({ item }) => (
-              <BusCard bus={item} onClick={() => handleBusSelection(item.ResultIndex)} />
-            )}
-            keyExtractor={(item) => item.ResultIndex + ""}
-            showsVerticalScrollIndicator={false}
-            initialNumToRender={20}
-            ListEmptyComponent={() => (
-              <View>
-                <Image
-                  source={require("../assets/no route.png")}
-                  style={[styles.image, { width: "100%", height: 330 }]}
-                  resizeMode="cover"
-                />
-              </View>
-            )}
-          />
-        )
-      }
+      {/* Body part remains the same */}
+      {/* TODO: insert a real bus loading animation that appears as a moving bus on road  */}
+      {loading ? (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color={PrimaryColor} />
+        </View>
+      ) : (
+        <FlatList
+          style={{ padding: 6, flex: 1 }}
+          data={buses}
+          renderItem={({ item }) => (
+            <BusCard bus={item} onClick={() => handleBusSelection(item.ResultIndex)} />
+          )}
+          keyExtractor={(item) => item.ResultIndex + ""}
+          showsVerticalScrollIndicator={false}
+          initialNumToRender={20}
+          ListEmptyComponent={() => (
+            <View>
+              <Image
+                source={require("../assets/no route.png")}
+                style={[styles.image, { width: "100%", height: 330 }]}
+                resizeMode="cover"
+              />
+            </View>
+          )}
+        />
+      )}
     </SafeAreaView>
   );
 }

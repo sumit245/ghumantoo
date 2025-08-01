@@ -8,20 +8,22 @@ import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-d
 import StackNavigator from './navigation/StackNavigator';
 import store from './store';
 import { AuthProvider } from './context/AuthContext';
+import { GestureHandlerRootView } from 'react-native-gesture-handler'; // 1. Import
 
 export default function App() {
   return (
-    <AuthProvider>
-      <NavigationContainer>
-        <Provider store={store}>
-          <PaperProvider>
-            <AutocompleteDropdownContextProvider>
-              <StackNavigator isLoggedIn={false} />
-            </AutocompleteDropdownContextProvider>
-          </PaperProvider>
-        </Provider>
-      </NavigationContainer>
-    </AuthProvider>
-
+    <GestureHandlerRootView>
+      <AuthProvider>
+        <NavigationContainer>
+          <Provider store={store}>
+            <PaperProvider>
+              <AutocompleteDropdownContextProvider>
+                <StackNavigator isLoggedIn={false} />
+              </AutocompleteDropdownContextProvider>
+            </PaperProvider>
+          </Provider>
+        </NavigationContainer>
+      </AuthProvider>
+    </GestureHandlerRootView>
   );
 }
