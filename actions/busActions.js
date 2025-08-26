@@ -1,7 +1,7 @@
 // TODO: write code to implement logics related to bus such as view_bus, select_bus, show_fares, etc.
 
 import axios from "axios";
-import { API_URL, GET_BUSES, SELECT_BUS, SET_BOOKED_SEATS, SET_DESTINATION_ID, SET_JOURNEY_DATE, SET_PICKUP_ID, SET_SEARCH_TOKEN, SET_SEAT_LAYOUT, SET_SELECTED_SEATS, SET_TOTAL_SEATS } from "../utils/constants";
+import { API_URL, GET_BUSES, SELECT_BUS, SET_BOOKED_SEATS, SET_DESTINATION_ID, SET_JOURNEY_DATE, SET_PICKUP_ID, SET_RESULT_INDEX, SET_SEARCH_TOKEN, SET_SEAT_LAYOUT, SET_SELECTED_SEATS, SET_TOTAL_SEATS } from "../utils/constants";
 
 export const getBuses = (data) => (dispatch) => {
   dispatch({ type: GET_BUSES, payload: data });
@@ -58,6 +58,7 @@ export const getAvailableSeats = (id, search_token) => async (dispatch) => {
       }
     })
     const { html, availableSeats } = response.data
+    dispatch({ type: SET_RESULT_INDEX, payload: id })
     // dispatch({ type: SELECT_BUS, payload: trip })
     // dispatch({ type: SET_BOOKED_SEATS, payload: bookedSeats })
     dispatch({ type: SET_SEAT_LAYOUT, payload: html.seat })
@@ -65,6 +66,10 @@ export const getAvailableSeats = (id, search_token) => async (dispatch) => {
   } catch (err) {
     return err
   }
+}
+
+export const getBoardingAndDroppingPoints = async (trip_id) => { 
+  
 }
 
 export const bookTicket = async (trip_id, data) => {

@@ -66,6 +66,19 @@ export default function Home() {
   const showModal = useCallback(() => setVisible(true), []);
   const dismissSnackbar = useCallback(() => setIsError(false), []);
 
+  const setPickupLocation = async (location) => { 
+    setPickup(location.id);
+    if (location) {
+      dispatch({ type: 'SET_ORIGIN_CITY', payload: location.title });
+    }
+  }
+  const setDestinationLocation = async (location) => { 
+    setDestination(location.id);
+    if (location) {
+      dispatch({ type: 'SET_DESTINATION_CITY', payload: location.title });
+    }
+  };
+
   if (loading) {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -83,8 +96,8 @@ export default function Home() {
         <LocationSelector
           handleDatePicker={showModal}
           selectedDate={date}
-          setPickupLocation={setPickup}
-          setDestinationLocation={setDestination}
+          setPickupLocation={setPickupLocation}
+          setDestinationLocation={setDestinationLocation}
           pickup={pickup}
           destination={destination}
           setDate={setDate}

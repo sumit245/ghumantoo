@@ -21,10 +21,10 @@ import { spacing } from "../utils/spacing.styles";
 // Define the simple filters to show on this screen
 const simpleFilters = [
   { text: 'Sort & Filter', screen: 'filterPage', type: 'navigate', iconname: 'sort' },
-  { text: 'AC', type: 'filter' },
-  { text: 'Non-AC', type: 'filter' },
-  { text: 'Sleeper', type: 'filter' },
-  { text: 'Seater', type: 'filter' },
+  { text: 'AC', type: 'filter', iconname: "air-conditioner", },
+  { text: 'Non-AC', type: 'filter',iconname:'air-filter' },
+  { text: 'Sleeper', type: 'filter', iconname: "bed", },
+  { text: 'Seater', type: 'filter', iconname: "seat", },
 ];
 
 export default function SearchBuses() {
@@ -61,9 +61,17 @@ export default function SearchBuses() {
     }
   }, [activeFilters, dispatch, pickupId, destinationId, date_of_journey]); // Dependency array updated
 
-  const handleBusSelection = async (id) => {
-    await dispatch(getAvailableSeats(id, SearchTokenId));
-    navigation.navigate("selectSeat");
+  const handleBusSelection = async (item) => {
+    
+    try {
+      dispatch({ type: "SELECT_BUS", payload: item.TravelName });
+      dispatch({ type: "SELECTED_BUS_TYPE", payload: item.BusType });
+      await dispatch(getAvailableSeats(item.ResultIndex, SearchTokenId));
+      navigation.navigate("selectSeat");
+    }catch (error) {
+      console.error("Error selecting bus:", error);
+      // Optionally show an alert or toast to the user
+    }
   };
 
   // 5. This function now only toggles the simple fleetType filters
@@ -134,7 +142,7 @@ export default function SearchBuses() {
           style={{ padding: 6, flex: 1 }}
           data={buses}
           renderItem={({ item }) => (
-            <BusCard bus={item} onClick={() => handleBusSelection(item.ResultIndex)} />
+            <BusCard bus={item} onClick={() => handleBusSelection(item)} />
           )}
           keyExtractor={(item) => item.ResultIndex + ""}
           showsVerticalScrollIndicator={false}

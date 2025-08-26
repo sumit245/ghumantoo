@@ -110,6 +110,14 @@ const commonScreens = [
       title: "Confirmation Page",
     },
   },
+  {
+    name: "SelectBoardDrop",
+    component: require('../pages/BoardAndDrop/SelectBoardDrop').default,
+    options: {
+      headerShown: false,
+      title: "Select Boarding & Dropping Points",
+    },
+  }
 ];
 
 

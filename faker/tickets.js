@@ -1,59 +1,84 @@
 export const Tickets = [
     {
-        id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-        Traveldate: "29 March",
-        Travelday: "Friday",
-        Transportname: "ShivGanga Travels 2/2 AC,Sleeper",
-        Departuretime: "3:00 pm",
-        DepartureAddress: "New-Delhi",
-        TimeDuration: "7hr:00",
-        ArrivalTime: "10:00 pm",
-        ArrivalAddress: "Jaipur",
-        TicketNo: "TN6Q18603433",
-        PNR: "PNR  64ZAJC6P",
-        Fare: "₹ 980.00",
-        BusProvider: "Prasanna Purple Grand",
-        BusType: "A/C Sleeper(2+1)",
-        PickUpPoint:
-            "Dharampeeth-Prasanna Purple,Near Bhole petrol pump, New Delhi",
-        DropPoint: "Prasanna Purple, Mahada Complex Nr. Baba Petrol Pump",
+        "id": 1,
+        "BookingId": 74,
+        "TicketNo": "4A3ZM4VP",
+        "TravelOperatorPNR": "4A3ZM4VP",
+        "Origin": "Rewa",
+        "Destination": "Satna",
+        "DateOfJourney": "2025-03-20",
+        "NoOfSeats": 1,
+        "DepartureTime": "2025-03-20T20:30:00",
+        "ArrivalTime": "2025-03-20T21:45:00",
+        "Duration": 75,
+        "BusType": "NON A/C Seater (2+3)",
+        "TravelName": "Pankaj Translink ( Sutra Seva)",
+        "Passenger": [
+            {
+                "LeadPassenger": true,
+                "Title": "Mr",
+                "FirstName": "Anoop",
+                "LastName": "Jain",
+                "Age": "29",
+                "Gender": "Mr",
+                "Phoneno": "9650032111",
+                "Email": "anoop@traveltechnologysolution.com",
+                "Address": "406, 4th Floor, Suncity Trade Tower, Sector 21 Gurgaon",
+                "SeatName": "3"
+            }
+        ],
+        "BoardingPointdetails": {
+            "CityPointAddress": "Samdariya central point new bus stand rewa",
+            "CityPointName": "New Bus Stand Rewa",
+            "CityPointTime": "2025-03-20T20:30:00"
+        },
+        "DroppingPointdetails": {
+            "CityPointLocation": "Satna Railway Station",
+            "CityPointName": "Satna Railway Station",
+            "CityPointTime": "2025-03-20T21:45:00"
+        },
+        "InvoiceAmount": 75.44,
+        "InvoiceCreatedOn": "2025-03-03T15:44:22"
     },
     {
-        id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-        Traveldate: "20 February",
-        Travelday: "Tuesday",
-        Transportname: "Tirumurti Travels",
-        Departuretime: "6:00 pm",
-        DepartureAddress: "Jaipur",
-        TimeDuration: "4hr:00",
-        ArrivalTime: "6:00 am",
-        ArrivalAddress: "Lucknow",
-        TicketNo: " TN6Q18603433",
-        PNR: "PNR  64ZAJC6P",
-        Fare: "₹ 980.00",
-        BusProvider: "Prasanna Purple Grand",
-        BusType: "A/C Sleeper(2+1)",
-        PickUpPoint:
-            "Dharampeeth-Prasanna Purple,Near Bhole petrol pump, New Delhi",
-        DropPoint: "Prasanna Purple, Mahada Complex Nr. Baba Petrol Pump",
-    },
-    {
-        id: "58694a0f-3da1-471f-bd96-145571e29d72",
-        Traveldate: "5 February",
-        Travelday: "Monday",
-        Transportname: "OM Travels",
-        Departuretime: "5:00 am",
-        DepartureAddress: "Chandigarh",
-        TimeDuration: "6hr:00",
-        ArrivalTime: "11:00 am",
-        ArrivalAddress: "Shimla",
-        TicketNo: " TN6Q18603433",
-        PNR: " 64ZAJC6P",
-        Fare: "₹ 980.00",
-        BusProvider: "Prasanna Purple Grand",
-        BusType: "A/C Sleeper(2+1)",
-        PickUpPoint:
-            "Dharampeeth-Prasanna Purple,Near Bhole petrol pump, New Delhi",
-        DropPoint: "Prasanna Purple, Mahada Complex Nr. Baba Petrol Pump",
-    },
+        "id": 2,
+        "BookingId": 74,
+        "TicketNo": "4A3ZM4VP",
+        "TravelOperatorPNR": "4A3ZM4VP",
+        "Origin": "Rewa",
+        "Destination": "Satna",
+        "DateOfJourney": "2025-03-20",
+        "NoOfSeats": 1,
+        "DepartureTime": "2025-03-20T20:30:00",
+        "ArrivalTime": "2025-03-20T21:45:00",
+        "Duration": 75,
+        "BusType": "NON A/C Seater (2+3)",
+        "TravelName": "Pankaj Translink ( Sutra Seva)",
+        "Passenger": [
+            {
+                "LeadPassenger": true,
+                "Title": "Mr",
+                "FirstName": "Anoop",
+                "LastName": "Jain",
+                "Age": "29",
+                "Gender": "Mr",
+                "Phoneno": "9650032111",
+                "Email": "anoop@traveltechnologysolution.com",
+                "Address": "406, 4th Floor, Suncity Trade Tower, Sector 21 Gurgaon",
+                "SeatName": "3"
+            }
+        ],
+        "BoardingPointdetails": {
+            "CityPointAddress": "Samdariya central point new bus stand rewa",
+            "CityPointName": "New Bus Stand Rewa",
+            "CityPointTime": "2025-03-20T20:30:00"
+        },
+        "DroppingPointdetails": {
+            "CityPointLocation": "Satna Railway Station",
+            "CityPointName": "Satna Railway Station",
+            "CityPointTime": "2025-03-20T21:45:00"
+        },
+        "InvoiceAmount": 75.44,
+        "InvoiceCreatedOn": "2025-03-03T15:44:22"
+    }
 ];

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image, SafeAreaView } from "react-native";
+import { View, Text, Image, SafeAreaView, ActivityIndicator, TouchableOpacity } from "react-native";
 import { styles, width } from "../utils/styles";
 import { DangerColor, PureWhite, WhiteColor, } from "../utils/colors";
 import { useNavigation } from "@react-navigation/native";
@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { authFromMobile } from "../actions/userActions";
 import GPhoneInput from "../components/GPhoneInput";
 import TermsAndConditions from "../components/tnc/TermsAndConditions";
-import { ActivityIndicator } from "react-native-paper";
+import { useAuth } from "../context/AuthContext";
 
 export default function SignIn() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -16,6 +16,8 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false)
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+  const { skipForNow } = useAuth();
 
   const sendOTP = async () => {
     setLoading(true)
@@ -28,13 +30,26 @@ export default function SignIn() {
     setLoading(false)
     navigation.navigate("verification");
   };
+
+  const handleSkip = async () => {
+    setLoading(true);
+    await skipForNow();
+    setLoading(false);
+    navigation.navigate("Home");
+  }
   return (
     <SafeAreaView style={styles.container}>
-      <Image
-        source={require("../assets/hero.png")}
-        style={styles.image}
-        resizeMode="cover"
-      />
+      <View>
+        {/* Use this as container and place the skip for now button on top right corner on image */}
+        <Image
+          source={require("../assets/hero.png")}
+          style={styles.image}
+          resizeMode="cover"
+        />
+        <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
+          <Text style={styles.skipButtonText}>Skip for now</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.phone}>
         <Text style={{ fontSize: 20, fontWeight: 'bold', marginVertical: 8, marginBottom: 16 }}>Create Account or Sign in</Text>
         <GPhoneInput onChangeText={setPhoneNumber} />

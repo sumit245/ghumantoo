@@ -1,3 +1,4 @@
+import React from 'react'
 import { View, Text } from "react-native";
 import { height, styles, width } from "../../utils/styles";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -54,14 +55,14 @@ export default function GCityTextInput({ icon, label, placeholder, onChangeText,
           matchFrom="start"
           onChangeText={getSuggestions}
           onSelectItem={item => {
-            item && onChangeText(item.id)
+            item && onChangeText(item)
           }}
           onClear={onClearPress}
           loading={loading}
           closeOnSubmit={false}
           // Props for Text Input
           textInputProps={{
-            placeholderTextColor: Black1Color,
+            placeholderTextColor: LightGray,
             cursorColor: PrimaryColor,
             multiline: false,
             style: styles.title,

@@ -11,8 +11,7 @@ import { DarkGray, PureWhite } from "../utils/colors";
 export default function LocationSelector({ handleDatePicker, selectedDate, setPickupLocation, setDestinationLocation, setDate, pickup, destination }) {
   const [selection, setSelection] = useState("");
   const quickDates = ["Today", "Tomorrow"];
-  const dropdownRef = useRef()
-  const pickupRef = useRef()
+  
 
   useEffect(() => {
     setSelection(dayjs(selectedDate).format("ddd, D MMM"));
@@ -38,7 +37,7 @@ export default function LocationSelector({ handleDatePicker, selectedDate, setPi
       <GCityTextInput
         label="From"
         icon="bus"
-        placeholder="Bhopal"
+        placeholder="Source"
         onChangeText={setPickupLocation}
         value={pickup}
       />
@@ -63,7 +62,7 @@ export default function LocationSelector({ handleDatePicker, selectedDate, setPi
       <GCityTextInput
         label="To"
         icon="bus"
-        placeholder="Indore"
+        placeholder="Destination"
         onChangeText={setDestinationLocation}
         value={destination}
       />

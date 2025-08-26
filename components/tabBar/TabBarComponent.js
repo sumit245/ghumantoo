@@ -1,108 +1,76 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import { styles } from "../../utils/styles";
-import { PrimaryColor } from "../../utils/colors";
-import TicketComponent from "../TicketComponent";
-import { Tickets } from "../../faker/tickets";
-import { typography } from "../../utils/typography";
-import { spacing } from "../../utils/spacing.styles";
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
+import { useDispatch } from 'react-redux';
+import TicketComponent from '../../components/TicketComponent';
+import { styles } from '../../utils/styles';
+import { PrimaryColor } from '../../utils/colors';
+import { Tickets } from '../../faker/tickets';
 
-export default function TabBarComponent({ tabs, tabData }) {
-  const [tabIndex, setTabIndex] = useState(0);
-  const [tabLength, setTabLength] = useState(0);
-  const [data, setData] = useState(Tickets);
+// Mock API call for demonstration
+const fetchPastTripsAPI = () => {
+  console.log('API: Fetching past trips...');
+  return Tickets; // Replace with actual API call
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(Tickets);
+    }, 1000);
+  });
+};
+
+export default function PastTrips() {
+  const [trips, setTrips] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const dispatch = useDispatch();
+
+  const loadTrips = async () => {
+    try {
+      const pastTrips = await fetchPastTripsAPI();
+      console.log('API: Past trips fetched:', pastTrips);
+      setTrips(pastTrips);
+    } catch (error) {
+      console.error("Failed to fetch past trips:", error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
 
   useEffect(() => {
-    setTabLength(tabs.length);
-  }, [tabs]);
+    loadTrips();
+  }, [dispatch]);
 
-  // Function to update the tab index quickly
-  const toggleTabIndex = useCallback(
-    (index) => {
-      if (index >= 0 && index < tabLength) {
-        setTabIndex(index);
-        setData(index === 0 ? [] : []);
-      }
-    },
-    [tabLength]
-  );
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    loadTrips();
+  }, [dispatch]);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={PrimaryColor} />
+      </View>
+    );
+  }
 
   return (
-    <>
-      <View style={styles.tabContainer}>
-        {Array.isArray(tabs) &&
-          tabs.map((tab, index) => (
-            <TouchableOpacity
-              key={index}
-              activeOpacity={0.5}
-              style={[
-                spacing.p2,
-                spacing.mh3,
-                {
-                  borderBottomColor:
-                    tabIndex === index ? PrimaryColor : "#ededed",
-                  borderBottomWidth: tabIndex === index ? 2 : 0,
-                },
-              ]}
-              onPress={() => toggleTabIndex(index)}
-            >
-              <Text
-                style={[
-                  typography.font20,
-                  {
-                    textAlign: "center",
-                    textTransform: "uppercase",
-                  },
-                ]}
-              >
-                {tab.name}
-              </Text>
-            </TouchableOpacity>
-          ))}
-      </View>
-
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={data}
-        renderItem={({ item }) => (
-          <TicketComponent
-            Traveldate={item.Traveldate}
-            Travelday={item.Travelday}
-            Transportname={item.Transportname}
-            Departuretime={item.Departuretime}
-            DepartureAddress={item.DepartureAddress}
-            TimeDuration={item.TimeDuration}
-            ArrivalTime={item.ArrivalTime}
-            ArrivalAddress={item.ArrivalAddress}
-            TicketNo={item.TicketNo}
-            PNR={item.PNR}
-            Fare={item.Fare}
-            BusProvider={item.BusProvider}
-            BusType={item.BusType}
-            PickUpPoint={item.PickUpPoint}
-            DropPoint={item.DropPoint}
-          />
-        )}
-        keyExtractor={(item) => item.id}
-        ListEmptyComponent={() => (
-          <View
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                color: PrimaryColor,
-                fontSize: 20,
-                marginTop: 200,
-              }}
-            >
-              You do not have any trips
-            </Text>
-          </View>
-        )}
-      />
-    </>
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      data={trips}
+      // renderItem={() => <View><Text>Test</Text></View>}
+      renderItem={({ item }) => <TicketComponent ticket={item} />}
+      keyExtractor={(item) => item.id}
+      contentContainerStyle={{ flexGrow: 1 }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      ListEmptyComponent={() => (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={styles.emptyListText}>
+            You do not have any past trips
+          </Text>
+        </View>
+      )}
+    />
   );
 }

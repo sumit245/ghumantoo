@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     optionButton: {
+        flex:1,
         paddingVertical: 10,
         paddingHorizontal: 15,
         borderRadius: 20,

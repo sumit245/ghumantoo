@@ -17,6 +17,19 @@ export const styles = StyleSheet.create({
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     backgroundColor: WhiteColor,
   },
+  skipButton: {
+    position: 'absolute',
+    top: 8, // Adjust as needed for safe area
+    right: 8,
+    borderRadius: 20,
+    backgroundColor: PureWhite,
+    padding: 8,
+  },
+  skipButtonText: {
+    fontSize: 16,
+    color: '#888',
+    fontWeight: 'bold',
+  },
   buttonTextPrimary: {
     fontSize: 20,
     textTransform: "uppercase",
@@ -59,27 +72,27 @@ export const styles = StyleSheet.create({
 
   ticketCard: {
     backgroundColor: PureWhite,
-    marginVertical: 12,
+    margin: 8,
     borderRadius: 8,
-    height: 410,
+    // height: 410,
   },
   ticketCardHeader: {
     backgroundColor: PrimaryColor,
-    height: 200,
+    // height: 200,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     padding: 8,
   },
   ticketCardFooter: {
-    height: 224,
+    // height: 224,
     padding: 8,
     marginBottom: 10,
   },
 
   cardDivider: {
     position: "relative",
-    width: width,
-    left: -20,
+    width: width+16,
+    left: -16,
     flexDirection: "row",
     justifyContent: "space-between",
   },

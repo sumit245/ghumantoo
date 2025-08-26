@@ -1,19 +1,22 @@
-/* eslint-disable react/prop-types */
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { SafeAreaView, ScrollView, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import SeatLayout from '../components/SeatLayout/SeatLayout';
-import { spacing } from '../utils/spacing.styles';
 import { useSelector } from 'react-redux';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
-import { PrimaryColor, WhiteColor, BlackColor, LightGray, DangerColor } from '../utils/colors';
+import { PrimaryColor, WhiteColor, BlackColor, LightGray, DangerColor, PureWhite } from '../utils/colors';
 import { height, width } from '../utils/styles';
-// import Icon from 'react-native-vector-icons/Ionicons';
+import Cancellation from '../components/BottomSheetVerticalData/Cancellation';
+import OtherPolicies from '../components/BottomSheetVerticalData/OtherPolicies';
+import { useNavigation } from '@react-navigation/native';
+
 
 // --- Sub-Component: BookingSummarySheet ---
 // This is the new expandable bottom sheet component.
-const BookingSummarySheet = ({
+const BottomSheetContent = ({
     selectedSeats,
+    selectedBus,
+    selectedBusType,
     totalPrice,
     origin,
     destination,
@@ -24,6 +27,7 @@ const BookingSummarySheet = ({
     const sheetHeight = height * 0.6; // Max height of the sheet
     const collapsedHeight = 160; // Height when collapsed
     const translateY = useSharedValue(0);
+    const {date_of_journey} = useSelector(state => state.bus);
 
     // Pan gesture to control the sheet's position
     const panGesture = Gesture.Pan()
@@ -35,7 +39,7 @@ const BookingSummarySheet = ({
         })
         .onEnd(() => {
             // Snap to either fully expanded or collapsed state
-            if (translateY.value < -sheetHeight / 3) {
+            if (translateY.value < -sheetHeight / 2) {
                 translateY.value = withSpring(-sheetHeight + collapsedHeight, { damping: 15 });
             } else {
                 translateY.value = withSpring(0, { damping: 15 });
@@ -48,11 +52,6 @@ const BookingSummarySheet = ({
             transform: [{ translateY: translateY.value }],
         };
     });
-
-    // Don't render the sheet if no seats are selected
-    // if (selectedSeats.length === 0) {
-    //     return null;
-    // }
 
     return (
         <Animated.View style={[styles.sheetContainer, { height: sheetHeight }, animatedSheetStyle]}>
@@ -67,14 +66,15 @@ const BookingSummarySheet = ({
                 selectedSeats.length > 0 && (
                     <View style={styles.summaryContainer}>
                         <View style={styles.routeInfo}>
-                            <Text style={styles.label}>From: <Text style={styles.value}>{origin}</Text></Text>
-                            <Text style={styles.label}>To: <Text style={styles.value}>{destination}</Text></Text>
+                            <Text style={styles.label}>{selectedBus }</Text>
+                            <Text style={styles.label}>{ selectedBusType}</Text>
+                            <Text style={styles.value}>{origin}-{destination}</Text>
                             <Text style={styles.label}>Date: <Text style={styles.value}>{date}</Text></Text>
                         </View>
                         <View style={styles.priceInfo}>
-                            <Text style={styles.priceLabel}>Total Price</Text>
-                            <Text style={styles.priceValue}>₹{totalPrice}</Text>
                             <Text style={styles.seatsLabel}>Seats: {selectedSeats.map(s => s.seat_id).join(', ')}</Text>
+                            {/* <Text style={styles.priceLabel}>Total Price</Text> */}
+                            <Text style={styles.priceValue}>₹{totalPrice}</Text>
                         </View>
                     </View>
 
@@ -85,10 +85,10 @@ const BookingSummarySheet = ({
             <ScrollView style={styles.expandedContent} showsVerticalScrollIndicator={false}>
                 <Text style={styles.sectionTitle}>Know Your Seat</Text>
                 <Text style={styles.sectionText}>Details about seat types, legroom, and amenities would go here.</Text>
-                <Text style={styles.sectionTitle}>Cancellation Policy</Text>
-                <Text style={styles.sectionText}>Information about cancellation charges and refund timelines would be displayed here.</Text>
-                <Text style={styles.sectionTitle}>Other Policies</Text>
-                <Text style={styles.sectionText}>Baggage allowance, pet policies, and other terms and conditions.</Text>
+                <Text style={styles.sectionTitle}>Cancellation Policy*</Text>
+                <Cancellation dateOfJourney={date_of_journey} />
+                <Text style={styles.sectionTitle}>Other Policies*</Text>
+                <OtherPolicies />
             </ScrollView>
 
             {/* --- Action Buttons --- */}
@@ -96,8 +96,11 @@ const BookingSummarySheet = ({
                 <TouchableOpacity style={[styles.button, styles.resetButton]} onPress={onReset}>
                     <Text style={styles.resetButtonText}>Reset</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.proceedButton]} onPress={onProceed}>
-                    <Text style={styles.proceedButtonText}>Proceed to Pay</Text>
+                <TouchableOpacity
+                    style={[styles.button, styles.proceedButton, { backgroundColor: selectedSeats.length > 0 ? PrimaryColor : LightGray }]}
+                    disabled={selectedSeats.length === 0}
+                    onPress={onProceed}>
+                    <Text style={styles.proceedButtonText}>Proceed</Text>
                 </TouchableOpacity>
             </View>
         </Animated.View>
@@ -108,8 +111,9 @@ const BookingSummarySheet = ({
 // --- Main Screen: SeatSelection ---
 export default function SeatSelection() {
     // Assuming origin, destination, and date are in the bus reducer
-    const { seatLayout, pickup, destination, date_of_journey } = useSelector(state => state.bus);
+    const { seatLayout, originCity, destinationCity, date_of_journey,selectedBus,selectedBusType } = useSelector(state => state.bus);
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const navigation = useNavigation();
 
     const handleSeatSelection = (seat) => {
         setSelectedSeats(prevSelected => {
@@ -125,7 +129,7 @@ export default function SeatSelection() {
 
     // Calculate total price whenever selected seats change
     const totalPrice = useMemo(() => {
-        return selectedSeats.reduce((sum, seat) => sum + (seat.Fare?.BaseFare || 0), 0);
+        return selectedSeats.reduce((sum, seat) => sum + (seat.price || 0), 0);
     }, [selectedSeats]);
 
     const handleReset = () => {
@@ -135,7 +139,8 @@ export default function SeatSelection() {
     const handleProceed = () => {
         // Navigate to passenger details screen with selected data
         console.log("Proceeding with seats:", selectedSeats);
-        // navigation.navigate('AddPassenger', { selectedSeats, totalPrice });
+        console.log("Total Price:", totalPrice);
+        navigation.navigate('SelectBoardDrop', { selectedSeats, totalPrice });
     };
 
     return (
@@ -149,11 +154,13 @@ export default function SeatSelection() {
                 />
             </ScrollView>
 
-            <BookingSummarySheet
+            <BottomSheetContent
                 selectedSeats={selectedSeats}
+                selectedBus={selectedBus}
+                selectedBusType={selectedBusType}
                 totalPrice={totalPrice}
-                origin={pickup?.name || 'Origin'} // Use placeholder if data not available
-                destination={destination?.name || 'Destination'}
+                origin={originCity || 'Origin'} // Use placeholder if data not available
+                destination={destinationCity || 'Destination'}
                 date={date_of_journey || 'Date'}
                 onReset={handleReset}
                 onProceed={handleProceed}
@@ -172,11 +179,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: -height * 0.6 + 160, // Start in collapsed position
         width: width,
-        backgroundColor: WhiteColor,
+        backgroundColor: PureWhite,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         paddingHorizontal: 20,
-        elevation: 10,
+        elevation: 2,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: -4 },
         shadowOpacity: 0.1,
@@ -244,11 +251,14 @@ const styles = StyleSheet.create({
         lineHeight: 20,
     },
     buttonContainer: {
+        // position: 'sticky',
+        // top: 90, // Position above the sheet
+        // left: 12,
         flexDirection: 'row',
         paddingVertical: 10,
         borderTopWidth: 1,
         borderTopColor: '#eee',
-        backgroundColor: WhiteColor,
+        // backgroundColor: WhiteColor,
     },
     button: {
         flex: 1,
