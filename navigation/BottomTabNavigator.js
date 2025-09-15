@@ -10,7 +10,7 @@ const BottomTabs = createMaterialBottomTabNavigator();
 
 export const bottomTabScreens = [
   {
-    name: "Home",
+    name: "Main",
     icon: "home-outline", // Using outline icons for consistency
     component: Home,
   },
@@ -40,7 +40,7 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTabs.Navigator
-      initialRouteName="Home"
+      initialRouteName="Main"
       activeColor={PrimaryColor}
       inactiveColor="#9e9e9e" // It's good practice to define an inactive color
       activeIndicatorStyle={{ backgroundColor: WhiteColor }}
