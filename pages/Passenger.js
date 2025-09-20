@@ -4,238 +4,340 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   View,
   Text,
-  StyleSheet,
   TextInput,
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  SafeAreaView,
+  StyleSheet,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import dayjs from "dayjs";
 import RazorpayCheckout from "react-native-razorpay";
-import { PrimaryColor, White1Color } from "../utils/colors";
-import { bookTicket, confirmTicket } from "../actions/busActions";
+import { DangerColor, PrimaryColor, White1Color, WhiteColor } from "../utils/colors";
+import { RAZORPAY_KEY_ID } from "../utils/constants";
+import { blockSeat, confirmTicket } from "../actions/busActions";
+import { RadioButton } from "react-native-paper";
+import { spacing } from "../utils/spacing.styles";
+import { typography } from "../utils/typography";
 
 const PassengerData = () => {
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const [selectedState, setSelectedState] = useState("Madhya Pradesh");
+  const [checked, setChecked] = useState("first");
+  const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
+  const [age, setAge] = useState("");
   const navigation = useNavigation();
+  const route = useRoute();
+  const { boardingPoint, droppingPoint } = route.params;
   const {
+    SearchTokenId,
+    originCity,
+    destinationCity,
     date_of_journey,
+    departureTime,
+    arrivalTime,
     selectedBus = "Sample",
     selectedSeats = [],
     selectedBusType,
-    originCity,
-    destinationCity,
     pickupId,
     destinationId,
+    resultIndex, // Get the resultIndex for the selected bus
+    priceToPay, // Use the price calculated in the previous step
+    selectedDroppingPoint,
+    selectedBoardingPoint
   } = useSelector((state) => state.bus);
-
-  const totalPrice = selectedSeats.length * (selectedBus?.price || 0);
+  const { mobile_number, email_id } = useSelector((state) => state.user);
 
   const handleTicketBooking = async () => {
     setLoading(true);
-    try {
-      const ticketDetails = {
-        date_of_journey: dayjs(date_of_journey).format("YYYY-MM-DD"),
-        pickup: pickupId,
-        destination: destinationId,
-        seats: selectedSeats.join(","),
-        gender: 1,
-        mobile_number: phone,
-        passenger_names: [name],
+    if (!name || !age || !phone || !address) {
+      alert("Please fill all required fields.");
+      setLoading(false);
+      return;
+    }
+
+    if (phone.length !== 10) {
+      alert("Please enter a valid 10-digit phone number.");
+      setLoading(false);
+      return;
+    }
+    const seatData = {
+      "UserIp": "102.101.109.2",
+      "SearchTokenId": SearchTokenId,
+      "ResultIndex": resultIndex,
+      "BoardingPointId": selectedBoardingPoint?.CityPointIndex || "",
+      "DroppingPointId": selectedDroppingPoint?.CityPointIndex || "",
+      "Address": address,
+      "age": parseInt(age, 10),
+      "Gender": checked === "first" ? 1 : 2,
+      "FirstName": name.split(" ")[0],
+      "LastName": name.split(" ").slice(1).join(" ") || "surname",
+      "Email": email_id || "guest@vindhyashrisolutions.com",
+      "Phoneno": mobile_number || phone,
+      "Seats": selectedSeats.map(seat => seat.seat_id).join(","),
+    }
+    console.log("Booking with data:", seatData);
+    const blockResponse = await blockSeat(seatData);
+
+    if (blockResponse && blockResponse.success && blockResponse.order_id) {
+      const { amount, order_id, currency, ticket_id } = blockResponse;
+      const options = {
+        description: `Payment for seat booking from ${originCity} to ${destinationCity} on ${date_of_journey} via Ghumantoo`,
+        image: "https://vindhyashrisolutions.com/assets/images/logoIcon/logo.png",
+        currency: currency,
+        key: RAZORPAY_KEY_ID, // Using the key from constants
+        // amount: amount, // Amount in paise
+        name: "Ghumantoo",
+        order_id: order_id,
+        prefill: {
+          email: email_id || 'guest@vindhyashrisolutions.com',
+          contact: mobile_number || phone,
+          name: name,
+        },
+        theme: { color: PrimaryColor },
       };
 
-      const result = await bookTicket(selectedBus.id, ticketDetails);
-      if (result) {
-        const { ticket_id, amount, currency, order_id } = result;
-        const options = {
-          description: `Payment for seat booking (${ticketDetails.seats}) from ${selectedBus.originCity} to ${selectedBus.destinationCity} on ${ticketDetails.date_of_journey} via Ghumantoo`,
-          image:
-            "https://vindhyashrisolutions.com/assets/images/logoIcon/logo.png",
-          currency,
-          key: "rzp_live_AkjlcAJNXWb7EU",
-          amount,
-          name: "Ghumantoo",
-          order_id, //Replace this with an order_id created using Orders API.
-          prefill: {
-            email: "info@vindhyashrisolutions.com",
-            contact: phone,
-            name: name,
-          },
-          theme: { color: PrimaryColor },
-        };
-        const paymentData = await RazorpayCheckout.open(options);
-        if (paymentData) {
-          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-            paymentData;
-          const ticketParams = {
-            razorpay_order_id,
-            razorpay_payment_id,
-            razorpay_signature,
-            ticket_id,
-            ticket_details: ticketDetails,
-          };
-          const { status, details } = await confirmTicket(ticketParams);
-          if (status === 201) {
+      try {
+        RazorpayCheckout.open(options)
+          .then(async (data) => {
+            // Handle success
+            const paymentData = {
+              razorpay_payment_id: data.razorpay_payment_id,
+              razorpay_order_id: data.razorpay_order_id,
+              razorpay_signature: data.razorpay_signature,
+            };
+            const { status, details } = await confirmTicket(paymentData,);
 
-            navigation.navigate("ConfirmationPage", { details });
-            // navigate to thank you page with params
-          }
-        }
+            if (status === 201) {
+              navigation.navigate("ConfirmationPage", { details });
+            }
+          })
+          .catch(({error}) => {
+            // Handle failure
+            console.log("Razorpay Error:", error);
+            alert(`Error: ${error.code} | ${error.description} | ${error.source}| ${error.step}| ${error.reason}`);
+            // Modify the above line to show a user-friendly message and send the details to backend for logging
+          }).finally(() => setLoading(false));
+      } catch (error) {
+        console.log("Razorpay Checkout Error:", error);
+        alert("Payment failed. Please try again.");
+        setLoading(false);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      alert("Error during booking:", error.message || error);
-
-    } finally {
+    } else {
+      alert(blockResponse.message || "Failed to block seats. Please try again.");
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    console.log("Selected Seats:", selectedSeats);
-    console.log("Selected Bus:", selectedBus);
-    console.log("Date of Journey:", date_of_journey);
-    console.log("Pickup ID:", pickupId);
-    console.log("Destination ID:", destinationId);
-    console.log("Total Price:", totalPrice);
-    console.log("Origin City:", originCity || "N/A");
-    console.log("Destination City:", destinationCity || "N/A");
-    console.log("Selected Bus Type:", selectedBusType || "N/A");
-  }, [])
+  }
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Passenger Information</Text>
-        <Text style={styles.subtitle}>
-          {selectedBus?.originCity || ""} → {selectedBus?.destinationCity || ""}
-        </Text>
+    <SafeAreaView style={styles.container}>
+      {/* Header */}
+      <View style={styles.pageHeader}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-left" size={24} color="#333" />
+        </TouchableOpacity>
+        <View>
+          <Text style={styles.headerTitle}>{originCity} → {destinationCity}</Text>
+          <Text style={styles.headerSubtitle}>
+            {dayjs(date_of_journey).format('ddd DD MMM YYYY')}, {dayjs(departureTime).format('hh:mm A')} | {selectedBus}
+          </Text>
+        </View>
       </View>
 
-      <View style={styles.travelDetails}>
-        <View style={styles.row}>
-          <Text style={styles.time}>
-            {dayjs(date_of_journey).format("ddd,D MMM")} ·{" "}
-            {selectedBus?.start_time || ""}
-          </Text>
-          <Text style={styles.time}>
-            {dayjs(date_of_journey).format("ddd,D MMM")} ·{" "}
-            {selectedBus?.end_time || ""}
-          </Text>
-        </View>
-        <View style={styles.row}>
-          <View>
-            <Text style={styles.location}>{selectedBus?.originLocation || ""},</Text>
-            <Text style={styles.location}>{selectedBus?.originCity || ""}</Text>
-          </View>
-          <View>
-            <Text style={styles.location}>
-              {selectedBus?.destinationLocation || ""},
-            </Text>
-            <Text style={styles.location}>{selectedBus?.destinationCity || ""}</Text>
-          </View>
-        </View>
+      <ScrollView style={styles.contentArea}>
+        {/* Travel Details Section */}
+        <View style={styles.travelDetails}>
 
-        <View>
+          <View style={styles.row}>
+            <View>
+              <Text style={styles.time}>
+                {dayjs(date_of_journey).format("ddd,D MMM")} ·{" "}
+                {dayjs(departureTime).format("hh:mm A") || ""}
+              </Text>
+              <Text style={styles.location}>{boardingPoint?.CityPointName || ""},{boardingPoint?.CityPointAddress || ""}</Text>
+            </View>
+            <View>
+              <Text style={styles.time}>
+                {dayjs(arrivalTime).isBefore(dayjs(departureTime))
+                  ? dayjs(date_of_journey).add(1, "day").format("ddd, D MMM")
+                  : dayjs(date_of_journey).format("ddd, D MMM")}{" "}·{" "}
+                {dayjs(arrivalTime).format("hh:mm A") || ""}
+              </Text>
+              <Text style={styles.location}>
+                {droppingPoint?.CityPointName || ""}, {droppingPoint?.CityPointLocation || ""},
+              </Text>
+            </View>
+          </View>
+
           {/* <Text style={styles.view}>Seats:</Text> */}
-          <View style={styles.selectedSeatsContainer}>
+          <View style={[styles.row, { marginTop: 8 }]}>
             {selectedSeats.map((seat, index) => (
               <Text
                 key={index}
                 style={[styles.seatItem, { backgroundColor: "#f28b82" }]}
               >
-                {seat}
+                {/* TODO: Capitalize seat.category */}
+                {seat.seat_id},{String(seat.category).toLocaleUpperCase()} {"\n"}
+                {seat.price > 0 ? `₹${parseFloat(seat.price).toFixed(2)}` : "Free"}
               </Text>
             ))}
+            <Text style={styles.seat}>
+              <Icon name="seat-passenger" size={16} color="#000" />
+              {Array.isArray(selectedSeats) && selectedSeats.length} Seat(s)
+            </Text>
           </View>
-          <Text style={styles.seat}>
-            <Icon name="seat-passenger" size={16} color="#000" />
-            {Array.isArray(selectedSeats) && selectedSeats.length} Seat(s)
-          </Text>
         </View>
-      </View>
+        {/* Contact Details Section */}
+        <View style={styles.contactDetails}>
+          <Text style={styles.sectionTitle}>Contact Details</Text>
+          {/* TODO: get mobile_number from store and display here along with whatsapp icon if mobile_number is not present ask user to fill details so we can send them ticket details   */}
+          <Text style={styles.section}>Ticket details will be send to </Text>
 
-      <View style={styles.contactDetails}>
-        <Text style={styles.sectionTitle}>Contact Details</Text>
-        <Text style={styles.section}>Ticket details will be send to </Text>
-        <Text style={styles.infoText}>
-          Name and gender is not required. Mobile number is sufficient to make a
-          booking on this bus.
-        </Text>
-        <View style={{ marginVertical: 4 }}>
-          <Text style={styles.label}>Passenger Name</Text>
-
-          <TextInput
-            style={styles.passengerInput}
-            placeholder="Passenger Name"
-            onChangeText={(text) => {
-              const alphabeticText = text.replace(/[^A-Za-z\s]/g, "");
-              setName(alphabeticText);
-            }}
-            value={name}
-          />
-        </View>
-
-        <View style={{ marginVertical: 4 }}>
-          <Text style={styles.label}>Phone Number</Text>
-          <View style={styles.inputGroup}>
+          <View style={{ marginVertical: 4 }}>
+            <Text style={[styles.label, { marginBottom: 4 }]}>Passenger Name
+              <Text style={{ color: DangerColor }}>*</Text></Text>
             <TextInput
-              style={styles.input}
-              placeholder="Country Code"
-              defaultValue="+91 (IND)"
-              editable={false}
+              style={styles.passengerInput}
+              placeholder="Passenger Name"
+              onChangeText={(text) => {
+                const alphabeticText = text.replace(/[^A-Za-z\s]/g, "");
+                setName(alphabeticText);
+              }}
+              value={name}
             />
+          </View>
+          <View style={{ marginVertical: 4 }}>
+            <Text style={[styles.label, { marginBottom: 4 }]}>Passenger Age
+              <Text style={{ color: DangerColor }}>*</Text></Text>
             <TextInput
-              style={[styles.input, styles.number]}
-              placeholder="Phone"
+              style={styles.passengerInput}
+              placeholder="Passenger Age"
               keyboardType="numeric"
-              maxLength={10}
-              onChangeText={(text) => setPhone(text.replace(/[^0-9]/g, ""))}
-              value={phone}
+              onChangeText={(text) => {
+                const numericText = text.replace(/[^0-9]/g, "");
+                setAge(numericText);
+              }}
+              value={age}
             />
           </View>
-        </View>
-        <View style={{ marginVertical: 4 }}>
-          <Text style={styles.label}>State of Residence</Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={selectedState}
-              style={styles.picker}
-              onValueChange={(itemValue) => setSelectedState(itemValue)}
-              mode="dropdown"
-            >
-              <Picker.Item label="Madhya Pradesh" value="Madhya Pradesh" />
-              <Picker.Item label="Uttar Pradesh" value="Uttar Pradesh" />
-              <Picker.Item label="Rajasthan" value="Rajasthan" />
-              <Picker.Item label="Bihar" value="Bihar" />
-              <Picker.Item label="Gujarat" value="Gujarat" />
-            </Picker>
+
+          <View style={{ marginVertical: 4 }}>
+            <Text style={[styles.label, { marginBottom: 4 }]}>Phone Number
+              <Text style={{ color: DangerColor }}>*</Text></Text>
+            <View style={styles.inputGroup}>
+              <TextInput
+                style={styles.input}
+                placeholder="Country Code"
+                defaultValue="+91 (IND)"
+                editable={false}
+              />
+              <TextInput
+                style={[styles.input, styles.number]}
+                placeholder="Phone"
+                keyboardType="numeric"
+                maxLength={10}
+                onChangeText={(text) => setPhone(text.replace(/[^0-9]/g, ""))}
+                value={phone}
+              />
+            </View>
+          </View>
+          <View style={{ marginVertical: 4 }}>
+            <Text style={[typography.font14]}>Gender</Text>
+            <View style={[styles.row, spacing.mb2]}>
+              <View
+                style={[
+                  spacing.pl2,
+                  spacing.bw1,
+                  spacing.mt2,
+                  spacing.br5,
+                  {
+                    flexDirection: "row",
+                    width: "48%",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    borderColor: checked === "first" ? "red" : "gray",
+                  },
+                ]}
+              >
+                <Text style={[typography.font14]}>Male</Text>
+                <RadioButton
+                  value="first"
+                  status={checked === "first" ? "checked" : "unchecked"}
+                  onPress={() => setChecked("first")}
+                  color="red"
+                />
+              </View>
+              <View
+                style={[
+                  spacing.pl2,
+                  spacing.bw1,
+                  spacing.mt2,
+                  spacing.br5,
+                  spacing.p1,
+                  {
+                    flexDirection: "row",
+                    width: "48%",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    borderColor: checked === "second" ? "red" : "gray",
+                  },
+                ]}
+              >
+                <Text style={[typography.font14]}>Female</Text>
+                <RadioButton
+                  value="second"
+                  status={checked === "second" ? "checked" : "unchecked"}
+                  onPress={() => setChecked("second")}
+                  color="red"
+                />
+              </View>
+            </View>
+          </View>
+          <View style={{ marginVertical: 4 }}>
+            <Text style={[styles.label, { marginBottom: 4 }]}>Address
+              <Text style={{ color: DangerColor }}>*</Text>
+            </Text>
+            <View style={styles.inputGroup}>
+              <TextInput
+                style={[styles.passengerInput, { flex: 1, height: 80 }]}
+                placeholder="Address"
+                keyboardType="text"
+
+                numberOfLines={4}
+                multiline={true}
+                maxLength={100}
+                onChangeText={(text) => setAddress(text)}
+              />
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
 
-      <View style={styles.amountSection}>
-        <Text style={styles.amountText}>Amount</Text>
-        <Text style={styles.amountText}>₹{totalPrice}</Text>
-      </View>
-      <View style={styles.buttonContainer}>
+      {/* Footer */}
+      <View style={styles.footer}>
+        <View style={styles.priceContainer}>
+          <Text style={styles.totalAmountLabel}>Total Fare</Text>
+          <Text style={styles.totalAmountValue}>₹{priceToPay}</Text>
+        </View>
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.footerButton, styles.proceedButton]}
           onPress={handleTicketBooking}
           disabled={loading}
         >
           {loading ? (
             <ActivityIndicator size="small" color={White1Color} animating />
           ) : (
-            <Text style={styles.buttonText}>Proceed to pay</Text>
+            <Text style={styles.proceedButtonText}>Proceed to Pay</Text>
           )}
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -256,7 +358,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     alignSelf: "flex-start",
     paddingHorizontal: 6,
-    bottom: 12,
+    paddingVertical: 2,
+    // bottom: 12,
   },
 
   passengerInput: {
@@ -270,19 +373,28 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: "#F9F9F9",
+    backgroundColor: '#F7F7F7',
+  },
+  pageHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 16,
+    backgroundColor: '#fff',
   },
-  header: {
-    marginBottom: 16,
-  },
-  title: {
+  headerTitle: {
     fontSize: 18,
     fontWeight: "bold",
+    marginLeft: 16,
   },
-  subtitle: {
-    fontSize: 16,
-    color: "#555",
+  headerSubtitle: {
+    fontSize: 12,
+    color: '#666',
+    marginLeft: 16,
+  },
+  contentArea: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
   travelDetails: {
     padding: 12,
@@ -296,17 +408,16 @@ const styles = StyleSheet.create({
   },
 
   selectedSeatsContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    top: 4,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 8,
   },
   seatItem: {
     borderRadius: 4,
     color: "#fff",
-    left: 150,
-    paddingHorizontal: 4,
-    marginRight: 4,
-    // flexBasis: "33.33%",
+    padding: 4,
+    margin: 2
   },
 
   time: {
@@ -315,7 +426,10 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   location: {
-    // fontSize: 14,
+    fontSize: 12,
+    // TODO: modify to max width 48% wrap text if exceeds to new lines
+    maxWidth: "60%",
+    flexWrap: "wrap",
     color: "#777",
   },
 
@@ -385,38 +499,40 @@ const styles = StyleSheet.create({
     color: "#007BFF",
     fontSize: 14,
   },
-  amountSection: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+  footer: {
+    flexDirection: 'row',
     padding: 16,
-    backgroundColor: "#FFF",
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+    alignItems: 'center',
+  },
+  priceContainer: {
+    flex: 1,
+  },
+  totalAmountLabel: {
+    fontSize: 14,
+    color: '#666',
+  },
+  totalAmountValue: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  footerButton: {
+    flex: 1,
+    paddingVertical: 15,
     borderRadius: 8,
-  },
-  amountText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#000",
-  },
-  strikeThrough: {
-    fontSize: 16,
-    color: "#AAA",
-  },
-  buttonContainer: {
     alignItems: "center",
-    marginVertical: 50,
+    justifyContent: 'center',
   },
-  button: {
-    backgroundColor: "#cf413a",
-    paddingVertical: 10,
-    width: "100%",
-    borderRadius: 8,
-    alignItems: "center",
+  proceedButton: {
+    backgroundColor: PrimaryColor,
   },
-  buttonText: {
-    color: "#fff",
+  proceedButtonText: {
+    color: WhiteColor,
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
 

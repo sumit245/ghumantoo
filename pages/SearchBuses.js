@@ -17,30 +17,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { LightGray, PrimaryColor, PureWhite, WhiteColor } from "../utils/colors";
 import { getAvailableSeats, getBusOnRoute } from "../actions/busActions";
 import { spacing } from "../utils/spacing.styles";
+import { SELECT_BUS, SET_ARRIVAL_TIME, SET_BUS_TYPE, SET_CANCEL_POLICY, SET_DEPARTURE_TIME } from "../utils/constants";
 
 // Define the simple filters to show on this screen
 const simpleFilters = [
   { text: 'Sort & Filter', screen: 'filterPage', type: 'navigate', iconname: 'sort' },
   { text: 'AC', type: 'filter', iconname: "air-conditioner", },
-  { text: 'Non-AC', type: 'filter',iconname:'air-filter' },
+  { text: 'Non-AC', type: 'filter', iconname: 'air-filter' },
   { text: 'Sleeper', type: 'filter', iconname: "bed", },
   { text: 'Seater', type: 'filter', iconname: "seat", },
 ];
 
 export default function SearchBuses() {
   const { buses, date_of_journey, destinationId, pickupId, SearchTokenId } = useSelector((state) => state.bus);
-  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
+  const route = useRoute(); // Hook to get params from other screens
+  const dispatch = useDispatch();
 
+  // Set initial loading state based on navigation parameter
+  const [loading, setLoading] = useState(false);
   // 2. The filter state is now an object to hold all filter types
   const [activeFilters, setActiveFilters] = useState({
     fleetTypes: [],
     departureTime: null,
     price: null,
   });
-
-  const navigation = useNavigation();
-  const route = useRoute(); // Hook to get params from other screens
-  const dispatch = useDispatch();
 
   // 3. This effect listens for new filters passed back from FilterScreen
   useEffect(() => {
@@ -52,25 +53,30 @@ export default function SearchBuses() {
 
   // 4. This effect re-fetches buses whenever the activeFilters object changes
   useEffect(() => {
-    if (pickupId && destinationId && date_of_journey) {
+    // Only refetch if filters are actually active
+    if (activeFilters.fleetTypes.length > 0 || activeFilters.departureTime || activeFilters.price) {
       setLoading(true);
       // Pass the entire activeFilters object to the Redux action
       dispatch(getBusOnRoute(pickupId, destinationId, date_of_journey, activeFilters))
         .catch((err) => console.log(err))
         .finally(() => setLoading(false));
     }
-  }, [activeFilters, dispatch, pickupId, destinationId, date_of_journey]); // Dependency array updated
+  }, [activeFilters]); // Dependency array updated
 
   const handleBusSelection = async (item) => {
-    
+    setLoading(true);
     try {
-      dispatch({ type: "SELECT_BUS", payload: item.TravelName });
-      dispatch({ type: "SELECTED_BUS_TYPE", payload: item.BusType });
-      await dispatch(getAvailableSeats(item.ResultIndex, SearchTokenId));
+      dispatch({ type: SELECT_BUS, payload: item.TravelName });
+      dispatch({ type: SET_BUS_TYPE, payload: item.BusType });
+      dispatch({ type: SET_DEPARTURE_TIME, payload: item.DepartureTime })
+      dispatch({ type: SET_ARRIVAL_TIME, payload: item.ArrivalTime }); // Store departure time
+      await dispatch(getAvailableSeats(item.ResultIndex, SearchTokenId, item.CancellationPolicies));
       navigation.navigate("selectSeat");
-    }catch (error) {
+    } catch (error) {
       console.error("Error selecting bus:", error);
       // Optionally show an alert or toast to the user
+    } finally {
+      setLoading(false);
     }
   };
 

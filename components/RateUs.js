@@ -1,11 +1,22 @@
 import React from 'react'
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Linking, Alert } from "react-native";
 import { styles } from "../utils/styles";
 import { PureWhite } from "../utils/colors";
 import { typography } from "../utils/typography";
 import { spacing } from "../utils/spacing.styles";
 
 export default function RateUs() {
+  const storeUrl = 'https://play.google.com/store/apps/details?id=com.dashandots.vindhyashribus';
+
+  const handleRatePress = async () => {
+    const supported = await Linking.canOpenURL(storeUrl);
+    if (supported) {
+      await Linking.openURL(storeUrl);
+    } else {
+      Alert.alert(`Don't know how to open this URL: ${storeUrl}`);
+    }
+  };
+
   return (
     <>
       <Text style={[typography.font24, typography.textBold, spacing.ml4]}>Rate Us</Text>
@@ -38,7 +49,7 @@ export default function RateUs() {
           >
             Share your experience with us and help spread the word!
           </Text>
-          <TouchableOpacity style={[styles.buttonPrimary, spacing.br2]}>
+          <TouchableOpacity onPress={handleRatePress} style={[styles.buttonPrimary, spacing.br2]}>
             <Text style={styles.buttonTextPrimary}>Rate now</Text>
           </TouchableOpacity>
         </View>

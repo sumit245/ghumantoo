@@ -46,7 +46,7 @@ const OtherPolicies = () => {
         </Text>
         {item.icon && <Icon name={item.icon} />}
       </View>
-      <Text style={[styles.stdTextBottomSheet, { fontWeight: 300, marginLeft: 25 }]}>
+      <Text style={[styles.stdTextBottomSheet, { fontWeight: 300, marginLeft: 2 }]}>
         {item.description}
       </Text>
     </View>
@@ -57,7 +57,7 @@ const OtherPolicies = () => {
       data={policies}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
-      contentContainerStyle={{ paddingVertical: 10 }}
+      contentContainerStyle={{ paddingVertical: 10,paddingBottom:20 }}
     />
   );
 };

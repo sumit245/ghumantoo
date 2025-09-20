@@ -12,11 +12,12 @@ import { typography } from '../utils/typography'
 import OTPComponent from "../components/OTPComponent";
 import { PrimaryColor, WhiteColor } from "../utils/colors";
 import PrimaryButton from "../components/buttons/PrimaryButton";
-import { useDispatch, useSelector } from "react-redux";
-import { verifyUserOTP } from "../actions/userActions";
+import { useDispatch,useSelector } from 'react-redux';
+import { verifyUserOTP } from '../actions/userActions';
+import { useAuth } from '../context/AuthContext';
+import { useNavigation } from '@react-navigation/native';
 import { spacing } from "../utils/spacing.styles";
 import { ActivityIndicator } from "react-native-paper";
-import { useAuth } from "../context/AuthContext"; // 1. Import the useAuth hook
 
 export default function OTPPage() {
   const { mobile_number, message } = useSelector((state) => state.user);
@@ -24,37 +25,28 @@ export default function OTPPage() {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const { signIn } = useAuth(); // 2. Get the signIn function from our context
+  const { signIn } = useAuth();
+  const navigation = useNavigation();
 
   const verifyOTP = async () => {
-    console.log("Verifying OTP:", otp);
-    if (otp.length !== 6) {
-      Alert.alert("Invalid OTP", "Please enter a 6-digit OTP.");
-      return;
-    }
-
     setLoading(true);
     try {
-      // 3. The Redux action should return the user's token upon success
-      const response = await dispatch(verifyUserOTP(mobile_number, otp));
-
-      // Assuming the action returns an object like { status: 200, token: '...' }
-      if (response && response.status === 200 && response.token) {
-        // 4. Call signIn with the token. This updates the global state and
-        // automatically navigates the user to the main app stack.
-        await signIn(response.token);
+      const result = await dispatch(verifyUserOTP(mobile_number, otp));
+      // result => { status, token, user }
+      if (result && result.status === 200 && result.token) {
+        // persist token + user (AuthContext will update redux as well)
+        await signIn(result.token, result.user);
+        // navigate to main/home screen
+        navigation.replace('Main'); // adjust route name to your app
       } else {
-        // Handle cases where OTP is incorrect or API fails
-        Alert.alert("Verification Failed", response.message || "The OTP entered is incorrect. Please try again.");
-        setLoading(false);
+        Alert.alert('Verification failed', 'Please check the OTP and try again.');
       }
-    } catch (error) {
-      console.error("OTP verification error:", error);
-      Alert.alert("An Error Occurred", "Something went wrong. Please try again later.");
+    } catch (e) {
+      Alert.alert('Error', 'OTP verification failed. Try again.');
+      console.error(e);
+    } finally {
       setLoading(false);
     }
-    // No need to set loading to false here if signIn is successful,
-    // as the component will unmount and be replaced by the loading screen from AuthContext.
   };
 
   return (
@@ -74,7 +66,7 @@ export default function OTPPage() {
       </View>
 
       <View style={[spacing.mh4, spacing.p2, { minHeight: 200 }]}>
-        <Text style={{ fontSize: 16, textTransform: "uppercase",marginVertical: 8 }}>
+        <Text style={{ fontSize: 16, textTransform: "uppercase", marginVertical: 8 }}>
           One time Password
         </Text>
         <OTPComponent digit={6} verifyOTP={(val) => setOtp(val)} />

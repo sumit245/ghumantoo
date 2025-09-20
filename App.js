@@ -13,17 +13,17 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'; // 1. Imp
 export default function App() {
   return (
     <GestureHandlerRootView>
-      <AuthProvider>
-        <NavigationContainer>
-          <Provider store={store}>
+      <Provider store={store}>
+        <AuthProvider>
+          <NavigationContainer>
             <PaperProvider>
               <AutocompleteDropdownContextProvider>
                 <StackNavigator isLoggedIn={false} />
               </AutocompleteDropdownContextProvider>
             </PaperProvider>
-          </Provider>
-        </NavigationContainer>
-      </AuthProvider>
+          </NavigationContainer>
+        </AuthProvider>
+      </Provider>
     </GestureHandlerRootView>
   );
 }

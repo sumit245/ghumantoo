@@ -36,6 +36,8 @@ const Seat = React.memo(({ seat, onSelect, isSelected }) => {
     seatColors = SEAT_COLORS.available;
   }
 
+  // TODO: Basically there are three types of seats: vseat (for all vertical seats, normal sleepers), bseat(for square seats, basically seaters), hseat(for horizontal sleepers, especially either at end of the bus or at the start with two seats facing each other) We need to handle all three types here.
+  
   // 4. Determine seat dimensions based on type
   const isVertical = seat.type === 'vseat' || seat.type === 'bvseat';
   const isSeater = seat.type === 'bseat' || seat.type === 'nseat' || seat.type === 'rseat' || seat.type === 'brseat';
@@ -175,12 +177,12 @@ export default function SeatLayout({ lowerSeats = {}, upperSeats = {}, handleSea
 // --- StyleSheet ---
 const styles = StyleSheet.create({
   scrollViewContent: { flexGrow: 1, flexDirection: 'row', padding: 2 },
-  deckContainer: { minWidth: width / 1.8, backgroundColor: PureWhite, borderRadius: 16, padding: 8, marginHorizontal: 4, justifyContent: 'space-between' },
+  deckContainer: { minWidth: width / 1.8, backgroundColor: PureWhite, borderRadius: 16, padding: 4, marginHorizontal: 4, justifyContent: 'flex-start',maxHeight:'auto' },
   deckHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 0.5, borderBottomColor: LightGray, height: 38, paddingBottom: 4 },
   steeringImage: { height: 34, width: 36 },
   seatsContainer: { flexDirection: 'row-reverse', alignItems: 'flex-end', marginTop: 10 },
   aisle: { width: 20 },
   seatRow: { flexDirection: 'column', justifyContent: 'flex-end', margin: 2 },
-  seatTouchable: { justifyContent: 'center', alignItems: 'center', marginVertical: 4, marginHorizontal: 2 },
+  seatTouchable: { justifyContent: 'center', alignItems: 'center', margin: 2, },
   seatIdText: { color: LightGray, position: 'absolute', top: '20%', fontWeight: 'bold', fontSize: 12 },
 });

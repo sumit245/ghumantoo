@@ -14,15 +14,15 @@ const BoardingAndDropping = () => {
 
     return (
         <View style={styles.container}>
-            <View style={{flexDirection:'row',alignItems:'center',marginTop:40,width:'100%',backgroundColor:'#ffbf00',height:70}}>
-        <EvilIcons
-        style={{marginLeft:10}}
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 40, width: '100%', backgroundColor: '#ffbf00', height: 70 }}>
+                <EvilIcons
+                    style={{ marginLeft: 10 }}
                     name='chevron-left'
                     size={25}
                 />
-            <Text style={{fontSize:18,marginLeft:10}}>Select Boarding & Dropping Points</Text>
-        </View>
-            <View style={{top: 10 }}>
+                <Text style={{ fontSize: 18, marginLeft: 10 }}>Select Boarding & Dropping Points</Text>
+            </View>
+            <View style={{ top: 10 }}>
                 <View style={styles.head}>
                     <TouchableOpacity
                         style={[styles.headBtn, activeButton === 'boarding' && styles.activeBtn]}
@@ -41,13 +41,13 @@ const BoardingAndDropping = () => {
                 </View >
 
                 <View style={{ backgroundColor: "#E6E6EA", height: 521 }}>
-                    {activeButton==='boarding'?<Boarding/>:<Dropping/>}
+                    {activeButton === 'boarding' ? <Boarding /> : <Dropping />}
                 </View>
             </View>
 
-            <View style={{position:'absolute',width:'100%',height:80,elevation:2, bottom: 0,backgroundColor:"#fff"}}>
-                <TouchableOpacity style = {{backgroundColor:"#F99333",marginHorizontal:50,marginVertical:19,borderRadius:18}}>
-                    <Text style = {{textAlign:'center',marginVertical:8,fontSize:19}}>Proceed</Text>
+            <View style={{ position: 'absolute', width: '100%', height: 80, elevation: 2, bottom: 0, backgroundColor: "#fff" }}>
+                <TouchableOpacity style={{ backgroundColor: "#F99333", marginHorizontal: 50, marginVertical: 19, borderRadius: 18 }}>
+                    <Text style={{ textAlign: 'center', marginVertical: 8, fontSize: 19 }}>Proceed</Text>
                 </TouchableOpacity>
             </View>
         </View>

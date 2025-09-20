@@ -27,21 +27,40 @@ export const verifyUserOTP = (mobile_number, otp) => async (dispatch) => {
         const { message, status, data } = response.data;
         const { user, token } = data;
 
-        // The action still dispatches to Redux to update user info
+        // Update redux with user info (so UI can read it immediately)
         dispatch({ type: AUTH_USER, payload: user });
 
-        // CRITICAL CHANGE: Return the status AND the token
-        return { status, token };
+        // Return status, token and user for callers to persist in async storage
+        return { status, token, user };
 
     } catch (error) {
-        // It's better to return a structured error
-        const errorMessage = error.response?.data?.message || "An unexpected error occurred.";
-        return { status: error.response?.status || 500, message: errorMessage };
+        console.error('verifyUserOTP error', error);
+        // bubble up error shape similar to before
+        throw error;
     }
 };
 
 // Actions are higher order functions that consume the dispatch function from the store
 export const editProfile = (data) => (dispatch) => {
     dispatch({ type: SET_USER, payload: data })
+}
+
+export const logout = () => (dispatch) => {
+    dispatch({ type: LOGOUT })
+}
+
+export const getMyTickets = async (mobile_number) => {
+    try {
+        const response = await axios.get(`${API_URL}/api/users/get-my-tickets`, {
+            params: {
+                mobile_number: mobile_number
+            }
+        })
+        console.log("getMyTickets response", response.data);
+        return response.data
+    } catch (error) {
+        console.error("getMyTickets error", error);
+        throw error;
+    }
 }
 

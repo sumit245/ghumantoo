@@ -7,8 +7,8 @@ import { height, styles as globalStyles } from '../utils/styles';
 import { DangerColor, DarkGray, PrimaryColor, PureWhite } from '../utils/colors';
 import { typography } from '../utils/typography';
 import { spacing } from '../utils/spacing.styles';
-import { useAuth } from '../context/AuthContext'; // 1. Import the useAuth hook
-import PrimaryButton from '../components/buttons/PrimaryButton';
+import { useAuth } from '../context/AuthContext';
+import GuestView from '../components/GuestView';
 
 // --- Data for the menu items ---
 const MENU_DATA = [
@@ -17,17 +17,6 @@ const MENU_DATA = [
   { id: '3', title: 'About Us', icon: 'information-circle-outline', whereTo: 'About' },
   { id: '4', title: 'Settings', icon: 'settings-outline', whereTo: 'Setting' },
 ];
-
-const GuestView = ({ onLoginPress }) => (
-  <View style={styles.guestContainer}>
-    <Icon name="person-circle-outline" size={80} color={DarkGray} />
-    <Text style={styles.guestTitle}>You are browsing as a guest</Text>
-    <Text style={styles.guestSubtitle}>
-      Log in or create an account to manage your bookings and access all features.
-    </Text>
-    <PrimaryButton title="Log In / Sign Up" onClick={onLoginPress} style={{ marginTop: 20, width: '80%' }} />
-  </View>
-);
 
 // --- Sub-Component for the Profile Header ---
 const ProfileHeader = ({ name, mobile, email, onPress }) => (
@@ -67,26 +56,24 @@ const LogoutButton = ({ onPress }) => (
 export default function Account() {
   const { email_id, mobile_number, name } = useSelector((state) => state.user);
   const navigation = useNavigation();
-  const { signOut, isGuest } = useAuth(); // 2. Get the signOut function from the context
+  const { signOut, isGuest } = useAuth();
 
-  // 3. The handleLogout function is now clean and uses the context
   const handleLogout = async () => {
     await signOut();
-    // No navigation commands are needed here. The context handles it.
   };
+
   if (isGuest) {
     return (
       <SafeAreaView style={styles.container}>
-        <GuestView onLoginPress={() => signOut()} />
+        <GuestView onLoginPress={signOut} />
       </SafeAreaView>
     );
   }
 
-
   return (
     <SafeAreaView style={styles.container}>
       <ProfileHeader
-        name={name || "Guest"} // Default name if not available
+        name={name || "Guest"}
         mobile={mobile_number}
         email={email_id || "Not provided"}
         onPress={() => navigation.navigate('editProfile')}
@@ -161,23 +148,5 @@ const styles = StyleSheet.create({
     ...typography.font20,
     ...typography.textBold,
     color: DarkGray,
-  },
-  guestContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 30,
-  },
-  guestTitle: {
-    ...typography.font20,
-    ...typography.textBold,
-    marginTop: 20,
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  guestSubtitle: {
-    ...typography.font16,
-    color: DarkGray,
-    textAlign: 'center',
   },
 });

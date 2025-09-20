@@ -1,68 +1,127 @@
-import React, { createContext, useState, useEffect, useMemo, useContext } from 'react';
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { AUTH_USER, LOGOUT } from '../utils/constants'; // adjust path if constants live elsewhere
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+    const dispatch = useDispatch();
     const [userToken, setUserToken] = useState(null);
-    const [isGuest, setIsGuest] = useState(false); // New state for guest users
+    const [isGuest, setIsGuest] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const bootstrapAsync = async () => {
-            let token = null;
-            let guestFlag = null;
             try {
-                token = await AsyncStorage.getItem('user_token');
-                guestFlag = await AsyncStorage.getItem('is_guest');
-            } catch (e) {
-                console.error("AuthContext: Failed to restore session", e);
-            }
+                const token = await AsyncStorage.getItem('user_token');
+                const userJson = await AsyncStorage.getItem('user'); // saved JSON user object
+                const isGuestFlag = await AsyncStorage.getItem('is_guest');
 
-            setUserToken(token);
-            setIsGuest(guestFlag === 'true');
-            setIsLoading(false);
+                if (token && userJson) {
+                    const user = JSON.parse(userJson);
+                    // update redux with user object so app can immediately use it
+                    dispatch({ type: AUTH_USER, payload: user });
+                    setUserToken(token);
+                    setIsGuest(false);
+                } else if (isGuestFlag === 'true') {
+                    setIsGuest(true);
+                    setUserToken(null);
+                } else {
+                    setIsGuest(true); // default to guest for smoother UX
+                    setUserToken(null);
+                }
+            } catch (e) {
+                // silently continue; app will behave as guest
+                console.warn('Auth bootstrap failed', e);
+            } finally {
+                // Prevent flicker: only render app after bootstrap completes
+                setIsLoading(false);
+            }
         };
 
         bootstrapAsync();
-    }, []);
+    }, [dispatch]);
 
     const authContextValue = useMemo(
         () => ({
-            signIn: async (token) => {
+            signIn: async (token, user = null) => {
                 setIsLoading(true);
-                await AsyncStorage.setItem('user_token', token);
-                await AsyncStorage.removeItem('is_guest'); // Ensure guest flag is removed
-                setUserToken(token);
-                setIsGuest(false);
-                setIsLoading(false);
+                try {
+                    if (token) {
+                        await AsyncStorage.setItem('user_token', token);
+                        setUserToken(token);
+                    }
+                    if (user) {
+                        await AsyncStorage.setItem('user', JSON.stringify(user));
+                        if (user.mobile_number) {
+                            await AsyncStorage.setItem('mobile_number', String(user.mobile_number));
+                        }
+                        if (user.id !== undefined && user.id !== null) {
+                            await AsyncStorage.setItem('user_id', String(user.id));
+                        }
+                        // update redux immediately
+                        dispatch({ type: AUTH_USER, payload: user });
+                    } else {
+                        // try to read existing saved user
+                        const savedUser = await AsyncStorage.getItem('user');
+                        if (savedUser) {
+                            dispatch({ type: AUTH_USER, payload: JSON.parse(savedUser) });
+                        }
+                    }
+                    await AsyncStorage.removeItem('is_guest');
+                    setIsGuest(false);
+                } catch (e) {
+                    console.warn('signIn save error', e);
+                } finally {
+                    setIsLoading(false);
+                }
             },
-            // New function for skipping login
+
             skipForNow: async () => {
                 setIsLoading(true);
-                await AsyncStorage.setItem('is_guest', 'true');
-                setIsGuest(true);
-                setIsLoading(false);
+                try {
+                    await AsyncStorage.setItem('is_guest', 'true');
+                    setIsGuest(true);
+                    setUserToken(null);
+                    // ensure redux cleared for guest
+                    dispatch({ type: LOGOUT });
+                } catch (e) {
+                    console.warn('skipForNow error', e);
+                } finally {
+                    setIsLoading(false);
+                }
             },
+
             signOut: async () => {
                 setIsLoading(true);
-                await AsyncStorage.removeItem('user_token');
-                await AsyncStorage.removeItem('is_guest'); // Also clear guest flag on logout
-                setUserToken(null);
-                setIsGuest(false);
-                setIsLoading(false);
+                try {
+                    await AsyncStorage.removeItem('user_token');
+                    await AsyncStorage.removeItem('user');
+                    await AsyncStorage.removeItem('mobile_number');
+                    await AsyncStorage.removeItem('user_id');
+                    await AsyncStorage.removeItem('is_guest');
+                    setUserToken(null);
+                    setIsGuest(false);
+                    dispatch({ type: LOGOUT });
+                } catch (e) {
+                    console.warn('signOut error', e);
+                } finally {
+                    setIsLoading(false);
+                }
             },
+
             userToken,
-            isGuest, // Expose guest state to the rest of the app
+            isGuest,
         }),
-        [userToken, isGuest]
+        [userToken, isGuest, dispatch]
     );
 
     if (isLoading) {
         return (
             <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
+                <ActivityIndicator size="large" />
             </View>
         );
     }
@@ -84,4 +143,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     }
-})
+});

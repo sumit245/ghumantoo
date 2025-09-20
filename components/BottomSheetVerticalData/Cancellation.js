@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { styles } from "../../utils/styles";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
 // A reusable row component to reduce redundancy
 const PolicyRow = ({ condition, charge }) => (
@@ -12,7 +13,12 @@ const PolicyRow = ({ condition, charge }) => (
 );
 
 export default function Cancellation({ dateOfJourney }) {
-  console.log("Cancellation component rendered with dateOfJourney:", dateOfJourney);
+
+  const {policiesCancellation}  = useSelector((state) => state.bus);
+
+  useEffect(() => {
+    console.log("Cancellation Policy from Redux:", policiesCancellation);
+  }, [policiesCancellation]);
   // If no date is passed, we can show a default message or hide the component
   if (!dateOfJourney) {
     return (
@@ -47,11 +53,11 @@ export default function Cancellation({ dateOfJourney }) {
 
   return (
     <View>
-      <Text style={styles.headerTitleText}>Cancellation policy</Text>
+      {/* <Text style={styles.headerTitleText}>Cancellation policy</Text> */}
       <Text style={styles.subHeadingBottomSheet}>Note: Cancellation charges are calculated on a per-seat basis.</Text>
       <View style={localStyles.policyContainer}>
-        {policies.map((policy, index) => (
-          <PolicyRow key={index} condition={policy.condition} charge={policy.charge} />
+        {policiesCancellation.map((policy, index) => (
+          <PolicyRow key={index} condition={policy} />
         ))}
       </View>
     </View>

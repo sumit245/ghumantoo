@@ -1,32 +1,30 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TicketComponent from '../../components/TicketComponent';
 import { styles } from '../../utils/styles';
 import { PrimaryColor } from '../../utils/colors';
-import { Tickets } from '../../faker/tickets';
-
-// Mock API call for demonstration
-const fetchPastTripsAPI = () => {
-  console.log('API: Fetching past trips...');
-  return Tickets; // Replace with actual API call
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(Tickets);
-    }, 1000);
-  });
-};
+import { getMyTickets } from '../../actions/userActions';
+import { useAuth } from '../../context/AuthContext';
 
 export default function PastTrips() {
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch();
+  const { isGuest } = useAuth();
+  const { mobile_number = null } = useSelector(state => state.user);
 
   const loadTrips = async () => {
+    if (isGuest || !mobile_number) {
+      setTrips([]);
+      setLoading(false);
+      setRefreshing(false);
+      return;
+    }
+
     try {
-      const pastTrips = await fetchPastTripsAPI();
-      console.log('API: Past trips fetched:', pastTrips);
+      const pastTrips = await getMyTickets(mobile_number);
       setTrips(pastTrips);
     } catch (error) {
       console.error("Failed to fetch past trips:", error);
@@ -38,12 +36,12 @@ export default function PastTrips() {
 
   useEffect(() => {
     loadTrips();
-  }, [dispatch]);
+  }, [isGuest, mobile_number]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     loadTrips();
-  }, [dispatch]);
+  }, [isGuest, mobile_number]);
 
   if (loading) {
     return (
@@ -64,6 +62,8 @@ export default function PastTrips() {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
+      // Modify here to return if a user is guest then show message and prompt to login
+      // Modify if user has no trips then show message and prompt to book a trip
       ListEmptyComponent={() => (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text style={styles.emptyListText}>

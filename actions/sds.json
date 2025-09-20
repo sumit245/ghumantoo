@@ -1,0 +1,41 @@
+blockSeat response {
+    "amount": 420,
+    "block_details": {
+        "ArrivalTime": "09/25/2025 05:30:00",
+        "BoardingPointdetails": {
+            "CityPointAddress": "New Bus Stand Rewa",
+            "CityPointContactNumber": "9987252971",
+            "CityPointIndex": 1,
+            "CityPointLandmark": "New Bus Stand Rewa",
+            "CityPointLocation": "New Bus Stand Rewa",
+            "CityPointName": "New Bus Stand Rewa",
+            "CityPointTime": "2025-09-25T04:15:00"
+        },
+        "BusType": "A/C Seater/Sleeper (2+1)",
+        "CancelPolicy": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ],
+        "DepartureTime": "09/25/2025 04:15:00",
+        "IsPriceChanged": false,
+        "Passenger": [
+            [Object
+            ]
+        ],
+        "TravelName": "MBBS Bus Service"
+    },
+    "cancellationPolicy": [
+        "Between 12:33 PM, 20 Sep 2025 to 4:15 PM, 23 Sep 2025 – 0% charge",
+        "Between 4:15 PM, 23 Sep 2025 to 1:15 PM, 24 Sep 2025 – 0% charge",
+        "Between 1:15 PM, 24 Sep 2025 to 5:30 AM, 25 Sep 2025 – No refund"
+    ],
+    "currency": "INR",
+    "message": "Seats blocked successfully! Proceed to payment.",
+    "order_id": "order_RJlc3fn590RCKl",
+    "success": true,
+    "ticket_id": 132
+}

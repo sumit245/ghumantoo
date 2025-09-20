@@ -1,16 +1,46 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/MaterialCommunityIcons";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
+
+/**
+ * Calculates the discount based on the first available coupon.
+ * @param {number} basePrice - The base price of the bus ticket.
+ * @param {object} coupon - The first coupon object from activeCoupons.
+ * @returns {object} An object containing newPrice, savedAmount, and discountText.
+ */
+const calculateDiscount = (basePrice, coupon) => {
+  if (!coupon || !basePrice) {
+    return { newPrice: basePrice, savedAmount: 0, discountText: null };
+  }
+
+  let savedAmount = 0;
+  let discountText = '';
+
+  if (coupon.discount_type === 'fixed') {
+    savedAmount = coupon.coupon_value;
+    discountText = `Save ₹${coupon.coupon_value} with code ${coupon.coupon_code}!`;
+  } else if (coupon.discount_type === 'percentage') {
+    savedAmount = (basePrice * coupon.coupon_value) / 100;
+    discountText = `Get ${coupon.coupon_value}% off with code ${coupon.coupon_code}!`;
+  }
+
+  const newPrice = basePrice - savedAmount;
+
+  return { newPrice: Math.max(0, newPrice), savedAmount, discountText };
+};
 
 const BusCard = ({ bus, onClick }) => {
+  const { activeCoupons } = useSelector(state => state.bus);
+  const firstCoupon = activeCoupons?.[0];
 
   return (
     <TouchableOpacity onPress={onClick} style={styles.card}>
       {/* Header */}
       <View style={styles.header}>
-        <View>
+        <View style={styles.travelInfo}>
           <Text style={styles.title}>{bus.TravelName}</Text>
           <Text style={styles.subtitle}>{bus.BusType}</Text>
         </View>
@@ -44,17 +74,22 @@ const BusCard = ({ bus, onClick }) => {
           <FontAwesome name="seat-passenger" size={20} color="green" />
           <Text style={styles.seatsText}>{bus.AvailableSeats} Seats</Text>
         </View>
-        <View style={styles.priceInfo}>
-          <View style={{ flexDirection: "row", alignItems: 'center' }}>
-            <Text style={styles.saveText}>
-              Save ₹{Math.floor(Math.random() * 151 + 50)}
-            </Text>
-            <Text style={styles.oldPrice}>
-              ₹{parseFloat(bus.BusPrice?.BasePrice + Math.floor(Math.random() * 401 + 200)).toFixed(0)}
-            </Text>
-          </View>
-          <Text style={styles.newPrice}>From ₹{parseFloat(bus.BusPrice?.BasePrice).toFixed(0)}</Text>
-        </View>
+        {useMemo(() => {
+          const basePrice = parseFloat(bus.BusPrice?.BasePrice);
+          const { newPrice, savedAmount } = calculateDiscount(basePrice, firstCoupon);
+
+          return (
+            <View style={styles.priceInfo}>
+              {savedAmount > 0 && (
+                <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                  <Text style={styles.saveText}>Save ₹{Math.round(savedAmount)}</Text>
+                  <Text style={styles.oldPrice}>₹{basePrice.toFixed(0)}</Text>
+                </View>
+              )}
+              <Text style={styles.newPrice}>From ₹{newPrice.toFixed(0)}</Text>
+            </View>
+          );
+        }, [bus.BusPrice?.BasePrice, firstCoupon])}
       </View>
 
       {/* Advance Booking */}
@@ -65,6 +100,7 @@ const BusCard = ({ bus, onClick }) => {
         {/* Center Coupon Content */}
         <View style={styles.advanceBooking}>
           <Text style={styles.advanceText}>
+
             Advance Booking: ₹65 off per seat!
           </Text>
         </View>
@@ -74,13 +110,16 @@ const BusCard = ({ bus, onClick }) => {
 
 
       {/* Discount Banner */}
-      <View style={styles.discountRow}>
-        <FontAwesome name="tag-heart" size={14} color="purple" />
-        <Text style={styles.discountText}>
-          Get 10% discount auto-applied on your Return trip!
-        </Text>
-      </View>
-
+      {useMemo(() => {
+        const { discountText } = calculateDiscount(bus.BusPrice?.BasePrice, firstCoupon);
+        if (!discountText) return null;
+        return (
+          <View style={styles.discountRow}>
+            <FontAwesome name="tag-heart" size={14} color="purple" />
+            <Text style={styles.discountText}>{discountText}</Text>
+          </View>
+        );
+      }, [bus.BusPrice?.BasePrice, firstCoupon])}
     </TouchableOpacity>
   );
 };
@@ -97,16 +136,23 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "flex-start", // Align items to the top
+  },
+  travelInfo: {
+    flex: 1, // Allow this view to grow
+    marginRight: 8, // Add some space between the text and rating
   },
   title: {
     fontSize: 16,
     fontWeight: "bold",
+    flexWrap: 'wrap', // Allows text to wrap to the next line
   },
   subtitle: {
     color: "#666",
   },
   ratingContainer: {
     alignItems: "flex-end",
+    minWidth: '30%', // Ensure rating container has at least 30% of the width
   },
   ratingBox: {
     flexDirection: "row",

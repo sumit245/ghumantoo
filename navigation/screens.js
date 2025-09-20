@@ -50,7 +50,7 @@ const commonScreens = [
     name: "AddPassenger",
     component: Passenger,
     options: {
-      headerShown: true,
+      headerShown: false,
       title: "Passenger Details",
     },
   },

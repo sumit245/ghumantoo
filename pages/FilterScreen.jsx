@@ -2,15 +2,16 @@ import React, { useState, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { PrimaryColor, WhiteColor, LightGray, BlackColor, GrayColor } from '../utils/colors'; // Adjust path as needed
 import { spacing } from '../utils/spacing.styles'; // Adjust path as needed
 
 // Filter options - can be moved to a constants file
 const DEPARTURE_TIMES = [
-    { id: 'morning', label: 'Morning (6am - 12pm)', iconName: 'morning' },
-    { id: 'afternoon', label: 'Afternoon (12pm - 6pm)', iconName: 'morning' },
-    { id: 'evening', label: 'Evening (6pm - 12am)', iconName: 'morning' },
-    { id: 'night', label: 'Night (12am - 6am)', iconName: 'morning' },
+    { id: 'morning', label: 'Morning', time: '(6am-12pm)', iconName: 'weather-sunny' },
+    { id: 'afternoon', label: 'Afternoon', time: '(12pm-6pm)', iconName: 'weather-partly-cloudy' },
+    { id: 'evening', label: 'Evening', time: '(6pm-12am)', iconName: 'weather-sunset' },
+    { id: 'night', label: 'Night', time: '(12am-6am)', iconName: 'weather-night' },
 ];
 
 const FLEET_TYPES = ['AC', 'Non-AC', 'Sleeper', 'Seater'];
@@ -63,17 +64,24 @@ export default function FilterScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scrollView}>
-                {/* Departure Time Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Departure Time</Text>
                     <View style={styles.optionsContainer}>
                         {DEPARTURE_TIMES.map(time => (
                             <TouchableOpacity
                                 key={time.id}
-                                style={[styles.optionButton, departureTime === time.id && styles.optionButtonSelected]}
+                                style={[styles.timeOptionButton, departureTime === time.id && styles.optionButtonSelected]}
                                 onPress={() => setDepartureTime(time.id)}
                             >
-                                <Text style={[styles.optionText, departureTime === time.id && styles.optionTextSelected]}>{time.label}</Text>
+                                <Icon
+                                    name={time.iconName}
+                                    size={24}
+                                    color={departureTime === time.id ? WhiteColor : PrimaryColor}
+                                />
+                                <View>
+                                    <Text style={[styles.optionText, departureTime === time.id && styles.optionTextSelected]}>{time.label}</Text>
+                                    <Text style={[styles.timeText, departureTime === time.id && styles.timeTextSelected]}>{time.time}</Text>
+                                </View>
                             </TouchableOpacity>
                         ))}
                     </View>
@@ -131,6 +139,13 @@ export default function FilterScreen() {
 
 // Styles for the FilterScreen
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: WhiteColor,
+    },
+    scrollView: {
+        flex: 1,
+    },
     section: {
         padding: 20,
         borderBottomWidth: 1,
@@ -148,13 +163,26 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     optionButton: {
-        flex:1,
         paddingVertical: 10,
         paddingHorizontal: 15,
         borderRadius: 20,
         borderWidth: 1,
         borderColor: LightGray,
         backgroundColor: '#fafafa'
+    },
+    timeOptionButton: {
+        flexBasis: '48%', // Creates a 2-column layout with a small gap
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        paddingVertical: 12,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: LightGray,
+        backgroundColor: '#fafafa',
+        justifyContent: 'flex-start',
+
     },
     optionButtonSelected: {
         backgroundColor: PrimaryColor,
@@ -163,10 +191,19 @@ const styles = StyleSheet.create({
     optionText: {
         color: BlackColor,
         fontSize: 14,
+        fontWeight: 'bold',
     },
     optionTextSelected: {
         color: WhiteColor,
         fontWeight: 'bold',
+    },
+    timeText: {
+        color: GrayColor,
+        fontSize: 12,
+    },
+    timeTextSelected: {
+        color: WhiteColor,
+        opacity: 0.9,
     },
     priceHeader: {
         flexDirection: 'row',

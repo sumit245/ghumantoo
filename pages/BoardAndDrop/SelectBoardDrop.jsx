@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React, { useState, useMemo } from 'react';
 import {
     SafeAreaView,
@@ -9,115 +10,92 @@ import {
     StyleSheet,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useDispatch, useSelector } from 'react-redux';
 
-// --- Mock Data (In a real app, this would come from props or a Redux store) ---
-const MOCK_DATA = {
-    boardingPoints: [
-        {
-            id: 'bp1',
-            name: 'JAI BHAWANI TRAVELS NEW BUS STAND',
-            address: 'NEW BUS STAND, SAMDARIYA COMLEX, BLOCK - A SHOP 34',
-            time: '19:00',
-            date: '03 Aug',
-        },
-        {
-            id: 'bp2',
-            name: 'OLD BUS STAND REWA',
-            address: 'BHARAT TRAVELS, NEAR SATNA BUS STAND GATE, REVANCHAL BUS STAND',
-            time: '19:20',
-            date: '03 Aug',
-        },
-        {
-            id: 'bp3',
-            name: 'RAILWAY STATION SQUARE',
-            address: 'ABOVE FLYOVER BRIDGE RAILWAY STATION SQUARE',
-            time: '19:30',
-            date: '03 Aug',
-        },
-        {
-            id: 'bp4',
-            name: 'CHORAHTA',
-            address: 'CHORAHTA',
-            time: '19:40',
-            date: '03 Aug',
-        },
-    ],
-    droppingPoints: [
-        {
-            id: 'dp1',
-            name: 'SATNA BUS STAND',
-            address: 'NEAR GOLDEN GRILL HOTEL',
-            time: '21:00',
-            date: '03 Aug',
-        },
-        {
-            id: 'dp2',
-            name: 'RIICO CHOWK',
-            address: 'NEAR RIICO INDUSTRIAL AREA',
-            time: '21:15',
-            date: '03 Aug',
-        },
-    ],
-};
-
-// --- Sub-Component for a single list item ---
 const PointItem = ({ item, isSelected, onSelect }) => (
     <TouchableOpacity style={styles.itemContainer} onPress={() => onSelect(item)}>
+
         <View style={styles.radioCircle}>
             {isSelected && <View style={styles.selectedRadio} />}
         </View>
         <View style={styles.itemDetails}>
-            <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemAddress}>{item.address}</Text>
+            <Text style={styles.itemName}>{item.CityPointName}</Text>
+            <Text style={styles.itemAddress}>{item.CityPointAddress}</Text>
         </View>
         <View style={styles.itemTimeContainer}>
-            <Text style={styles.itemTime}>{item.time}</Text>
-            <Text style={styles.itemDate}>{item.date}</Text>
+            <Text style={styles.itemTime}>{dayjs(item.CityPointTime).format('hh:mm A')}</Text>
+            {item.CityPointContactNumber && (
+                <View style={styles.contactContainer}>
+                    <Icon name="call-outline" size={12} color="#666" />
+                    <Text style={styles.itemDate}>
+                        {item.CityPointContactNumber.split(' ').join(', ')}
+                    </Text>
+                </View>
+            )}
         </View>
     </TouchableOpacity>
 );
 
 // --- Main Screen Component ---
-export default function SelectPointsScreen({navigation}) {
+export default function SelectPointsScreen({ navigation }) {
     const [activeTab, setActiveTab] = useState('boarding'); // 'boarding' or 'dropping'
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedBoardingPoint, setSelectedBoardingPoint] = useState(null);
     const [selectedDroppingPoint, setSelectedDroppingPoint] = useState(null);
+    const { boardingPoints, droppingPoints, originCity, destinationCity, date_of_journey, selectedBus, departureTime } = useSelector(state => state.bus);
+
+    const dispatch = useDispatch();
 
     const isBoardingTab = activeTab === 'boarding';
 
     // Memoized filtering to prevent re-calculation on every render
     const filteredData = useMemo(() => {
-        const data = isBoardingTab ? MOCK_DATA.boardingPoints : MOCK_DATA.droppingPoints;
+        const data = isBoardingTab ? boardingPoints : droppingPoints;
         if (!searchQuery) {
             return data;
         }
         return data.filter(
             (item) =>
-                item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                item.address.toLowerCase().includes(searchQuery.toLowerCase())
+                item.CityPointName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.CityPointAddress.toLowerCase().includes(searchQuery.toLowerCase())
         );
     }, [searchQuery, isBoardingTab]);
 
     const handleSelect = (item) => {
         if (isBoardingTab) {
             setSelectedBoardingPoint(item);
+            setActiveTab('dropping'); // Automatically switch to dropping tab
         } else {
             setSelectedDroppingPoint(item);
         }
     };
 
+    const handleReset = () => {
+        setSelectedBoardingPoint(null);
+        setSelectedDroppingPoint(null);
+        setActiveTab('boarding'); // Go back to the first tab
+    };
+
+    const handleProceed = async () => {
+        await dispatch({ type: 'SET_SELECTED_BOARDING_POINT', payload: selectedBoardingPoint });
+        await dispatch({ type: 'SET_SELECTED_DROPPING_POINT', payload: selectedDroppingPoint });
+        // Navigate to the passenger details screen, passing the selected points
+        navigation.navigate('AddPassenger', {
+            boardingPoint: selectedBoardingPoint,
+            droppingPoint: selectedDroppingPoint,
+        });
+    };
     return (
         <SafeAreaView style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity onPress={()=>navigation.goBack()}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Icon name="arrow-back" size={24} color="#333" />
                 </TouchableOpacity>
                 <View>
-                    <Text style={styles.headerTitle}>Rewa → Satna</Text>
+                    <Text style={styles.headerTitle}>{originCity} → {destinationCity}</Text>
                     <Text style={styles.headerSubtitle}>
-                        Sun 03 Aug 2025, 19:20 | Jai Bhawani Travels
+                        {dayjs(date_of_journey).format('ddd DD MMM YYYY')}, {dayjs(departureTime).format('hh:mm A')} | {selectedBus}
                     </Text>
                 </View>
             </View>
@@ -129,7 +107,7 @@ export default function SelectPointsScreen({navigation}) {
                     onPress={() => setActiveTab('boarding')}
                 >
                     <Icon
-                        name="checkmark-circle"
+                        CityPointName="checkmark-circle"
                         size={18}
                         color={isBoardingTab ? '#D32F2F' : '#aaa'}
                         style={{ marginRight: 8 }}
@@ -143,7 +121,7 @@ export default function SelectPointsScreen({navigation}) {
                     onPress={() => setActiveTab('dropping')}
                 >
                     <Icon
-                        name="checkmark-circle-outline"
+                        CityPointName="checkmark-circle-outline"
                         size={18}
                         color={!isBoardingTab ? '#D32F2F' : '#aaa'}
                         style={{ marginRight: 8 }}
@@ -162,7 +140,7 @@ export default function SelectPointsScreen({navigation}) {
 
                 {/* Search Bar */}
                 <View style={styles.searchContainer}>
-                    <Icon name="search" size={20} color="#999" style={styles.searchIcon} />
+                    <Icon CityPointName="search" size={20} color="#999" style={styles.searchIcon} />
                     <TextInput
                         style={styles.searchInput}
                         placeholder={`Search for ${isBoardingTab ? 'Boarding' : 'Dropping'} Point`}
@@ -174,14 +152,14 @@ export default function SelectPointsScreen({navigation}) {
                 {/* List of Points */}
                 <FlatList
                     data={filteredData}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.CityPointIndex}
                     renderItem={({ item }) => (
                         <PointItem
                             item={item}
                             isSelected={
                                 isBoardingTab
-                                    ? selectedBoardingPoint?.id === item.id
-                                    : selectedDroppingPoint?.id === item.id
+                                    ? selectedBoardingPoint?.CityPointIndex === item.CityPointIndex
+                                    : selectedDroppingPoint?.CityPointIndex === item.CityPointIndex
                             }
                             onSelect={handleSelect}
                         />
@@ -189,6 +167,22 @@ export default function SelectPointsScreen({navigation}) {
                     showsVerticalScrollIndicator={false}
                 />
             </View>
+            {/* Footer with action buttons */}
+            {selectedBoardingPoint && selectedDroppingPoint && (
+                <View style={styles.footer}>
+                    <TouchableOpacity
+                        style={[styles.footerButton, styles.resetButton]}
+                        onPress={handleReset}
+                    >
+                        <Text style={styles.resetButtonText}>Reset</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.footerButton, styles.proceedButton]}
+                        onPress={handleProceed}>
+                        <Text style={styles.proceedButtonText}>Proceed</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
         </SafeAreaView>
     );
 }
@@ -307,6 +301,13 @@ const styles = StyleSheet.create({
     itemTimeContainer: {
         alignItems: 'flex-end',
     },
+    contactContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        maxWidth: '60%',
+        // flexWrap: 'wrap',   
+        marginTop: 4,
+    },
     itemTime: {
         fontSize: 16,
         fontWeight: 'bold',
@@ -314,5 +315,37 @@ const styles = StyleSheet.create({
     itemDate: {
         fontSize: 12,
         color: '#666',
+        marginLeft: 4,
+    },
+    footer: {
+        flexDirection: 'row',
+        padding: 16,
+        backgroundColor: '#fff',
+        borderTopWidth: 1,
+        borderTopColor: '#eee',
+    },
+    footerButton: {
+        flex: 1,
+        paddingVertical: 15,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    resetButton: {
+        backgroundColor: '#f1f1f1',
+        marginRight: 10,
+    },
+    resetButtonText: {
+        color: '#D32F2F',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    proceedButton: {
+        backgroundColor: '#D32F2F',
+    },
+    proceedButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });

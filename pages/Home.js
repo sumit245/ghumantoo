@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -22,9 +22,10 @@ import LocationSelector from "../components/LocationSelector";
 
 import { styles, width } from "../utils/styles";
 import { Black1Color, PrimaryColor, } from "../utils/colors";
-import { getBusOnRoute } from "../actions/busActions";
+import { getActiveCoupons, getBusOnRoute } from "../actions/busActions";
 import { typography } from "../utils/typography";
 import { spacing } from "../utils/spacing.styles";
+
 
 export default function Home() {
   const [date, setDate] = useState(dayjs());
@@ -47,13 +48,17 @@ export default function Home() {
     if (!pickup) return showError("Source of journey cannot be empty");
     if (!destination) return showError("Destination of journey cannot be empty");
     if (pickup === destination) return showError("Source and destination cannot be same");
+
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
+    setLoading(true);
+
+    // Reverting to the original logic: fetch data first, then navigate.
     dispatch(getBusOnRoute(pickup, destination, formattedDate)).then(() => {
-      setLoading(false)
+      setLoading(false);
       navigation.navigate("SearchBus");
-    }).catch(() => {
-      setLoading(false)
-    })
+    }).finally(() => {
+      setLoading(false);
+    });
 
   }, [pickup, destination, date, dispatch, navigation, showError]);
 
@@ -66,18 +71,31 @@ export default function Home() {
   const showModal = useCallback(() => setVisible(true), []);
   const dismissSnackbar = useCallback(() => setIsError(false), []);
 
-  const setPickupLocation = async (location) => { 
+  const setPickupLocation = async (location) => {
     setPickup(location.id);
     if (location) {
       dispatch({ type: 'SET_ORIGIN_CITY', payload: location.title });
     }
   }
-  const setDestinationLocation = async (location) => { 
+  const setDestinationLocation = async (location) => {
     setDestination(location.id);
     if (location) {
       dispatch({ type: 'SET_DESTINATION_CITY', payload: location.title });
     }
   };
+  const getCoupons = async () => {
+    try {
+      setLoading(true)
+      await dispatch(getActiveCoupons());
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getCoupons();
+  }, []);
 
   if (loading) {
     return (
@@ -103,6 +121,11 @@ export default function Home() {
           setDate={setDate}
         />
 
+        {/* FIXME: Once clicked it takes too much time to move to next screen and remains in immutable state. Warning on terminal is:
+          WARN  ImmutableStateInvariantMiddleware took 454ms, which is more than the warning threshold of 32ms. 
+If your state or actions are very large, you may want to disable the middleware as it might cause too much of a slowdown in development mode. See https://redux-toolkit.js.org/api/getDefaultMiddleware for instructions.
+It is disabled in production builds, so you don't need to worry about that.
+         */}
         <PrimaryButton
           onClick={searchBus}
           isIconButton

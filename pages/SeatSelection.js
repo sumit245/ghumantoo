@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { SafeAreaView, ScrollView, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import SeatLayout from '../components/SeatLayout/SeatLayout';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { PrimaryColor, WhiteColor, BlackColor, LightGray, DangerColor, PureWhite } from '../utils/colors';
@@ -9,6 +9,8 @@ import { height, width } from '../utils/styles';
 import Cancellation from '../components/BottomSheetVerticalData/Cancellation';
 import OtherPolicies from '../components/BottomSheetVerticalData/OtherPolicies';
 import { useNavigation } from '@react-navigation/native';
+import { getBoardingAndDroppingPoints } from '../actions/busActions';
+// import { useDispatch } from 'react-redux';
 
 
 // --- Sub-Component: BookingSummarySheet ---
@@ -27,7 +29,7 @@ const BottomSheetContent = ({
     const sheetHeight = height * 0.6; // Max height of the sheet
     const collapsedHeight = 160; // Height when collapsed
     const translateY = useSharedValue(0);
-    const {date_of_journey} = useSelector(state => state.bus);
+    const { date_of_journey } = useSelector(state => state.bus);
 
     // Pan gesture to control the sheet's position
     const panGesture = Gesture.Pan()
@@ -61,25 +63,24 @@ const BottomSheetContent = ({
                 </View>
             </GestureDetector>
 
-            {/* --- Collapsed View Content --- */}
-            {
-                selectedSeats.length > 0 && (
-                    <View style={styles.summaryContainer}>
+            {/* --- Collapsed View Content & Action Buttons --- */}
+            {selectedSeats.length > 0 && (
+                <>
+                    <View style={[styles.summaryContainer, styles.highlighted]}>
                         <View style={styles.routeInfo}>
-                            <Text style={styles.label}>{selectedBus }</Text>
-                            <Text style={styles.label}>{ selectedBusType}</Text>
+                            <Text style={styles.label}>{selectedBus}</Text>
+                            <Text style={styles.label}>{selectedBusType}</Text>
                             <Text style={styles.value}>{origin}-{destination}</Text>
                             <Text style={styles.label}>Date: <Text style={styles.value}>{date}</Text></Text>
                         </View>
                         <View style={styles.priceInfo}>
                             <Text style={styles.seatsLabel}>Seats: {selectedSeats.map(s => s.seat_id).join(', ')}</Text>
-                            {/* <Text style={styles.priceLabel}>Total Price</Text> */}
                             <Text style={styles.priceValue}>₹{totalPrice}</Text>
                         </View>
                     </View>
 
-                )
-            }
+                </>
+            )}
 
             {/* --- Expanded View Content --- */}
             <ScrollView style={styles.expandedContent} showsVerticalScrollIndicator={false}>
@@ -90,19 +91,6 @@ const BottomSheetContent = ({
                 <Text style={styles.sectionTitle}>Other Policies*</Text>
                 <OtherPolicies />
             </ScrollView>
-
-            {/* --- Action Buttons --- */}
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={[styles.button, styles.resetButton]} onPress={onReset}>
-                    <Text style={styles.resetButtonText}>Reset</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.button, styles.proceedButton, { backgroundColor: selectedSeats.length > 0 ? PrimaryColor : LightGray }]}
-                    disabled={selectedSeats.length === 0}
-                    onPress={onProceed}>
-                    <Text style={styles.proceedButtonText}>Proceed</Text>
-                </TouchableOpacity>
-            </View>
         </Animated.View>
     );
 };
@@ -111,10 +99,10 @@ const BottomSheetContent = ({
 // --- Main Screen: SeatSelection ---
 export default function SeatSelection() {
     // Assuming origin, destination, and date are in the bus reducer
-    const { seatLayout, originCity, destinationCity, date_of_journey,selectedBus,selectedBusType } = useSelector(state => state.bus);
+    const { seatLayout, originCity, destinationCity, date_of_journey, selectedBus, selectedBusType, SearchTokenId, resultIndex } = useSelector(state => state.bus);
     const [selectedSeats, setSelectedSeats] = useState([]);
     const navigation = useNavigation();
-
+    const dispatch = useDispatch();
     const handleSeatSelection = (seat) => {
         setSelectedSeats(prevSelected => {
             const isAlreadySelected = prevSelected.some(s => s.seat_id === seat.seat_id);
@@ -136,23 +124,22 @@ export default function SeatSelection() {
         setSelectedSeats([]);
     };
 
-    const handleProceed = () => {
+    const handleProceed = async () => {
         // Navigate to passenger details screen with selected data
         console.log("Proceeding with seats:", selectedSeats);
         console.log("Total Price:", totalPrice);
+        await dispatch(getBoardingAndDroppingPoints(resultIndex, SearchTokenId, selectedSeats, totalPrice));
         navigation.navigate('SelectBoardDrop', { selectedSeats, totalPrice });
     };
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 180 }}>
-                <SeatLayout
-                    lowerSeats={seatLayout?.lower_deck?.rows}
-                    upperSeats={seatLayout?.upper_deck?.rows}
-                    selectedSeats={selectedSeats}
-                    handleSeatSelection={handleSeatSelection}
-                />
-            </ScrollView>
+            <SeatLayout
+                lowerSeats={seatLayout?.lower_deck?.rows}
+                upperSeats={seatLayout?.upper_deck?.rows}
+                selectedSeats={selectedSeats}
+                handleSeatSelection={handleSeatSelection}
+            />
 
             <BottomSheetContent
                 selectedSeats={selectedSeats}
@@ -165,6 +152,19 @@ export default function SeatSelection() {
                 onReset={handleReset}
                 onProceed={handleProceed}
             />
+            {
+                selectedSeats.length > 0 && (  
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={[styles.button, styles.resetButton]} onPress={handleReset}>
+                            <Text style={styles.resetButtonText}>Reset</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.button, styles.proceedButton]} onPress={handleProceed}>
+                            <Text style={styles.proceedButtonText}>Proceed</Text>
+                        </TouchableOpacity>
+                    </View>
+                 )
+            }
+
         </SafeAreaView>
     );
 }
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     sheetContainer: {
         position: 'absolute',
         bottom: -height * 0.6 + 160, // Start in collapsed position
-        width: width,
+        width: '100%',
         backgroundColor: PureWhite,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -203,6 +203,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingBottom: 10,
+    },
+    highlighted: {
+        backgroundColor: '#fff8e1', // A light yellow highlight color
+        marginHorizontal: -20, // Extend to the edges of the sheet
+        paddingHorizontal: 20, // Add back padding
+        paddingTop: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
     },
     routeInfo: {
         flex: 1,
@@ -251,14 +259,11 @@ const styles = StyleSheet.create({
         lineHeight: 20,
     },
     buttonContainer: {
-        // position: 'sticky',
-        // top: 90, // Position above the sheet
-        // left: 12,
         flexDirection: 'row',
         paddingVertical: 10,
-        borderTopWidth: 1,
-        borderTopColor: '#eee',
-        // backgroundColor: WhiteColor,
+        backgroundColor: '#fff8e1', // Match the highlight color
+        marginHorizontal: -20, // Extend to the edges
+        paddingHorizontal: 20, // Add back padding
     },
     button: {
         flex: 1,
@@ -277,6 +282,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     proceedButton: {
+        // The button is only visible when seats are selected, so we can keep it enabled.
+        // The disabled state is handled by the conditional rendering of the whole block.
         backgroundColor: PrimaryColor,
     },
     proceedButtonText: {

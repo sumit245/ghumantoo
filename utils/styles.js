@@ -204,7 +204,7 @@ export const styles = StyleSheet.create({
 
   couponCode: {
     backgroundColor: DangerColor,
-    margin: 12,
+    marginVertical: 12,
     textAlign: "center",
     textTransform: "uppercase",
     height: 40,
@@ -433,8 +433,8 @@ export const styles = StyleSheet.create({
     opacity: 0.6,
   },
   stdTextBottomSheet: {
-    fontSize: 17,
-    lineHeight: 30,
+    fontSize: 14,
+    lineHeight: 16,
   },
 
   smallButtonPrimary: {
