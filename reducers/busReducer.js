@@ -1,8 +1,15 @@
-import { GET_BUSES, SELECT_BUS, SET_BOOKED_SEATS, SET_DESTINATION_ID, SET_JOURNEY_DATE, SET_PICKUP_ID, SET_SEARCH_TOKEN, SET_SEAT_LAYOUT, SET_SELECTED_SEATS, SET_TOTAL_SEATS, SET_ORIGIN_CITY, SET_DESTINATION_CITY, SET_RESULT_INDEX, SET_ACTIVE_COUPONS, SET_AVAILABLE_BOARDING_POINTS, SET_PRICE_OF_SEATS, SET_BUS_TYPE, SET_AVAILABLE_DROPPING_POINTS, SET_DEPARTURE_TIME, SET_ARRIVAL_TIME, SET_CANCEL_POLICY, SET_SELECTED_BOARDING_POINT, SET_SELECTED_DROPPING_POINT } from "../utils/constants";
+import { GET_BUSES, SELECT_BUS, SET_BOOKED_SEATS, SET_DESTINATION_ID, SET_JOURNEY_DATE, SET_PICKUP_ID, SET_SEARCH_TOKEN, SET_SEAT_LAYOUT, SET_SELECTED_SEATS, SET_TOTAL_SEATS, SET_ORIGIN_CITY, SET_DESTINATION_CITY, SET_RESULT_INDEX, SET_ACTIVE_COUPONS, SET_AVAILABLE_BOARDING_POINTS, SET_PRICE_OF_SEATS, SET_BUS_TYPE, SET_AVAILABLE_DROPPING_POINTS, SET_DEPARTURE_TIME, SET_ARRIVAL_TIME, SET_CANCEL_POLICY, SET_SELECTED_BOARDING_POINT, SET_SELECTED_DROPPING_POINT, GET_BUSES_SUCCESS, APPEND_BUSES_SUCCESS, SET_PAGINATION } from "../utils/constants";
 
 const initialState = {
-  bus: [],
-  buses: []
+  // bus: [],
+  buses: [],
+  loading: false,
+  loadingMore: false,
+  error: null,
+  isSeatsLoading: false, // New state for seat loading
+  seatLayout: null,
+  policiesCancellation: null,
+  pagination: {},
 };
 
 const busReducer = (state = initialState, action) => {
@@ -53,6 +60,70 @@ const busReducer = (state = initialState, action) => {
       return { ...state, droppingPoints: action.payload }
     case SET_CANCEL_POLICY:
       return { ...state, policiesCancellation: action.payload }
+    case 'GET_BUSES_REQUEST':
+      return {
+        ...state,
+        loading: action.payload.page === 1,
+        loadingMore: action.payload.page > 1,
+        // Clear the list only for a new search
+        // buses: action.payload.page === 1 ? [] : state.buses,
+        error: null,
+      };
+    case GET_BUSES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        buses: action.payload,
+      };
+    case APPEND_BUSES_SUCCESS:
+      return {
+        ...state,
+        loadingMore: false,
+        buses: [...state.buses, ...action.payload],
+      };
+    case SET_PAGINATION:
+      return {
+        ...state,
+        pagination: action.payload,
+      };
+    case 'GET_BUSES_FAILURE':
+      return {
+        ...state,
+        loading: false,
+        loadingMore: false,
+        error: action.payload,
+      };
+    case 'CLEAR_SEARCH_RESULTS':
+      return {
+        ...state,
+        buses: [],
+        SearchTokenId: null,
+      };
+    case 'GET_SEATS_REQUEST':
+      return {
+        ...state,
+        isSeatsLoading: true,
+        seatLayout: null, // Clear previous seat layout
+        policiesCancellation: null, // Clear previous policies
+        error: null,
+      };
+    case 'GET_SEATS_SUCCESS':
+      return {
+        ...state,
+        isSeatsLoading: false,
+        seatLayout: action.payload.seatLayout,
+        total_seats: action.payload.availableSeats,
+        formattedCancellationPolicy: action.payload.cancellationPolicy,
+        // IMPORTANT: We receive the formatted policy for the UI, but we do NOT
+        // overwrite the original `policiesCancellation` state. This preserves the
+        // structured data needed for subsequent API calls.
+      };
+    case 'GET_SEATS_FAILURE':
+      return {
+        ...state,
+        isSeatsLoading: false,
+        error: action.payload,
+      };
     default:
       return state;
   }

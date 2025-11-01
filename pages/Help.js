@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
+  Linking
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { styles } from "../utils/styles";
@@ -25,6 +26,16 @@ export default function Help() {
   const toggleExpand = (id) => {
     setExpandedId((prevId) => (prevId === id ? null : id));
   };
+  const openChat = async () => {
+    // Logic to open chat interface
+    const chatUrl = 'https://wa.me/+9111888584'; // Replace with your chat URL
+    const supported = await Linking.canOpenURL(chatUrl);
+    if (supported) {
+      await Linking.openURL(chatUrl);
+    } else {
+      console.log(`Don't know how to open this URL: ${chatUrl}`);
+    }
+  }
   return (
     <SafeAreaView style={[styles.container, spacing.ph1]}>
       <View style={[spacing.p3]}>
@@ -45,7 +56,9 @@ export default function Help() {
             Ghumantoo: Buddy
           </Text>
 
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => { openChat() }}
+          >
             <Icon
               name="chatbubble-ellipses-outline"
               size={24}

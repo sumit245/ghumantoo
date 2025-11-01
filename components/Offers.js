@@ -22,9 +22,19 @@ const getRandomGradient = () => {
   return darkGradients[Math.floor(Math.random() * darkGradients.length)];
 };
 
-export default function Offers() {
-  const { activeCoupons } = useSelector(state => state.bus);
+export default function Offers({ isLoading }) {
+  if (isLoading) {
+    // Returning a placeholder is often better UX than null
+    return <View style={{ height: 150, justifyContent: 'center', alignItems: 'center' }}>
+    </View>;
+  }
 
+  const { activeCoupons = [] } = useSelector(state => state.bus);
+  console.log("Active Coupons:", activeCoupons);
+  // Don't render anything if there are no coupons to show
+  if (activeCoupons.length === 0) {
+    return null;
+  }
   return (
     <>
       <Text style={[typography.font24, typography.textBold, spacing.ml4]}>Coupons</Text>

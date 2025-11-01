@@ -10,7 +10,7 @@ const BottomTabs = createMaterialBottomTabNavigator();
 
 export const bottomTabScreens = [
   {
-    name: "Main",
+    name: "Home",
     icon: "home-outline", // Using outline icons for consistency
     component: Home,
   },
@@ -34,13 +34,11 @@ export const bottomTabScreens = [
 export default function BottomTabNavigator() {
   // 2. Get the safe area insets
   const insets = useSafeAreaInsets();
-  useEffect(() => {
-    console.log("Bottom insets:", insets.bottom);
-  }, [])
+
 
   return (
     <BottomTabs.Navigator
-      initialRouteName="Main"
+      initialRouteName="Home"
       activeColor={PrimaryColor}
       inactiveColor="#9e9e9e" // It's good practice to define an inactive color
       activeIndicatorStyle={{ backgroundColor: WhiteColor }}

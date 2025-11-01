@@ -1,15 +1,15 @@
-import { useState, useMemo } from 'react';
-import { SafeAreaView, ScrollView, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useState, useMemo, useEffect } from 'react';
+import { SafeAreaView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import SeatLayout from '../components/SeatLayout/SeatLayout';
 import { useSelector, useDispatch } from 'react-redux';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
-import { PrimaryColor, WhiteColor, BlackColor, LightGray, DangerColor, PureWhite } from '../utils/colors';
+import { PrimaryColor, WhiteColor, BlackColor, LightGray, DangerColor, PureWhite, White1Color } from '../utils/colors';
 import { height, width } from '../utils/styles';
 import Cancellation from '../components/BottomSheetVerticalData/Cancellation';
 import OtherPolicies from '../components/BottomSheetVerticalData/OtherPolicies';
 import { useNavigation } from '@react-navigation/native';
-import { getBoardingAndDroppingPoints } from '../actions/busActions';
+import { getAvailableSeats, getBoardingAndDroppingPoints } from '../actions/busActions';
 // import { useDispatch } from 'react-redux';
 
 
@@ -99,10 +99,25 @@ const BottomSheetContent = ({
 // --- Main Screen: SeatSelection ---
 export default function SeatSelection() {
     // Assuming origin, destination, and date are in the bus reducer
-    const { seatLayout, originCity, destinationCity, date_of_journey, selectedBus, selectedBusType, SearchTokenId, resultIndex } = useSelector(state => state.bus);
+    const {
+        seatLayout, originCity, destinationCity, date_of_journey, selectedBus,
+        selectedBusType, SearchTokenId, resultIndex, policiesCancellation, isSeatsLoading
+    } = useSelector(state => state.bus);
+
     const [selectedSeats, setSelectedSeats] = useState([]);
     const navigation = useNavigation();
     const dispatch = useDispatch();
+
+    // Fetch seat data when the component mounts and all required data is available
+    useEffect(() => {
+        console.log("resultIndex", resultIndex);
+        console.log("SearchTokenId", SearchTokenId);
+        console.log("policiesCancellation", policiesCancellation);
+        if (resultIndex && SearchTokenId && policiesCancellation) {
+            dispatch(getAvailableSeats(resultIndex, SearchTokenId, policiesCancellation));
+        }
+    }, [dispatch, resultIndex, SearchTokenId, policiesCancellation]);
+
     const handleSeatSelection = (seat) => {
         setSelectedSeats(prevSelected => {
             const isAlreadySelected = prevSelected.some(s => s.seat_id === seat.seat_id);
@@ -126,11 +141,16 @@ export default function SeatSelection() {
 
     const handleProceed = async () => {
         // Navigate to passenger details screen with selected data
-        console.log("Proceeding with seats:", selectedSeats);
-        console.log("Total Price:", totalPrice);
         await dispatch(getBoardingAndDroppingPoints(resultIndex, SearchTokenId, selectedSeats, totalPrice));
         navigation.navigate('SelectBoardDrop', { selectedSeats, totalPrice });
     };
+
+    // Show a loading indicator while fetching seats
+    if (isSeatsLoading || !seatLayout) {
+        return (
+            <View style={styles.loaderContainer}><ActivityIndicator size="large" color={PrimaryColor} /></View>
+        );
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -153,7 +173,7 @@ export default function SeatSelection() {
                 onProceed={handleProceed}
             />
             {
-                selectedSeats.length > 0 && (  
+                selectedSeats.length > 0 && (
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity style={[styles.button, styles.resetButton]} onPress={handleReset}>
                             <Text style={styles.resetButtonText}>Reset</Text>
@@ -162,7 +182,7 @@ export default function SeatSelection() {
                             <Text style={styles.proceedButtonText}>Proceed</Text>
                         </TouchableOpacity>
                     </View>
-                 )
+                )
             }
 
         </SafeAreaView>
@@ -174,6 +194,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f4f4f4',
+    },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: White1Color,
     },
     sheetContainer: {
         position: 'absolute',

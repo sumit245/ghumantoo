@@ -14,49 +14,20 @@ const PolicyRow = ({ condition, charge }) => (
 
 export default function Cancellation({ dateOfJourney }) {
 
-  const {policiesCancellation}  = useSelector((state) => state.bus);
+  const { formattedCancellationPolicy } = useSelector((state) => state.bus);
 
-  useEffect(() => {
-    console.log("Cancellation Policy from Redux:", policiesCancellation);
-  }, [policiesCancellation]);
   // If no date is passed, we can show a default message or hide the component
-  if (!dateOfJourney) {
-    return (
-      <View>
-        <Text style={styles.headerTitleText}>Cancellation policy</Text>
-        <Text>Cancellation details will be available once a journey date is selected.</Text>
-      </View>
-    );
-  }
+  useEffect(() => {
+    console.log(formattedCancellationPolicy)
+  }, [])
 
-  const journeyDate = dayjs(dateOfJourney);
-
-  // Create the policy data dynamically based on the journey date
-  const policies = [
-    {
-      condition: `Before ${journeyDate.subtract(1, 'day').format('DD MMM, ddd')}`,
-      charge: '10%'
-    },
-    {
-      condition: `Between ${journeyDate.subtract(1, 'day').format('DD MMM')} & ${journeyDate.subtract(12, 'hour').format('h:mm A')}`,
-      charge: '25%'
-    },
-    {
-      condition: `Between ${journeyDate.subtract(12, 'hour').format('h:mm A')} & ${journeyDate.subtract(2, 'hour').format('h:mm A')}`,
-      charge: '50%'
-    },
-    {
-      condition: `After ${journeyDate.subtract(2, 'hour').format('h:mm A on DD MMM')}`,
-      charge: '100%'
-    }
-  ];
 
   return (
     <View>
       {/* <Text style={styles.headerTitleText}>Cancellation policy</Text> */}
       <Text style={styles.subHeadingBottomSheet}>Note: Cancellation charges are calculated on a per-seat basis.</Text>
       <View style={localStyles.policyContainer}>
-        {policiesCancellation.map((policy, index) => (
+        {formattedCancellationPolicy.map((policy, index) => (
           <PolicyRow key={index} condition={policy} />
         ))}
       </View>

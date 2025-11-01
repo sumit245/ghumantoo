@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -12,10 +12,11 @@ import GuestView from '../components/GuestView';
 
 // --- Data for the menu items ---
 const MENU_DATA = [
-  { id: '1', title: 'Wallet', icon: 'wallet-outline', whereTo: 'Wallet' },
-  { id: '2', title: 'Refer & Earn', icon: 'share-social-outline', whereTo: 'ReferAndEarn' },
-  { id: '3', title: 'About Us', icon: 'information-circle-outline', whereTo: 'About' },
-  { id: '4', title: 'Settings', icon: 'settings-outline', whereTo: 'Setting' },
+  // { id: '1', title: 'Wallet', icon: 'wallet-outline', whereTo: 'Wallet' },
+  { id: '1', title: 'About Us', icon: 'information-circle-outline', whereTo: 'https://vindhyashrisolutions.com/' },
+  { id: '2', title: 'Privacy Policy', icon: 'information-circle-outline', whereTo: 'https://vindhyashrisolutions.com/policy/69/privacy-policy' },
+  { id: '3', title: 'Ghumantoo Policy', icon: 'information-circle-outline', whereTo: 'https://vindhyashrisolutions.com/policy/71/terms-and-conditions' },
+  { id: '4', title: 'Ticket Policy', icon: 'information-circle-outline', whereTo: 'https://vindhyashrisolutions.com/policy/90/ticket-policies' },
 ];
 
 // --- Sub-Component for the Profile Header ---
@@ -85,7 +86,7 @@ export default function Account() {
             key={item.id}
             title={item.title}
             icon={item.icon}
-            onPress={() => navigation.navigate(item.whereTo)}
+            onPress={async () => await Linking.openURL(item.whereTo)}
           />
         ))}
       </View>

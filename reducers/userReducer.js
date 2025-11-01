@@ -1,4 +1,4 @@
-import { AUTH_USER, LOGOUT, FORGOT_PASSWORD, SET_USER, SET_MOBILE_NUMBER, SET_OTP_MESSAGE } from "../utils/constants";
+import { AUTH_USER, LOGOUT, FORGOT_PASSWORD, SET_USER, SET_MOBILE_NUMBER, SET_OTP_MESSAGE, SET_MY_TICKETS } from "../utils/constants";
 
 
 const initialState = {
@@ -39,6 +39,11 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 password: action.payload
+            }
+        case SET_MY_TICKETS:
+            return {
+                ...state,
+                tickets: action.payload
             }
         default:
             return state;

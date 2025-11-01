@@ -57,7 +57,7 @@ const OtherPolicies = () => {
       data={policies}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
-      contentContainerStyle={{ paddingVertical: 10,paddingBottom:20 }}
+      contentContainerStyle={{ paddingVertical: 10,paddingBottom:20,marginBottom:100 }}
     />
   );
 };

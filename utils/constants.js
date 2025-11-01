@@ -1,6 +1,7 @@
-export const API_URL = "http://192.168.1.2/bus_booking"
-export const RAZORPAY_KEY_ID = "rzp_live_AkjlcAJNXWb7EU"; // Replace with your actual Razorpay key
+export const API_URL = "http://192.168.1.7/bus_booking"
+// export const RAZORPAY_KEY_ID = "rzp_live_AkjlcAJNXWb7EU"; // Replace with your actual Razorpay key
 // export const API_URL = "https://vindhyashrisolutions.com";
+export const RAZORPAY_KEY_ID = "rzp_test_RLkSbmC39vNulJ";
 
 // User related actions
 export const SET_MOBILE_NUMBER = "SET_MOBILE_NUMBER";
@@ -45,3 +46,9 @@ export const SET_SELECTED_DROPPING_POINT = "SET_SELECTED_DROPPING_POINT"
 export const SET_DEPARTURE_TIME = "SET_DEPARTURE_TIME"
 export const SET_ARRIVAL_TIME = "SET_ARRIVAL_TIME"
 export const SET_CANCEL_POLICY = "SET_CANCEL_POLICY"
+export const SET_MY_TICKETS = "SET_MY_TICKETS"
+
+// Define new action types for clarity
+export const GET_BUSES_SUCCESS = 'GET_BUSES_SUCCESS';
+export const APPEND_BUSES_SUCCESS = 'APPEND_BUSES_SUCCESS';
+export const SET_PAGINATION = 'SET_PAGINATION';

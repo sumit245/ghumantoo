@@ -53,6 +53,10 @@ export const styles = StyleSheet.create({
     marginBottom: 4,
   },
   modalContainerStyle: {
+    position: "absolute",
+    top: '54%',
+    left: '50%',
+    transform: [{ translateX: -width / 2 }, { translateY: -height / 2 }],
     backgroundColor: WhiteColor,
     marginHorizontal: 16,
     borderRadius: 8,
@@ -60,8 +64,16 @@ export const styles = StyleSheet.create({
   },
   modalCloseIcon: {
     position: "absolute",
-    top: 8,
-    right: 8,
+    height: 40,
+    width: 40,
+    top: -16,
+    right: -16,
+    zIndex: 999,
+    elevation: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    backgroundColor: 'rgba(255,255,255,0.9)',
   },
   tabContainer: {
     flexDirection: "row",
@@ -91,7 +103,7 @@ export const styles = StyleSheet.create({
 
   cardDivider: {
     position: "relative",
-    width: width+16,
+    width: width + 16,
     left: -16,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -450,5 +462,189 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-start",
     height: 68,
     // marginBottom: Platform.OS === "android" ? 1000 : 0,
+  },
+  // Passenger page specific styles
+  passenger: {
+    view: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      top: 24,
+      fontSize: 14,
+      textAlign: "right",
+    },
+
+    seat: {
+      fontSize: 12,
+      color: "#000",
+      backgroundColor: "pink",
+      borderRadius: 4,
+      alignSelf: "flex-start",
+      paddingHorizontal: 6,
+      paddingVertical: 2,
+    },
+
+    passengerInput: {
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 6,
+      padding: 10,
+      fontSize: 14,
+      color: "#000",
+    },
+
+    container: {
+      flex: 1,
+      backgroundColor: '#F7F7F7',
+    },
+    pageHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 16,
+      backgroundColor: '#fff',
+    },
+    headerTitle: {
+      fontSize: 18,
+      fontWeight: "bold",
+      marginLeft: 16,
+    },
+    headerSubtitle: {
+      fontSize: 12,
+      color: '#666',
+      marginLeft: 16,
+    },
+    contentArea: {
+      flex: 1,
+      paddingHorizontal: 16,
+      paddingTop: 16,
+    },
+    travelDetails: {
+      padding: 12,
+      backgroundColor: "#FFF",
+      borderRadius: 8,
+      marginBottom: 16,
+    },
+    row: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    selectedSeatsContainer: {
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginTop: 8,
+    },
+    seatItem: {
+      borderRadius: 4,
+      color: "#fff",
+      padding: 4,
+      margin: 2,
+    },
+    time: {
+      fontSize: 14,
+      fontWeight: "bold",
+      color: "#000",
+    },
+    location: {
+      fontSize: 12,
+      maxWidth: "60%",
+      flexWrap: "wrap",
+      color: "#777",
+    },
+    contactDetails: {
+      padding: 16,
+      backgroundColor: "#FFF",
+      borderRadius: 8,
+      marginBottom: 16,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: "bold",
+      marginBottom: 8,
+    },
+    section: {
+      bottom: 5,
+      fontSize: 12,
+    },
+    infoText: {
+      backgroundColor: "pink",
+      borderRadius: 8,
+      paddingHorizontal: 6,
+      paddingVertical: 2,
+      marginRight: 8,
+      fontSize: 12,
+    },
+    inputGroup: {
+      flexDirection: "row",
+    },
+    input: {
+      borderColor: "#CCC",
+      borderWidth: 1,
+      borderRadius: 4,
+      paddingHorizontal: 8,
+      marginRight: 8,
+      padding: 10,
+      color: "#000",
+    },
+    number: {
+      marginRight: 2,
+      flex: 1,
+    },
+    label: {
+      fontSize: 16,
+    },
+    pickerContainer: {
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 8,
+    },
+    picker: {
+      height: 55,
+      width: "100%",
+    },
+    links: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginTop: 8,
+    },
+    link: {
+      color: "#007BFF",
+      fontSize: 14,
+    },
+    footer: {
+      flexDirection: 'row',
+      padding: 16,
+      backgroundColor: '#fff',
+      borderTopWidth: 1,
+      borderTopColor: '#eee',
+      alignItems: 'center',
+    },
+    priceContainer: {
+      flex: 1,
+    },
+    totalAmountLabel: {
+      fontSize: 14,
+      color: '#666',
+    },
+    totalAmountValue: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: '#000',
+    },
+    footerButton: {
+      flex: 1,
+      paddingVertical: 15,
+      borderRadius: 8,
+      alignItems: "center",
+      justifyContent: 'center',
+    },
+    proceedButton: {
+      backgroundColor: PrimaryColor,
+    },
+    proceedButtonText: {
+      color: WhiteColor,
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
   },
 });

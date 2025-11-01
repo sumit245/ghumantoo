@@ -37,7 +37,7 @@ const Seat = React.memo(({ seat, onSelect, isSelected }) => {
   }
 
   // TODO: Basically there are three types of seats: vseat (for all vertical seats, normal sleepers), bseat(for square seats, basically seaters), hseat(for horizontal sleepers, especially either at end of the bus or at the start with two seats facing each other) We need to handle all three types here.
-  
+
   // 4. Determine seat dimensions based on type
   const isVertical = seat.type === 'vseat' || seat.type === 'bvseat';
   const isSeater = seat.type === 'bseat' || seat.type === 'nseat' || seat.type === 'rseat' || seat.type === 'brseat';
@@ -54,7 +54,7 @@ const Seat = React.memo(({ seat, onSelect, isSelected }) => {
     >
       {/* 5. Conditionally render the correct SVG component with dynamic colors */}
       {seat.is_sleeper ? (
-        <SleeperIcon bgColor={seatColors.bg} borderColor={seatColors.border} width={seatStyle.width}  height={seatStyle.height} selected={isSelected} isVertical={isVertical} />
+        <SleeperIcon bgColor={seatColors.bg} borderColor={seatColors.border} width={seatStyle.width} height={seatStyle.height} selected={isSelected} isVertical={isVertical} />
       ) : (
         <SeaterIcon bgColor={seatColors.bg} borderColor={seatColors.border} selected={isSelected} />
       )}
@@ -177,7 +177,7 @@ export default function SeatLayout({ lowerSeats = {}, upperSeats = {}, handleSea
 // --- StyleSheet ---
 const styles = StyleSheet.create({
   scrollViewContent: { flexGrow: 1, flexDirection: 'row', padding: 2 },
-  deckContainer: { minWidth: width / 1.8, backgroundColor: PureWhite, borderRadius: 16, padding: 4, marginHorizontal: 4, justifyContent: 'flex-start',maxHeight:'auto' },
+  deckContainer: { minWidth: width / 1.8, backgroundColor: PureWhite, borderRadius: 16, padding: 4, marginHorizontal: 4, justifyContent: 'flex-start', maxHeight: 'auto' },
   deckHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 0.5, borderBottomColor: LightGray, height: 38, paddingBottom: 4 },
   steeringImage: { height: 34, width: 36 },
   seatsContainer: { flexDirection: 'row-reverse', alignItems: 'flex-end', marginTop: 10 },

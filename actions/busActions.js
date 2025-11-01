@@ -1,82 +1,141 @@
 import axios from "axios";
-import { API_URL, GET_BUSES, SELECT_BUS, SET_ACTIVE_COUPONS, SET_AVAILABLE_BOARDING_POINTS, SET_AVAILABLE_DROPPING_POINTS, SET_BOOKED_SEATS, SET_CANCEL_POLICY, SET_DESTINATION_ID, SET_JOURNEY_DATE, SET_PICKUP_ID, SET_PRICE_OF_SEATS, SET_RESULT_INDEX, SET_SEARCH_TOKEN, SET_SEAT_LAYOUT, SET_SELECTED_SEATS, SET_TOTAL_SEATS } from "../utils/constants";
+import { API_URL, APPEND_BUSES_SUCCESS, GET_BUSES, GET_BUSES_SUCCESS, SELECT_BUS, SET_ACTIVE_COUPONS, SET_AVAILABLE_BOARDING_POINTS, SET_AVAILABLE_DROPPING_POINTS, SET_BOOKED_SEATS, SET_CANCEL_POLICY, SET_DESTINATION_ID, SET_JOURNEY_DATE, SET_PAGINATION, SET_PICKUP_ID, SET_PRICE_OF_SEATS, SET_RESULT_INDEX, SET_SEARCH_TOKEN, SET_SEAT_LAYOUT, SET_SELECTED_SEATS, SET_TOTAL_SEATS } from "../utils/constants";
 
 
-export const getBusOnRoute =
-  (pickup, destination, date_of_journey, filters = {}) => async (dispatch) => {
-    const params = {
-      OriginId: pickup,
-      DestinationId: destination,
-      DateOfJourney: date_of_journey,
-      UserIp: "103.209.223.52"
-    };
+export const getBusOnRoute = (pickup, destination, date_of_journey, filters = {}, page = 1) => async (dispatch) => {
+  // Dispatch a request action to handle loading states in the reducer
+  dispatch({ type: 'GET_BUSES_REQUEST', payload: { page } });
 
-    // Add fleetType filter if provided
-    if (filters.fleetTypes && filters.fleetTypes.length > 0) {
-      // The server expects 'A/c' or 'Non-A/c', but the frontend uses 'AC' and 'Non-AC'.
-      params.fleetType = filters.fleetTypes.map(type => {
-        if (type === 'AC') return 'A/c';
-        if (type === 'Non-AC') return 'Non-A/c';
-        return type;
-      });
+  // Build the parameters object from all available data
+  const params = {
+    OriginId: pickup,
+    DestinationId: destination,
+    DateOfJourney: date_of_journey,
+    page: page,
+    sortBy: filters.sortBy,
+    sortOrder: filters.sortOrder,
+  };
+
+  // Add fleetType filter only if it has values
+  if (filters.fleetTypes && filters.fleetTypes.length > 0) {
+    params.fleetType = filters.fleetTypes; // Backend now handles normalization
+  }
+  // Add departureTime filter (from advanced filter screen)
+  if (filters.departureTime) {
+    params.departure_time = [filters.departureTime];
+  }
+
+  // Add price filter (from advanced filter screen)
+  if (filters.price !== undefined && filters.price !== null) {
+    params.max_price = filters.price;
+  }
+  console.log("Fetching buses with params:", params);
+  try {
+    const response = await axios.get(`${API_URL}/api/bus/search`, { params });
+
+    const { SearchTokenId, trips, pagination } = response.data;
+
+    // If it's the first page, replace the list. Otherwise, append to it.
+    if (page === 1) {
+      dispatch({ type: GET_BUSES_SUCCESS, payload: trips });
+    } else {
+      dispatch({ type: APPEND_BUSES_SUCCESS, payload: trips });
     }
-    // Add departure_time filter if provided
-    if (filters.departureTime) {
-      params.departure_time = [filters.departureTime];
-    }
-    // Add price filter if provided
-    if (filters.price !== undefined && filters.price !== null) {
-      params.max_price = filters.price;
-    }
 
-    try {
-      const response = await axios.get(`${API_URL}/api/bus/search`, { params });
-      const { SearchTokenId, trips } = response.data;
-      dispatch({ type: GET_BUSES, payload: trips });
-      dispatch({ type: SET_SEARCH_TOKEN, payload: SearchTokenId });
+    // Dispatch actions to update other relevant state
+    dispatch({ type: SET_SEARCH_TOKEN, payload: SearchTokenId });
+    dispatch({ type: SET_PAGINATION, payload: pagination }); // Store pagination data
+
+    // Dispatch these only on the first page load to avoid redundancy
+    if (page === 1) {
       dispatch({ type: SET_JOURNEY_DATE, payload: date_of_journey });
       dispatch({ type: SET_PICKUP_ID, payload: pickup });
       dispatch({ type: SET_DESTINATION_ID, payload: destination });
-      return SearchTokenId
-    } catch (error) {
-      console.error("getBusOnRoute error", error);
-      throw error;
     }
-  };
+
+    // Return the full response data so the component can check for more pages
+    return response.data;
+
+  } catch (error) {
+    console.error("getBusOnRoute error", error);
+    dispatch({ type: 'GET_BUSES_FAILURE', payload: error.message });
+    throw error;
+  }
+};
 // Done
 
 
 
 export const fetchCounters = async (query) => {
   try {
+    console.log("Searching for counters with query:", query);
     const response = await axios.get(`${API_URL}/api/autocomplete-city?query=${query}`);
     const { data } = response
+    console.log("Fetched counters:", data);
     return data; // Return the list of matching counters
   } catch (error) {
+    if (error.response) {
+      console.error("Server responded with error:", error.response.status, error.response.data);
+    } else if (error.request) {
+      console.error("No response received. Request details:", error.request);
+    } else {
+      console.error("Error setting up request:", error.message);
+    }
+    console.error("fetchCounters error", error);
     return [];
   }
 };
 // Done
 
-export const getAvailableSeats = (id, search_token, policies) => async (dispatch) => {
+export const getAvailableSeats = (resultIndex, searchToken, policies) => async (dispatch) => {
+  // 1. Dispatch a loading action to show a spinner on the SeatSelection screen
+  dispatch({ type: 'GET_SEATS_REQUEST' });
+
   try {
-    const response = await axios.get(`${API_URL}/api/bus/show-seats/`, {
-      params: {
-        SearchTokenId: search_token,
-        ResultIndex: id
-      }
-    })
-    const cancellationPolicyResponse = await axios.post(`${API_URL}/api/bus/cancellation-policy`, {
-      CancelPolicy: policies
-    })
-    const { cancellationPolicy } = cancellationPolicyResponse.data
-    console.log("cancellationPolicy", cancellationPolicy);
-    const { html, availableSeats } = response.data
-    dispatch({ type: SET_CANCEL_POLICY, payload: cancellationPolicy })
-    dispatch({ type: SET_RESULT_INDEX, payload: id })
-    dispatch({ type: SET_SEAT_LAYOUT, payload: html.seat })
-    dispatch({ type: SET_TOTAL_SEATS, payload: availableSeats });
+    // 2. Run both API calls in parallel for efficiency
+    // let parsedPolicies = policies;
+    // Ensure policies is a JS object/array, not a JSON string
+    // if (typeof policies === 'string') {
+    //   try {
+    //     parsedPolicies = JSON.parse(policies);
+    //   } catch (e) {
+    //     console.error("Failed to parse cancellation policies:", e);
+    //     // If parsing fails, we might send the original or an empty object
+    //     // depending on what the backend expects on failure.
+    //     parsedPolicies = [];
+    //   }
+    // }
+    const parsedPolicies = typeof policies === 'string' ? JSON.parse(policies) : policies;
+    console.log(parsedPolicies)
+    const [seatResponse, cancellationPolicyResponse] = await Promise.all([
+      axios.get(`${API_URL}/api/bus/show-seats/`, {
+        params: {
+          SearchTokenId: searchToken,
+          ResultIndex: resultIndex
+        }
+      }),
+      axios.post(`${API_URL}/api/bus/cancellation-policy`, {
+        CancelPolicy: parsedPolicies
+      })
+    ]);
+
+    const { html, availableSeats } = seatResponse.data;
+    console.log(html, availableSeats)
+    const { cancellationPolicy } = cancellationPolicyResponse.data;
+    // Use the formatted policy from the API response directly for the UI.
+    // DO NOT dispatch it back to overwrite the original structured policy data.
+    const formattedCancellationPolicy = cancellationPolicyResponse.data.cancellationPolicy;
+
+    // 3. Dispatch success action with all the data
+    dispatch({
+      type: 'GET_SEATS_SUCCESS',
+      // We pass the formatted policy here for the UI to use, but we won't store it back into `policiesCancellation`.
+      // This prevents the data format from being corrupted for subsequent API calls.
+      payload: { seatLayout: html.seat, availableSeats, cancellationPolicy: formattedCancellationPolicy }
+    });
+
   } catch (err) {
+    dispatch({ type: 'GET_SEATS_FAILURE', payload: err.message });
     console.error("getAvailableSeats error", err);
     throw err; // Re-throw the error to be handled by the calling component
   }
@@ -85,7 +144,9 @@ export const getAvailableSeats = (id, search_token, policies) => async (dispatch
 
 export const getActiveCoupons = () => async (dispatch) => {
   try {
+    console.log("Fetching Coupons")
     const resp = await axios.get(`${API_URL}/api/coupons`);
+    console.log(resp.data)
     const coupons = resp?.data?.data || [];
     dispatch({ type: SET_ACTIVE_COUPONS, payload: coupons });
   } catch (err) {
@@ -95,7 +156,6 @@ export const getActiveCoupons = () => async (dispatch) => {
 
 export const getBoardingAndDroppingPoints = (trip_id, search_token, selectedSeats, totalPrice) => async (dispatch) => {
   try {
-    console.log("Fetching boarding and dropping points for trip_id:", trip_id, "with search_token:", search_token);
     const response = await axios.get(`${API_URL}/api/bus/get-counters`, {
       params: {
         SearchTokenId: search_token,
@@ -118,7 +178,7 @@ export const blockSeat = async (data) => {
     const response = await axios.post(`${API_URL}/api/bus/block-seat`, {
       ...data
     });
-    console.log("blockSeat response", response.data);
+    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error("blockSeat error", error);
@@ -144,16 +204,17 @@ export const bookTicket = async (trip_id, data) => {
 
 export const confirmTicket = async (data) => {
   try {
-    const response = await axios.get(`${API_URL}/api/confirm-payment`, {
-      params: data,
-      // GET requests with 'Content-Type': 'application/json' in headers can be unusual.
-      // If this is a POST request, change axios.get to axios.post and send `data` as the body.
-      // Otherwise, this header is likely not needed for a GET request.
+    console.log(data)
+    const response = await axios.post(`${API_URL}/api/bus/confirm-payment`, {
+      ...data,
     });
-    const { status, details } = response.data;
-    return { status, details };
+    console.log(`confirmTicket response ${response.data}`)
+    const { success, block_details } = response.data;
+    console.log(success, block_details)
+    return { success, block_details };
   } catch (error) {
-    console.error("confirmTicket error", error);
+    const errorBody = error.response ? error.response.data : error.message;
+    console.error("confirmTicket error", JSON.stringify(errorBody, null, 2));
     throw error;
   }
 }

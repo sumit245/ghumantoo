@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../utils/styles";
-import TicketComponent from "../components/TicketComponent";
+import TicketComponent from "../components/ticket/TicketComponent";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import { typography } from "../utils/typography";

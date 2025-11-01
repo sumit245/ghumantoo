@@ -10,8 +10,8 @@ export default function RateUs() {
 
   const handleRatePress = async () => {
     const supported = await Linking.canOpenURL(storeUrl);
+    await Linking.openURL(storeUrl);
     if (supported) {
-      await Linking.openURL(storeUrl);
     } else {
       Alert.alert(`Don't know how to open this URL: ${storeUrl}`);
     }

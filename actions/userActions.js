@@ -1,7 +1,7 @@
 // TODO: Write code for user related actions such as login, signup, logout, editprofile etc.
 
 import axios from "axios";
-import { AUTH_USER, LOGOUT, FORGOT_PASSWORD, SET_USER, API_URL, SET_MOBILE_NUMBER, SET_OTP_MESSAGE } from "../utils/constants";
+import { AUTH_USER, LOGOUT, FORGOT_PASSWORD, SET_USER, API_URL, SET_MOBILE_NUMBER, SET_OTP_MESSAGE, SET_MY_TICKETS } from "../utils/constants";
 
 
 export const authFromMobile = (mobile_number) => async (dispatch) => {
@@ -49,15 +49,21 @@ export const logout = () => (dispatch) => {
     dispatch({ type: LOGOUT })
 }
 
-export const getMyTickets = async (mobile_number) => {
+export const getMyTickets = async(mobile_number) =>
+    // async (dispatch) =>
+    {
     try {
-        const response = await axios.get(`${API_URL}/api/users/get-my-tickets`, {
-            params: {
+        console.log(mobile_number)
+        const response = await axios.post(`${API_URL}/api/users/get-my-tickets`,
+            {
                 mobile_number: mobile_number
             }
-        })
-        console.log("getMyTickets response", response.data);
-        return response.data
+        )
+        const { success, tickets } = response.data
+        // if (success) {
+        //     dispatch({ type: SET_MY_TICKETS, payload: tickets })
+        // }
+        return tickets
     } catch (error) {
         console.error("getMyTickets error", error);
         throw error;

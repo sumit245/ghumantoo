@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   View,
   Text,
@@ -7,21 +7,23 @@ import {
   ScrollView,
   SafeAreaView,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useNavigation, useRoute } from "@react-navigation/native"; // 1. Import useRoute
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { styles } from "../utils/styles";
 import BusCard from "../components/buscards/BusCard";
 import { useDispatch, useSelector } from "react-redux";
 import { LightGray, PrimaryColor, PureWhite, WhiteColor } from "../utils/colors";
 import { getAvailableSeats, getBusOnRoute } from "../actions/busActions";
 import { spacing } from "../utils/spacing.styles";
-import { SELECT_BUS, SET_ARRIVAL_TIME, SET_BUS_TYPE, SET_CANCEL_POLICY, SET_DEPARTURE_TIME } from "../utils/constants";
+import { SELECT_BUS, SET_ARRIVAL_TIME, SET_BUS_TYPE, SET_DEPARTURE_TIME, SET_RESULT_INDEX, SET_CANCEL_POLICY } from "../utils/constants";
 
-// Define the simple filters to show on this screen
 const simpleFilters = [
-  { text: 'Sort & Filter', screen: 'filterPage', type: 'navigate', iconname: 'sort' },
+  { text: 'More', screen: 'filterPage', type: 'navigate', iconname: 'sort' },
+  { text: 'Time', type: 'sort', iconname: 'clock-time-four-outline', key: 'departure' },
+  { text: 'Price', type: 'sort', iconname: 'currency-inr', key: 'price' },
   { text: 'AC', type: 'filter', iconname: "air-conditioner", },
   { text: 'Non-AC', type: 'filter', iconname: 'air-filter' },
   { text: 'Sleeper', type: 'filter', iconname: "bed", },
@@ -29,141 +31,179 @@ const simpleFilters = [
 ];
 
 export default function SearchBuses() {
+  // 1. REFINED LOADING STATES for better UX
+  const [isInitialLoading, setIsInitialLoading] = useState(true); // For the first-time, full-screen load
+  const [isRefreshing, setIsRefreshing] = useState(false); // For sort/filter overlay
+  const [isloadingMore, setIsLoadingMore] = useState(false); // For pagination footer
+
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
   const { buses, date_of_journey, destinationId, pickupId, SearchTokenId } = useSelector((state) => state.bus);
   const navigation = useNavigation();
-  const route = useRoute(); // Hook to get params from other screens
+  const route = useRoute();
   const dispatch = useDispatch();
 
-  // Set initial loading state based on navigation parameter
-  const [loading, setLoading] = useState(false);
-  // 2. The filter state is now an object to hold all filter types
   const [activeFilters, setActiveFilters] = useState({
-    fleetTypes: [],
-    departureTime: null,
-    price: null,
+    fleetTypes: [], departureTime: null, price: null, sortBy: 'departure', sortOrder: 'asc'
   });
 
-  // 3. This effect listens for new filters passed back from FilterScreen
+  // Ref to track if this is the component's first render
+  const isInitialMount = useRef(true);
+
+  // Effect to fetch data when filters change
+  useEffect(() => {
+    const fetchData = () => {
+      if (!pickupId || !destinationId) return;
+
+      // Only show the subtle refresh indicator for subsequent loads
+      if (!isInitialMount.current) {
+        setIsRefreshing(true);
+      }
+
+      setPage(1);
+      setHasMore(true);
+
+      dispatch(getBusOnRoute(pickupId, destinationId, date_of_journey, activeFilters, 1))
+        .catch((err) => console.error("Fetch Data Error:", err))
+        .finally(() => {
+          setIsInitialLoading(false);
+          setIsRefreshing(false);
+          isInitialMount.current = false; // Mark initial mount as complete
+        });
+    };
+    fetchData();
+  }, [activeFilters, pickupId, destinationId, date_of_journey, dispatch]);
+
   useEffect(() => {
     if (route.params?.appliedFilters) {
-      // When new filters are received, update the local state
       setActiveFilters(prev => ({ ...prev, ...route.params.appliedFilters }));
     }
   }, [route.params?.appliedFilters]);
 
-  // 4. This effect re-fetches buses whenever the activeFilters object changes
-  useEffect(() => {
-    // Only refetch if filters are actually active
-    if (activeFilters.fleetTypes.length > 0 || activeFilters.departureTime || activeFilters.price) {
-      setLoading(true);
-      // Pass the entire activeFilters object to the Redux action
-      dispatch(getBusOnRoute(pickupId, destinationId, date_of_journey, activeFilters))
-        .catch((err) => console.log(err))
-        .finally(() => setLoading(false));
-    }
-  }, [activeFilters]); // Dependency array updated
+  const handleLoadMore = () => {
+    if (isloadingMore || !hasMore) return;
+    setIsLoadingMore(true);
+    const nextPage = page + 1;
 
-  const handleBusSelection = async (item) => {
-    setLoading(true);
-    try {
-      dispatch({ type: SELECT_BUS, payload: item.TravelName });
-      dispatch({ type: SET_BUS_TYPE, payload: item.BusType });
-      dispatch({ type: SET_DEPARTURE_TIME, payload: item.DepartureTime })
-      dispatch({ type: SET_ARRIVAL_TIME, payload: item.ArrivalTime }); // Store departure time
-      await dispatch(getAvailableSeats(item.ResultIndex, SearchTokenId, item.CancellationPolicies));
-      navigation.navigate("selectSeat");
-    } catch (error) {
-      console.error("Error selecting bus:", error);
-      // Optionally show an alert or toast to the user
-    } finally {
-      setLoading(false);
-    }
+    dispatch(getBusOnRoute(pickupId, destinationId, date_of_journey, activeFilters, nextPage))
+      .then(response => {
+        console.log("Load more response:", response);
+        if (response.pagination.has_more_pages === false) { setHasMore(false); }
+        if (!response.trips || response.trips.length === 0) {
+          setPage(nextPage);
+        }
+      })
+      .catch((err) => console.error("Load More Error:", err))
+      .finally(() => setIsLoadingMore(false));
   };
 
-  // 5. This function now only toggles the simple fleetType filters
+  const handleBusSelection = useCallback((bus) => {
+    // Dispatch all necessary bus and search info to Redux synchronously
+    dispatch({ type: SELECT_BUS, payload: bus.TravelName });
+    dispatch({ type: SET_BUS_TYPE, payload: bus.BusType });
+    dispatch({ type: SET_DEPARTURE_TIME, payload: bus.DepartureTime });
+    dispatch({ type: SET_ARRIVAL_TIME, payload: bus.ArrivalTime });
+    dispatch({ type: SET_RESULT_INDEX, payload: bus.ResultIndex });
+    dispatch({ type: SET_CANCEL_POLICY, payload: bus.CancellationPolicies }); // Pass policies for fetching later
+
+    // Navigate immediately without waiting for network requests
+    navigation.navigate("selectSeat");
+  }, [dispatch, SearchTokenId, navigation]);
+
   const toggleSimpleFilter = (filterName) => {
-    setActiveFilters(prev => {
-      const currentFleetTypes = prev.fleetTypes || [];
-      const newFleetTypes = currentFleetTypes.includes(filterName)
-        ? currentFleetTypes.filter(name => name !== filterName)
-        : [...currentFleetTypes, filterName];
-      return { ...prev, fleetTypes: newFleetTypes };
-    });
+    setActiveFilters(prev => ({
+      ...prev,
+      fleetTypes: prev.fleetTypes.includes(filterName)
+        ? prev.fleetTypes.filter(name => name !== filterName)
+        : [...prev.fleetTypes, filterName]
+    }));
   };
 
-  return (
-    <SafeAreaView style={[styles.container, { marginHorizontal: 0, marginTop: 0, paddingHorizontal: 0 }]}>
-      {/* Filter part here */}
-      <ScrollView
-        horizontal={true}
-        style={[{ maxHeight: 50, backgroundColor: WhiteColor }]}
-        contentContainerStyle={{ padding: 6, alignItems: "flex-start", marginLeft: 2 }}
-        showsHorizontalScrollIndicator={false}
-      >
-        {simpleFilters.map((item, idx) => {
-          // 6. Check if the filter is applied from our new state object
-          const isApplied = activeFilters.fleetTypes?.includes(item.text);
+  const handleSort = (sortKey) => {
+    setActiveFilters(prev => ({
+      ...prev,
+      sortBy: sortKey,
+      sortOrder: prev.sortBy === sortKey && prev.sortOrder === 'asc' ? 'desc' : 'asc'
+    }));
+  };
 
+  const renderBusItem = useCallback(({ item }) => (
+    <BusCard bus={item} onClick={handleBusSelection} />
+  ), [handleBusSelection]);
+
+  const renderFooter = () => {
+    if (!isloadingMore) return null;
+    return <ActivityIndicator style={{ marginVertical: 20 }} color={PrimaryColor} />;
+  };
+
+  const renderHeader = () => (
+    <View style={componentStyles.headerContainer}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={componentStyles.headerScrollView}>
+        {simpleFilters.map((item, idx) => {
+          const isFleetTypeApplied = activeFilters.fleetTypes?.includes(item.text);
+          const isSortApplied = activeFilters.sortBy === item.key;
+          const isApplied = isFleetTypeApplied || isSortApplied;
           return (
-            <TouchableOpacity
-              key={idx}
-              style={[
-                styles.filterButton,
-                {
-                  backgroundColor: PureWhite,
-                  borderColor: isApplied ? PrimaryColor : LightGray,
-                  elevation: isApplied ? 1 : 0
-                }
-              ]}
-              // 7. Update onPress logic to handle navigation or simple toggling
+            <TouchableOpacity key={idx} style={[styles.filterButton, { borderColor: isApplied ? PrimaryColor : LightGray, backgroundColor: PureWhite }]}
               onPress={() => {
-                if (item.type === 'navigate') {
-                  // Pass current filters and bus data to the filter screen
-                  navigation.navigate(item.screen, {
-                    initialFilters: activeFilters,
-                    buses: buses
-                  });
-                } else {
-                  toggleSimpleFilter(item.text);
-                }
-              }}
-            >
-              {item.iconname && (
-                <Icon name={item.iconname} size={20} style={[spacing.mr1]} />
-              )}
-              <Text>{item.text}</Text>
+                if (item.type === 'navigate') navigation.navigate(item.screen, { initialFilters: activeFilters, buses });
+                else if (item.type === 'filter') toggleSimpleFilter(item.text);
+                else if (item.type === 'sort') handleSort(item.key);
+              }}>
+              <Icon name={isSortApplied ? (activeFilters.sortOrder === 'asc' ? 'arrow-up' : 'arrow-down') : item.iconname} size={18} style={spacing.mr1} color={isApplied ? PrimaryColor : '#333'} />
+              <Text style={{ color: isApplied ? PrimaryColor : '#333' }}>{item.text}</Text>
             </TouchableOpacity>
           );
         })}
       </ScrollView>
+    </View>
+  );
 
-      {/* Body part remains the same */}
-      {/* TODO: insert a real bus loading animation that appears as a moving bus on road  */}
-      {loading ? (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size="large" color={PrimaryColor} />
-        </View>
-      ) : (
+  // Use the full-screen loader ONLY for the initial mount
+  if (isInitialLoading) {
+    return <View style={componentStyles.loaderContainer}><ActivityIndicator size="large" color={PrimaryColor} /></View>;
+  }
+
+  return (
+    <SafeAreaView style={[styles.container, { marginTop: 0 }]}>
+      {/* 2. MAIN VIEW CONTAINER: This allows us to place the refresh overlay on top */}
+      <View style={{ flex: 1 }}>
         <FlatList
-          style={{ padding: 6, flex: 1 }}
           data={buses}
-          renderItem={({ item }) => (
-            <BusCard bus={item} onClick={() => handleBusSelection(item)} />
-          )}
-          keyExtractor={(item) => item.ResultIndex + ""}
+          renderItem={renderBusItem}
+          keyExtractor={(item) => item.ResultIndex}
+          initialNumToRender={10}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooter}
+          ListHeaderComponent={renderHeader}
+          showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          initialNumToRender={20}
+          stickyHeaderIndices={[0]}
           ListEmptyComponent={() => (
-            <View>
-              <Image
-                source={require("../assets/no route.png")}
-                style={[styles.image, { width: "100%", height: 330 }]}
-                resizeMode="cover"
-              />
-            </View>
+            <View><Image source={require("../assets/no route.png")} style={styles.image} /></View>
           )}
         />
-      )}
+        {/* 3. REFRESH OVERLAY: This view appears on top of the list when sorting or filtering */}
+        {isRefreshing && (
+          <View style={componentStyles.refreshOverlay}>
+            <ActivityIndicator size="large" color={PrimaryColor} />
+          </View>
+        )}
+      </View>
     </SafeAreaView>
   );
 }
+
+const componentStyles = StyleSheet.create({
+  loaderContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  headerContainer: { backgroundColor: WhiteColor, borderBottomWidth: 1, borderBottomColor: LightGray },
+  headerScrollView: { paddingVertical: 8, paddingHorizontal: 6 },
+  refreshOverlay: {
+    ...StyleSheet.absoluteFillObject, // This makes the view cover its parent
+    backgroundColor: 'rgba(255, 255, 255, 0.7)', // Semi-transparent white
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

@@ -9,8 +9,6 @@ import OTPPage from "./OTPPage";
 import EditProfile from "./EditProfile";
 import SelectSeat from "./SeatSelection";
 import ConfirmationPage from "./ConfirmationPage";
-import Wallet from "./Wallet";
-import About from "./About";
 import Setting from "./Setting";
 import Cards from "./Cards";
 
@@ -26,8 +24,6 @@ export {
   EditProfile,
   SelectSeat,
   ConfirmationPage,
-  Wallet,
-  About,
   Setting,
   Cards,
 };

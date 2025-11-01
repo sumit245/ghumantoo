@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, useWindowDimensions, Animated } from 'react-native';
 import { TabView } from 'react-native-tab-view';
-import UpcomingTrips from '../components/tabBar/TabBarComponent';
-import PastTrips from '../components/tabBar/TabBarComponent';
+import Tickets from '../components/tabBar/TabBarComponent';
 import { PrimaryColor, WhiteColor } from '../utils/colors';
 import { typography } from '../utils/typography';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Badge } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { useAuth } from '../context/AuthContext';
-import { getActiveCoupons } from '../actions/busActions';
 import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import { getMyTickets } from '../actions/userActions';
@@ -22,11 +20,15 @@ export default function BookingsScreen() {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: 'upcoming', title: 'Upcoming', tripCount: 0 },
-    { key: 'cancelled', title: 'Cancelled' },
+    { key: 'cancelled', title: 'Cancelled', tripCount: 0 },
   ]);
   const [hasTickets, setHasTickets] = useState(false);
-  const [coupons, setCoupons] = useState([]);
+  const [tickets, setTickets] = useState([]);
+  const [upcominTickets, setUpcomingTickets] = useState([]);
+  const [cancelledTickets, setCancelledTickets] = useState([]);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
 
   // Fetch tickets and coupons if logged in
   useEffect(() => {
@@ -34,18 +36,16 @@ export default function BookingsScreen() {
       if (!isGuest && mobile_number) {
         // Fetch tickets
         try {
-          const tickets = await getMyTickets(mobile_number); // You may need to import getMyTickets directly
+          const tickets = await getMyTickets(mobile_number) // You may need to import getMyTickets directly
           setHasTickets(tickets && tickets.length > 0);
-          routes[0].tripCount = tickets ? tickets.length : 0;
+          setTickets(tickets);
+          setUpcomingTickets(tickets.filter(t => t.status === 'Booked'));
+          setCancelledTickets(tickets.filter(t => t.status !== 'Booked'));
+          // Update trip count in routes
+          routes[0].tripCount = tickets ? tickets.filter(t => t.status === 'Booked').length : 0;
+          routes[1].tripCount = tickets ? tickets.filter(t => t.status !== 'Booked').length : 0;
         } catch (e) {
           setHasTickets(false);
-        }
-        // Fetch coupons
-        try {
-          const activeCoupons = await getActiveCoupons();
-          setCoupons(activeCoupons || []);
-        } catch (e) {
-          setCoupons([]);
         }
       }
     }
@@ -77,17 +77,6 @@ export default function BookingsScreen() {
         />
         <Text style={styles.title}>No Bookings Yet</Text>
         <Text style={styles.subtitle}>Book your first trip and enjoy special discounts!</Text>
-        {coupons.length > 0 && (
-          <View style={styles.couponContainer}>
-            <Text style={styles.couponTitle}>Available Coupons:</Text>
-            {coupons.map((coupon) => (
-              <View key={coupon.code} style={styles.couponItem}>
-                <Text style={styles.couponCode}>{coupon.code}</Text>
-                <Text style={styles.couponDesc}>{coupon.description}</Text>
-              </View>
-            ))}
-          </View>
-        )}
         <TouchableOpacity
           style={styles.bookButton}
           onPress={() => navigation.navigate('Main')}
@@ -121,7 +110,7 @@ export default function BookingsScreen() {
                 <Animated.Text style={[styles.label, { opacity }]}>
                   {route.title}
                 </Animated.Text>
-                {route.key === 'upcoming' && route.tripCount > 0 && (
+                {route.tripCount > 0 && (
                   <Badge style={styles.badge}>{route.tripCount}</Badge>
                 )}
               </View>
@@ -136,9 +125,9 @@ export default function BookingsScreen() {
   const renderScene = ({ route }) => {
     switch (route.key) {
       case 'upcoming':
-        return <UpcomingTrips />;
+        return <Tickets tickets={upcominTickets} tabName="upcoming" />;
       case 'cancelled':
-        return <PastTrips />;
+        return <Tickets tickets={cancelledTickets} tabName="cancelled" />;
       default:
         return null;
     }

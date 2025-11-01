@@ -37,7 +37,10 @@ const BusCard = ({ bus, onClick }) => {
   const firstCoupon = activeCoupons?.[0];
 
   return (
-    <TouchableOpacity onPress={onClick} style={styles.card}>
+    <TouchableOpacity
+      onPress={() => onClick(bus)} // Pass the bus object back to the handler
+      style={styles.card}
+    >
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.travelInfo}>

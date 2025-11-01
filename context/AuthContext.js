@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
                 const token = await AsyncStorage.getItem('user_token');
                 const userJson = await AsyncStorage.getItem('user'); // saved JSON user object
                 const isGuestFlag = await AsyncStorage.getItem('is_guest');
-
+                console.log(token, userJson, isGuestFlag)
                 if (token && userJson) {
                     const user = JSON.parse(userJson);
                     // update redux with user object so app can immediately use it
@@ -48,6 +48,7 @@ export const AuthProvider = ({ children }) => {
         () => ({
             signIn: async (token, user = null) => {
                 setIsLoading(true);
+                console.log('signIn', token, user)
                 try {
                     if (token) {
                         await AsyncStorage.setItem('user_token', token);

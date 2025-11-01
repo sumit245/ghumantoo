@@ -90,7 +90,7 @@ const PassengerData = () => {
         image: "https://vindhyashrisolutions.com/assets/images/logoIcon/logo.png",
         currency: currency,
         key: RAZORPAY_KEY_ID, // Using the key from constants
-        // amount: amount, // Amount in paise
+        amount: amount * 100, // Amount in paise
         name: "Ghumantoo",
         order_id: order_id,
         prefill: {
@@ -109,14 +109,17 @@ const PassengerData = () => {
               razorpay_payment_id: data.razorpay_payment_id,
               razorpay_order_id: data.razorpay_order_id,
               razorpay_signature: data.razorpay_signature,
+              ticket_id: ticket_id,
+              amount: amount,
             };
-            const { status, details } = await confirmTicket(paymentData,);
-
-            if (status === 201) {
-              navigation.navigate("ConfirmationPage", { details });
+            const { success, message } = await confirmTicket(paymentData,);
+            console.error("I Failed Here")
+            if (success) {
+              alert("Yay ticket booked")
+              // navigation.navigate("ConfirmationPage", { details });
             }
           })
-          .catch(({error}) => {
+          .catch(({ error }) => {
             // Handle failure
             console.log("Razorpay Error:", error);
             alert(`Error: ${error.code} | ${error.description} | ${error.source}| ${error.step}| ${error.reason}`);

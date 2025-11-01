@@ -6,8 +6,6 @@ import {
   EditProfile,
   SelectSeat,
   ConfirmationPage,
-  Wallet,
-  About,
   Cards,
   Home,
   Setting,
@@ -60,22 +58,6 @@ const commonScreens = [
     options: {
       headerShown: true,
       title: "Edit Profile",
-    },
-  },
-  {
-    name: "Wallet",
-    component: Wallet,
-    options: {
-      headerShown: true,
-      title: "Wallet",
-    },
-  },
-  {
-    name: "About",
-    component: About,
-    options: {
-      headerShown: true,
-      title: "About",
     },
   },
   {

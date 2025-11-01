@@ -1,5 +1,5 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { Destinations } from "./Data";
 import { styles } from "../utils/styles";
 import { typography } from "../utils/typography";
