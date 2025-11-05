@@ -9,10 +9,10 @@ export default function Card() {
   return (
     <>
 
-      <Text style={[typography.font24, typography.textBold, spacing.ml4]}>
+      <Text style={[typography.font24, typography.textBold, spacing.ml4, { color: '#17171f' }]}>
         Top Destinations
       </Text>
-      <Text style={[typography.font16, spacing.ml4]}>From Rewa</Text>
+      <Text style={[typography.font16, spacing.ml4, { color: '#17171f' }]}>From Rewa</Text>
 
       <ScrollView
         style={[spacing.mv3, spacing.ml3]}
@@ -26,7 +26,7 @@ export default function Card() {
           >
             <View style={styles.card}>
               <Text style={styles.title}>{name}</Text>
-              <Text style={[typography.font16]}>
+              <Text style={[typography.font16, { color: '#17171f' }]}>
                 From
                 <Text style={styles.title}> ₹{startingFrom}</Text>
               </Text>
@@ -35,7 +35,7 @@ export default function Card() {
               style={[
                 typography.font16,
                 typography.textBold,
-                { textAlign: "center" },
+                { textAlign: "center", color: '#17171f' },
               ]}
             >
               {availability}

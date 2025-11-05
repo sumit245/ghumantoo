@@ -147,17 +147,10 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={[typography.font24, typography.textBold, spacing.p2, spacing.ml4]}>
+        <Text style={[typography.font24, typography.textBold, spacing.p2, spacing.ml4, { color: '#17171f' }]}>
           Bus Tickets
         </Text>
 
-        {/* <LocationSelector
-          handleDatePicker={() => setCalendarVisible(true)}
-          selectedDate={searchQuery.date}
-          setDate={setSearchQuery}
-          setPickupLocation={setPickupLocation}
-          setDestinationLocation={setDestinationLocation}
-        /> */}
         <LocationSelector
           onDatePickerPress={() => setCalendarVisible(true)}
           selectedDate={searchQuery.date}
@@ -246,7 +239,7 @@ export default function Home() {
 const componentStyles = StyleSheet.create({
   footerText: {
     ...typography.font10,
-    color: '#888',
+    color: '#17171f',
     textAlign: 'center',
     marginTop: 10,
   },

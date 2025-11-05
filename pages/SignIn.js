@@ -51,7 +51,7 @@ export default function SignIn() {
         </TouchableOpacity>
       </View>
       <View style={styles.phone}>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', marginVertical: 8, marginBottom: 16 }}>Create Account or Sign in</Text>
+        <Text style={{ fontSize: 20, fontWeight: 'bold', marginVertical: 8, marginBottom: 16, color: '#17171f' }}>Create Account or Sign in</Text>
         <GPhoneInput onChangeText={setPhoneNumber} />
         {
           error && <Text style={{ fontSize: 12, color: DangerColor, textAlign: 'left', width: width - 60, marginBottom: 12 }}>Please enter a valid phone number</Text>

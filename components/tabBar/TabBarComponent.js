@@ -36,7 +36,7 @@ export default function PastTrips({ tickets, tabName }) {
       // Modify if user has no trips then show message and prompt to book a trip
       ListEmptyComponent={() => (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={styles.emptyListText}>
+          <Text style={[styles.emptyListText, { color: '#17171f' }]}>
             {tabName === 'upcoming' ? 'No Upcoming Trips' : 'No Cancelled Trips'}
           </Text>
         </View>

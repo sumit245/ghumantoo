@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
   },
   suggestionText: {
     fontSize: 16,
+    color: '#17171f',
   },
   matchedText: {
     color: "black",

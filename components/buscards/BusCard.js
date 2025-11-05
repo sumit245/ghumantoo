@@ -54,7 +54,7 @@ const BusCard = ({ bus, onClick }) => {
           </View>
           <View style={styles.passengerCount}>
             <FontAwesome name="account-group-outline" size={18} />
-            <Text style={{ marginLeft: 4 }}>1.5k</Text>
+            <Text style={{ marginLeft: 4, color: '#17171f' }}>1.5k</Text>
           </View>
         </View>
       </View>
@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     flexWrap: 'wrap', // Allows text to wrap to the next line
+    color: '#17171f',
   },
   subtitle: {
     color: "#666",
@@ -184,6 +185,7 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 14,
     fontWeight: "600",
+    color: '#17171f',
   },
   durationBox: {
     marginHorizontal: 8,
@@ -233,6 +235,7 @@ const styles = StyleSheet.create({
   newPrice: {
     fontSize: 14,
     fontWeight: "bold",
+    color: '#17171f',
   },
   couponContainer: {
     flexDirection: "row",

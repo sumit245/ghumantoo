@@ -52,6 +52,7 @@ const localStyles = StyleSheet.create({
   chargeText: {
     fontSize: 14,
     fontWeight: 'bold',
+    color: '#17171f',
   },
   policyContainer: {
     marginTop: 10,

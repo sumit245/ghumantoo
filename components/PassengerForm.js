@@ -73,7 +73,7 @@ const PassengerForm = ({
             </View>
 
             <View style={{ marginVertical: 4 }}>
-                <Text style={[typography.font14]}>Gender</Text>
+                <Text style={[typography.font14, { color: '#17171f' }]}>Gender</Text>
                 <View style={[styles.passenger.row, spacing.mb2]}>
                     <View
                         style={[
@@ -90,7 +90,7 @@ const PassengerForm = ({
                             },
                         ]}
                     >
-                        <Text style={[typography.font14]}>Male</Text>
+                        <Text style={[typography.font14, { color: '#17171f' }]}>Male</Text>
                         <RadioButton
                             value="first"
                             status={checked === "first" ? "checked" : "unchecked"}
@@ -114,7 +114,7 @@ const PassengerForm = ({
                             },
                         ]}
                     >
-                        <Text style={[typography.font14]}>Female</Text>
+                        <Text style={[typography.font14, { color: '#17171f' }]}>Female</Text>
                         <RadioButton
                             value="second"
                             status={checked === "second" ? "checked" : "unchecked"}

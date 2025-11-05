@@ -42,7 +42,7 @@ export default function EditProfile() {
           ]}
         >
           <View style={styles.row}>
-            <Text style={[typography.font16, typography.textBold]}>
+            <Text style={[typography.font16, typography.textBold, { color: '#17171f' }]}>
               PERSONAL DETAILS
             </Text>
             <PrimaryButton
@@ -61,7 +61,7 @@ export default function EditProfile() {
             <Icon name="account-circle" size={40} />
 
             <View style={[spacing.ml3]}>
-              <Text style={[typography.font20, typography.textBold]}>
+              <Text style={[typography.font20, typography.textBold, { color: '#17171f' }]}>
                 {name}
               </Text>
               <Text
@@ -77,8 +77,8 @@ export default function EditProfile() {
                 Gender: {checked === "first" ? "Male" : "Female"}
               </Text>
 
-              <Text style={[typography.font14]}>{mobile_number}</Text>
-              <Text style={[typography.font14]}>{email_id}</Text>
+              <Text style={[typography.font14, { color: '#17171f' }]}>{mobile_number}</Text>
+              <Text style={[typography.font14, { color: '#17171f' }]}>{email_id}</Text>
             </View>
           </View>
         </View>
@@ -96,7 +96,7 @@ export default function EditProfile() {
             { backgroundColor: WhiteColor, height: 460 },
           ]}
         >
-          <Text style={[typography.font18, typography.textBold]}>
+          <Text style={[typography.font18, typography.textBold, { color: '#17171f' }]}>
             PERSONAL DETAILS
           </Text>
 
@@ -109,7 +109,7 @@ export default function EditProfile() {
                 onChangeText={setUname}
               />
 
-              <Text style={[typography.font14]}>Gender</Text>
+              <Text style={[typography.font14, { color: '#17171f' }]}>Gender</Text>
               <View style={[styles.row, spacing.mb2]}>
                 <View
                   style={[
@@ -126,7 +126,7 @@ export default function EditProfile() {
                     },
                   ]}
                 >
-                  <Text style={[typography.font14]}>Male</Text>
+                  <Text style={[typography.font14, { color: '#17171f' }]}>Male</Text>
                   <RadioButton
                     value="first"
                     status={checked === "first" ? "checked" : "unchecked"}
@@ -150,7 +150,7 @@ export default function EditProfile() {
                     },
                   ]}
                 >
-                  <Text style={[typography.font14]}>Female</Text>
+                  <Text style={[typography.font14, { color: '#17171f' }]}>Female</Text>
                   <RadioButton
                     value="second"
                     status={checked === "second" ? "checked" : "unchecked"}
@@ -160,9 +160,9 @@ export default function EditProfile() {
                 </View>
               </View>
 
-              <Text style={[typography.font14]}>Mobile Number</Text>
+              <Text style={[typography.font14, { color: '#17171f' }]}>Mobile Number</Text>
               <GPhoneInput onChangeText={setPhoneNumber} />
-              <Text style={[typography.font14]}>Email ID</Text>
+              <Text style={[typography.font14, { color: '#17171f' }]}>Email ID</Text>
               <TextInput
                 placeholder="Email ID"
                 style={styles.input}

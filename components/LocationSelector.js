@@ -162,9 +162,9 @@ export default function LocationSelector({
       <View style={[styles.pickDropSelector, { borderBottomWidth: 0 }]}>
         <Icon name="calendar-month" size={28} color={DarkGray} />
         <View style={spacing.mh2}>
-          <Text style={typography.font14}>Date of Journey</Text>
+          <Text style={[typography.font14, { color: '#17171f' }]}>Date of Journey</Text>
           <Text
-            style={[typography.font16, { fontWeight: "bold" }]}
+            style={[typography.font16, { fontWeight: "bold", color: '#17171f' }]}
             onPress={onDatePickerPress} // FIX: Use the dedicated prop for clarity
           >
             {formattedSelection}

@@ -84,6 +84,7 @@ export default function Help() {
               typography.textBold,
               spacing.pb2,
               spacing.p2,
+              { color: '#17171f' },
             ]}
           >
             View all issues
@@ -119,7 +120,7 @@ export default function Help() {
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <List.Icon color={PrimaryColor} icon={faq.icon} />
                 <Text
-                  style={[typography.font14, typography.textBold, spacing.ml1]}
+                  style={[typography.font14, typography.textBold, spacing.ml1, { color: '#17171f' }]}
                 >
                   {faq.title}
                 </Text>

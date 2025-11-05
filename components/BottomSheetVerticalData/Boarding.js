@@ -80,9 +80,11 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontWeight: 'bold',
+    color: '#17171f',
   },
   dateText: {
     opacity: 0.6,
+    color: '#17171f',
   },
   // The container for the indicator ensures it has its own column.
   indicatorContainer: {
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     fontSize: 12,
     opacity: 0.6,
-    
+    color: '#17171f',
   },
 });
 

@@ -42,7 +42,7 @@ const OtherPolicies = () => {
   const renderItem = ({ item }) => (
     <View style={{ marginBottom: 10 }}>
       <View style={styles.row}>
-        <Text style={[typography.textBold, typography.font16]}>{item.title}
+        <Text style={[typography.textBold, typography.font16, { color: '#17171f' }]}>{item.title}
         </Text>
         {item.icon && <Icon name={item.icon} />}
       </View>

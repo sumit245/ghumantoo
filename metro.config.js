@@ -1,10 +1,11 @@
-// Learn more https://docs.expo.dev/guides/monorepos
-const { getDefaultConfig } = require('expo/metro-config');
-const { FileStore } = require('metro-cache');
-const path = require('path');
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 
-const projectRoot = __dirname;
+/**
+ * Metro configuration
+ * https://facebook.github.io/metro/docs/configuration
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const config = {};
 
-const config = getDefaultConfig(projectRoot);
-
-module.exports = config;
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);

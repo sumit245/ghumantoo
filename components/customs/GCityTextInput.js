@@ -48,7 +48,7 @@ export default function GCityTextInput({ icon, label, placeholder, onSelectItem,
     <View style={styles.pickDropSelector}>
       <Icon name={icon} size={28} color={DarkGray} />
       <View style={{ marginHorizontal: 2 }}>
-        <Text style={[typography.font16, { marginLeft: 12 }]}>{label}</Text>
+        <Text style={[typography.font16, { marginLeft: 12, color: '#17171f' }]}>{label}</Text>
         <AutocompleteDropdown
           // FIX: Use the `initialValue` prop to set the displayed text from the parent's state.
           // This makes the component "controlled".
@@ -84,7 +84,7 @@ export default function GCityTextInput({ icon, label, placeholder, onSelectItem,
           renderItem={(item) => (
             <View style={{ height: 48, justifyContent: 'flex-start', padding: 4, flexDirection: 'row', alignItems: 'center' }}>
               <Icon name={icon} size={20} color={DarkGray} />
-              <Text style={{ paddingHorizontal: 4, fontSize: 16, fontWeight: '600' }}>{item.title}</Text>
+              <Text style={{ paddingHorizontal: 4, fontSize: 16, fontWeight: '600', color: '#17171f' }}>{item.title}</Text>
             </View>
           )}
         />

@@ -13,7 +13,7 @@ const Review = ({ icon, text, good }) => {
         borderRadius: 10,
       }}
     >
-      <Text>
+      <Text style={{ color: '#17171f' }}>
         {icon && <Entypo name={good ? "thumbs-up" : "thumbs-down"} />} {text}
       </Text>
     </View>

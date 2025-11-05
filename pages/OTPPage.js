@@ -60,13 +60,13 @@ export default function OTPPage() {
         <Text style={[styles.title, spacing.mt5, { textAlign: 'center' }]}>
           Please verify your mobile number
         </Text>
-        <Text style={[typography.font16, spacing.mb4, { textAlign: 'center', flexWrap: 'wrap', maxWidth: '90%' }]}>
+        <Text style={[typography.font16, spacing.mb4, { textAlign: 'center', flexWrap: 'wrap', maxWidth: '90%', color: '#17171f' }]}>
           A 6-digit {message}
         </Text>
       </View>
 
       <View style={[spacing.mh4, spacing.p2, { minHeight: 200 }]}>
-        <Text style={{ fontSize: 16, textTransform: "uppercase", marginVertical: 8 }}>
+        <Text style={{ fontSize: 16, textTransform: "uppercase", marginVertical: 8, color: '#17171f' }}>
           One time Password
         </Text>
         <OTPComponent digit={6} verifyOTP={(val) => setOtp(val)} />
@@ -84,7 +84,7 @@ export default function OTPPage() {
       </View>
 
       <View style={[spacing.mt4, { alignItems: "center" }]}>
-        <Text style={[typography.font16]}>Didn't you receive any code?</Text>
+        <Text style={[typography.font16, { color: '#17171f' }]}>Didn't you receive any code?</Text>
         <TouchableOpacity onPress={() => Alert.alert("Resend Code", "A new code has been sent.")}>
           <Text style={{ color: PrimaryColor, fontWeight: "bold", fontSize: 16 }}>
             Resend New Code

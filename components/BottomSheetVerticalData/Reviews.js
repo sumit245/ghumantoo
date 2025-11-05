@@ -10,7 +10,7 @@ import PrimaryButton from '../buttons/PrimaryButton';
 // Displays the main title and the average rating score.
 const RatingsHeader = ({ average, total }) => (
   <View style={styles.headerContainer}>
-    <Text style={[globalStyles.headerTitleText, { fontSize: 24 }]}>
+    <Text style={[globalStyles.headerTitleText, { fontSize: 24, color: '#17171f' }]}>
       Reviews & Ratings
     </Text>
     <View style={styles.averageRatingContainer}>

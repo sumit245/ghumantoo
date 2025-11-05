@@ -1,14 +1,28 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+  ext {
+    buildToolsVersion = "35.0.0"
+    minSdkVersion = 24
+    compileSdkVersion = 35
+    targetSdkVersion = 35
+    ndkVersion = "27.0.12077973"
+    kotlinVersion = "2.1.0"
+  }
   repositories {
-    google()
+    google {
+      content {
+        includeGroupByRegex("com\\.android.*")
+        includeGroupByRegex("com\\.google.*")
+        includeGroupByRegex("androidx.*")
+      }
+    }
     mavenCentral()
+    gradlePluginPortal()
   }
   dependencies {
-    classpath('com.android.tools.build:gradle')
-    classpath('com.facebook.react:react-native-gradle-plugin')
-    classpath('org.jetbrains.kotlin:kotlin-gradle-plugin')
+    classpath("com.android.tools.build:gradle:8.7.3")
+    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
   }
 }
 
@@ -33,5 +47,47 @@ allprojects {
   }
 }
 
-apply plugin: "expo-root-project"
-apply plugin: "com.facebook.react.rootproject"
+subprojects {
+  afterEvaluate { project ->
+    if (project.hasProperty("android")) {
+      project.android {
+        compileSdkVersion rootProject.ext.compileSdkVersion
+        if (project.android.hasProperty('namespace') == false) {
+          namespace project.findProperty("namespace") ?: ""
+        }
+      }
+      project.ext.set("compileSdkVersion", rootProject.ext.compileSdkVersion)
+      project.ext.set("minSdkVersion", rootProject.ext.minSdkVersion)
+      project.ext.set("targetSdkVersion", rootProject.ext.targetSdkVersion)
+      project.ext.set("buildToolsVersion", rootProject.ext.buildToolsVersion)
+    }
+    
+    // Make React plugin available to all subprojects that need it
+    if (project.buildscript.configurations.findByName('classpath')) {
+      project.buildscript.dependencies {
+        // React plugin is provided by the included build, but we need to make it resolvable
+        try {
+          // The React Native settings plugin should handle this, but if not, try to add it
+          // Note: This might not work if the plugin is only available through includeBuild
+        } catch (Exception e) {
+          // Ignore - plugin should be available through includeBuild
+        }
+      }
+    }
+  }
+  
+  // Before evaluation, configure buildscript for modules that need React plugin
+  beforeEvaluate { project ->
+    // Check if this is an autolinked React Native module that might need the React plugin
+    def projectDirName = project.projectDir.name
+    if (projectDirName.contains('react-native') || projectDirName.contains('react_native')) {
+      project.buildscript {
+        repositories {
+          google()
+          mavenCentral()
+        }
+      }
+    }
+  }
+}
+

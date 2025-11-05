@@ -12,29 +12,71 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 
-const PointItem = ({ item, isSelected, onSelect }) => (
-    <TouchableOpacity style={styles.itemContainer} onPress={() => onSelect(item)}>
+const PointItem = ({ item, isSelected, onSelect }) => {
+    // Process contact numbers: split by comma or space if multiple, otherwise show as single
+    const getContactNumbers = (contactString) => {
+        if (!contactString) return [];
+        // First, normalize the string by removing extra spaces
+        const normalized = contactString.trim().replace(/\s+/g, ' ');
 
-        <View style={styles.radioCircle}>
-            {isSelected && <View style={styles.selectedRadio} />}
-        </View>
-        <View style={styles.itemDetails}>
-            <Text style={styles.itemName}>{item.CityPointName}</Text>
-            <Text style={styles.itemAddress}>{item.CityPointAddress}</Text>
-        </View>
-        <View style={styles.itemTimeContainer}>
-            <Text style={styles.itemTime}>{dayjs(item.CityPointTime).format('hh:mm A')}</Text>
-            {item.CityPointContactNumber && (
-                <View style={styles.contactContainer}>
-                    <Icon name="call-outline" size={12} color="#666" />
-                    <Text style={styles.itemDate}>
-                        {item.CityPointContactNumber.split(' ').join(', ')}
-                    </Text>
-                </View>
-            )}
-        </View>
-    </TouchableOpacity>
-);
+        // Check if there are commas first
+        if (normalized.includes(',')) {
+            // Split by comma if comma-separated
+            return normalized.split(',').map(num => num.trim()).filter(num => num.length > 0);
+        } else {
+            // If no commas, check if there are multiple numbers (more than 10 digits suggests multiple numbers)
+            // Split by spaces, but only if there are multiple distinct number-like sequences
+            const parts = normalized.split(/\s+/).filter(part => part.length > 0);
+
+            // If parts contain numbers (at least 7 digits), treat each as a separate number
+            const numberParts = parts.filter(part => /\d{7,}/.test(part));
+
+            if (numberParts.length > 1) {
+                // Multiple numbers detected
+                return numberParts;
+            } else {
+                // Single number or single combined string
+                return [normalized];
+            }
+        }
+    };
+
+    const contactNumbers = getContactNumbers(item.CityPointContactNumber);
+    const isSingleNumber = contactNumbers.length <= 1;
+
+    return (
+        <TouchableOpacity style={styles.itemContainer} onPress={() => onSelect(item)}>
+            <View style={styles.radioCircle}>
+                {isSelected && <View style={styles.selectedRadio} />}
+            </View>
+            <View style={styles.itemDetails}>
+                <Text style={styles.itemName}>{item.CityPointName}</Text>
+                <Text style={styles.itemAddress}>{item.CityPointAddress}</Text>
+            </View>
+            <View style={styles.itemTimeContainer}>
+                <Text style={styles.itemTime}>{dayjs(item.CityPointTime).format('hh:mm A')}</Text>
+                {item.CityPointContactNumber && (
+                    <View style={styles.contactContainer}>
+                        <Icon name="call-outline" size={12} color="#666" style={styles.contactIcon} />
+                        {isSingleNumber ? (
+                            <Text style={styles.singleContactText} numberOfLines={1}>
+                                {contactNumbers[0]}
+                            </Text>
+                        ) : (
+                            <View style={styles.contactNumbersContainer}>
+                                {contactNumbers.map((number, index) => (
+                                    <Text key={index} style={styles.contactNumberText} numberOfLines={1}>
+                                        {number}
+                                    </Text>
+                                ))}
+                            </View>
+                        )}
+                    </View>
+                )}
+            </View>
+        </TouchableOpacity>
+    );
+};
 
 // --- Main Screen Component ---
 export default function SelectPointsScreen({ navigation }) {
@@ -241,6 +283,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 16,
+        color: '#17171f',
     },
     searchContainer: {
         flexDirection: 'row',
@@ -288,11 +331,14 @@ const styles = StyleSheet.create({
     },
     itemDetails: {
         flex: 1,
+        flexShrink: 1,
+        minWidth: 0,
     },
     itemName: {
         fontSize: 14,
         fontWeight: 'bold',
         marginBottom: 4,
+        color: '#17171f',
     },
     itemAddress: {
         fontSize: 12,
@@ -300,13 +346,38 @@ const styles = StyleSheet.create({
     },
     itemTimeContainer: {
         alignItems: 'flex-end',
+        flexShrink: 0,
+        marginLeft: 8,
+        minWidth: 90,
     },
     contactContainer: {
         flexDirection: 'row',
-        alignItems: 'center',
-        maxWidth: '60%',
-        // flexWrap: 'wrap',   
+        alignItems: 'flex-start',
         marginTop: 4,
+        flexShrink: 0,
+    },
+    contactIcon: {
+        marginRight: 4,
+        marginTop: 2,
+        flexShrink: 0,
+    },
+    contactNumbersContainer: {
+        flex: 0,
+        flexShrink: 0,
+        alignItems: 'flex-start',
+    },
+    contactNumberText: {
+        fontSize: 12,
+        color: '#666',
+        marginLeft: 0,
+        lineHeight: 16,
+        minWidth: 80,
+    },
+    singleContactText: {
+        fontSize: 12,
+        color: '#666',
+        marginLeft: 0,
+        flexShrink: 0,
     },
     itemTime: {
         fontSize: 16,
@@ -315,7 +386,8 @@ const styles = StyleSheet.create({
     itemDate: {
         fontSize: 12,
         color: '#666',
-        marginLeft: 4,
+        marginLeft: 0,
+        flexShrink: 1,
     },
     footer: {
         flexDirection: 'row',

@@ -19,7 +19,7 @@ export default function RateUs() {
 
   return (
     <>
-      <Text style={[typography.font24, typography.textBold, spacing.ml4]}>Rate Us</Text>
+      <Text style={[typography.font24, typography.textBold, spacing.ml4, { color: '#17171f' }]}>Rate Us</Text>
 
       <View
         style={[
@@ -43,9 +43,9 @@ export default function RateUs() {
         />
 
         <View style={{ flex: 1, padding: 12 }}>
-          <Text style={[styles.title, spacing.mv1]}>Enjoying ghumantoo?</Text>
+          <Text style={[styles.title, spacing.mv1, { color: '#17171f' }]}>Enjoying ghumantoo?</Text>
           <Text
-            style={[typography.font16, spacing.mb1, { flexWrap: "wrap", maxWidth: '100%' }]}
+            style={[typography.font16, spacing.mb1, { flexWrap: "wrap", maxWidth: '100%', color: '#17171f' }]}
           >
             Share your experience with us and help spread the word!
           </Text>

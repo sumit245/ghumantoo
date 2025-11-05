@@ -119,7 +119,7 @@ const Deck = React.memo(({ deckType, seatsData, onSeatSelect, showSteering, sele
   return (
     <View style={styles.deckContainer}>
       <View style={styles.deckHeader}>
-        <Text>{deckType}</Text>
+        <Text style={{ color: '#17171f' }}>{deckType}</Text>
         {showSteering && (
           <Steering style={styles.steeringImage} width={36} height={36} /> // 6. Render steering image if applicable
         )}

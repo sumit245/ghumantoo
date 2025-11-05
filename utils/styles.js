@@ -14,8 +14,8 @@ export const { width, height } = Dimensions.get("screen");
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: WhiteColor,
+    // marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: PureWhite,
   },
   skipButton: {
     position: 'absolute',
@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
   },
   skipButtonText: {
     fontSize: 16,
-    color: '#888',
+    color: '#17171f',
     fontWeight: 'bold',
   },
   buttonTextPrimary: {
@@ -260,15 +260,17 @@ export const styles = StyleSheet.create({
     width: 310,
   },
 
-  optionName: {
+    optionName: {
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 20,
+    color: '#17171f',
   },
   optionMethods: {
     flexWrap: "wrap",
     textAlign: "center",
     opacity: 0.6,
+    color: '#17171f',
   },
   payButton: {
     backgroundColor: "#f99333",
@@ -443,10 +445,12 @@ export const styles = StyleSheet.create({
     marginTop: -10,
     fontSize: 16,
     opacity: 0.6,
+    color: '#17171f',
   },
   stdTextBottomSheet: {
     fontSize: 14,
     lineHeight: 16,
+    color: '#17171f',
   },
 
   smallButtonPrimary: {
@@ -507,6 +511,7 @@ export const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: "bold",
       marginLeft: 16,
+      color: '#17171f',
     },
     headerSubtitle: {
       fontSize: 12,
@@ -561,10 +566,12 @@ export const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: "bold",
       marginBottom: 8,
+      color: '#17171f',
     },
     section: {
       bottom: 5,
       fontSize: 12,
+      color: '#17171f',
     },
     infoText: {
       backgroundColor: "pink",
@@ -592,6 +599,7 @@ export const styles = StyleSheet.create({
     },
     label: {
       fontSize: 16,
+      color: '#17171f',
     },
     pickerContainer: {
       borderWidth: 1,

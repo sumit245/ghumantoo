@@ -18,7 +18,7 @@ export default function GPhoneInput({ onChangeText }) {
       layout="second"
       containerStyle={[styles.phoneTextContainerStyle, { width: width - 40 }]}
       textInputStyle={styles.phoneTextInputStyle}
-      codeTextStyle={[typography.font16]}
+      codeTextStyle={[typography.font16, { color: '#17171f' }]}
       onChangeFormattedText={(text) => onChangeText(text)}
     />
   );

@@ -11,7 +11,7 @@ import {
   SafeAreaView,
   StyleSheet,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+
 import { useNavigation, useRoute } from "@react-navigation/native";
 import dayjs from "dayjs";
 import RazorpayCheckout from "react-native-razorpay";
@@ -115,8 +115,8 @@ const PassengerData = () => {
             const { success, message } = await confirmTicket(paymentData,);
             console.error("I Failed Here")
             if (success) {
-              alert("Yay ticket booked")
-              // navigation.navigate("ConfirmationPage", { details });
+              // alert("Yay ticket booked")
+              navigation.navigate("ConfirmationPage", { details });
             }
           })
           .catch(({ error }) => {
@@ -251,7 +251,7 @@ const PassengerData = () => {
             </View>
           </View>
           <View style={{ marginVertical: 4 }}>
-            <Text style={[typography.font14]}>Gender</Text>
+            <Text style={[typography.font14, { color: '#17171f' }]}>Gender</Text>
             <View style={[styles.row, spacing.mb2]}>
               <View
                 style={[
@@ -268,7 +268,7 @@ const PassengerData = () => {
                   },
                 ]}
               >
-                <Text style={[typography.font14]}>Male</Text>
+                <Text style={[typography.font14, { color: '#17171f' }]}>Male</Text>
                 <RadioButton
                   value="first"
                   status={checked === "first" ? "checked" : "unchecked"}
@@ -292,7 +292,7 @@ const PassengerData = () => {
                   },
                 ]}
               >
-                <Text style={[typography.font14]}>Female</Text>
+                <Text style={[typography.font14, { color: '#17171f' }]}>Female</Text>
                 <RadioButton
                   value="second"
                   status={checked === "second" ? "checked" : "unchecked"}
@@ -388,6 +388,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginLeft: 16,
+    color: '#17171f',
   },
   headerSubtitle: {
     fontSize: 12,

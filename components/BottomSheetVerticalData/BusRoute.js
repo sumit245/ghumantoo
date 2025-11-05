@@ -18,8 +18,8 @@ const BusRoute = () => {
 
   return (
     <>
-      <Text style={styles.headerTitleText}>Bus Route</Text>
-      <Text style={styles.subHeadingBottomSheet}>10h 30m</Text>
+      <Text style={[styles.headerTitleText, { color: '#17171f' }]}>Bus Route</Text>
+      <Text style={[styles.subHeadingBottomSheet, { color: '#17171f' }]}>10h 30m</Text>
       <FlatList
         horizontal
         data={routeStops}

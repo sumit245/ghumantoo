@@ -39,7 +39,7 @@ const MenuItem = ({ title, icon, onPress }) => (
   <TouchableOpacity style={styles.menuItem} onPress={onPress}>
     <View style={styles.menuItemContent}>
       <Icon name={icon} color={PrimaryColor} size={24} style={styles.menuIcon} />
-      <Text>{title}</Text>
+      <Text style={{ color: '#17171f' }}>{title}</Text>
     </View>
     <Icon name="chevron-forward" color={DarkGray} size={24} />
   </TouchableOpacity>

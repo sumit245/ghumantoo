@@ -278,6 +278,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 10,
         marginBottom: 5,
+        color: '#17171f',
     },
     sectionText: {
         fontSize: 14,

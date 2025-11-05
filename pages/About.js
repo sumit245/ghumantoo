@@ -25,7 +25,7 @@ const AboutScreen = () => {
         },
       ]}
     >
-      <Text style={[typography.font16]}>{item.title}</Text>
+      <Text style={[typography.font16, { color: '#17171f' }]}>{item.title}</Text>
       <Ionicons name="chevron-forward" size={20} color="#000" />
     </TouchableOpacity>
   );

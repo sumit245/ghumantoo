@@ -37,8 +37,8 @@ export default function Offers({ isLoading }) {
   }
   return (
     <>
-      <Text style={[typography.font24, typography.textBold, spacing.ml4]}>Coupons</Text>
-      <Text style={[typography.font16, spacing.ml4]}>
+      <Text style={[typography.font24, typography.textBold, spacing.ml4, { color: '#17171f' }]}>Coupons</Text>
+      <Text style={[typography.font16, spacing.ml4, { color: '#17171f' }]}>
         Get best deals with heavy discount
       </Text>
 

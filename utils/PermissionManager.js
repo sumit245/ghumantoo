@@ -86,7 +86,7 @@ export function getCurrentLocation(options = { enableHighAccuracy: true, timeout
     return new Promise((resolve, reject) => {
         try {
             if (!navigator || !navigator.geolocation || !navigator.geolocation.getCurrentPosition) {
-                const err = new Error('Geolocation API not available. On modern RN/Expo you may need expo-location or react-native-geolocation-service.');
+                const err = new Error('Geolocation API not available. You may need react-native-geolocation-service or another geolocation library.');
                 console.warn('getCurrentLocation error: geolocation not available');
                 reject(err);
                 return;
@@ -147,7 +147,7 @@ export async function requestNotificationPermission() {
         }
     }
 
-    // iOS: rely on native prompt (left for native module). We set a flag and the app can later integrate expo-notifications or similar.
+    // iOS: rely on native prompt (left for native module). We set a flag and the app can later integrate a notifications library if needed.
     await AsyncStorage.setItem('notifications_enabled', 'prompt_needed');
     return true;
 }

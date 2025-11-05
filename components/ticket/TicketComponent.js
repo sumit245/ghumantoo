@@ -229,10 +229,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     flex: 1,
     textAlign: 'right',
+    color: '#17171f',
   },
   whatsappMessage: {
     textAlign: 'center',
     marginTop: 20,
+    color: '#17171f',
   },
   circle: {
     position: 'relative',
