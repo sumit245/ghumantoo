@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { styles } from "../utils/styles";
+import { styles, DarkGray } from "../utils/styles";
 
 export default function Cards() {
   return (
@@ -12,7 +12,7 @@ export default function Cards() {
     >
       <Text
         style={{
-          color: "grey",
+          color: DarkGray,
           fontSize: 20,
           alignSelf: "center",
         }}

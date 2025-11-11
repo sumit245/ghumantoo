@@ -8,10 +8,7 @@ import {
     Dimensions,
     TouchableOpacity,
 } from 'react-native';
-import { spacing } from '../../utils/spacing.styles';
-import { PureWhite } from '../../utils/colors';
-
-const { width, height } = Dimensions.get('window');
+import { spacing, PureWhite, width, typography, layouts } from '../../utils/styles';
 
 const GBanner = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -56,11 +53,11 @@ const GBanner = () => {
     const features = ['Smart Planning', 'Local Insights', 'Best Deals'];
 
     return (
-        <View style={[spacing.mh4,spacing.br3,]}>
+        <View style={[spacing.m4, spacing.br3,]}>
             <ImageBackground
                 source={require('../../assets/travel_india.jpeg')}
                 // For remote images, use: source={{ uri: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80' }}
-                style={[spacing.br2,{backgroundColor:PureWhite,}]}
+                style={[spacing.br2, { backgroundColor: PureWhite, }]}
                 imageStyle={spacing.br2}
             >
                 {/* Overlay */}
@@ -69,40 +66,49 @@ const GBanner = () => {
                 {/* Content */}
                 <Animated.View
                     style={[
-                        styles.content,
+                        layouts.container,
+                        layouts.colCenter,
+                        spacing.ph1,
                         {
                             opacity: fadeAnim,
                             transform: [{ translateY: slideAnim }],
                         },
                     ]}
                 >
-                    <View style={styles.textContainer}>
+                    <View style={[spacing.pt3, spacing.pl3, { maxWidth: width * 0.9 }]}>
                         {/* Main Heading */}
-                        <View style={styles.headingContainer}>
-                            <Text style={[styles.heading, styles.gradientText2]}>
+                        <View style={spacing.mb1}>
+                            <Text style={[typography.font24, typography.textBold, { lineHeight: 30, color: '#F97316' }]}>
                                 India's First
                             </Text>
-                            <Text style={[styles.heading, styles.whiteText]}>
+                            <Text style={[typography.font24, typography.textBold, { lineHeight: 30, color: '#FFFFFF' }]}>
                                 AI Powered
                             </Text>
-                            <Text style={[styles.heading, styles.gradientText1]}>
+                            <Text style={[typography.font24, typography.textBold, { lineHeight: 30, color: '#3BF682' }]}>
                                 Travel Partner
                             </Text>
                         </View>
 
                         {/* Subheading */}
-                        <Text style={styles.subheading}>
+                        <Text style={[typography.font16, { color: 'rgba(255, 255, 255, 0.9)', fontWeight: '500', lineHeight: 24, marginBottom: 24 }]}>
                             Discover incredible destinations with personalized AI recommendations tailored just for you
                         </Text>
 
                         {/* Feature Pills */}
-                        <View style={styles.pillsContainer}>
+                        <View style={[layouts.rowCenter, { flexWrap: 'wrap' }]}>
                             {features.map((feature, index) => (
                                 <Animated.View
                                     key={feature}
                                     style={[
-                                        styles.pill,
+                                        spacing.ph1,
+                                        spacing.pv05,
+                                        spacing.mr2,
+                                        spacing.mb2,
                                         {
+                                            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                            borderRadius: 16,
+                                            borderWidth: 1,
+                                            borderColor: 'rgba(255, 255, 255, 0.3)',
                                             opacity: featurePillsAnim[index],
                                             transform: [
                                                 {
@@ -116,7 +122,7 @@ const GBanner = () => {
                                     ]}
                                 >
                                     <TouchableOpacity activeOpacity={0.8}>
-                                        <Text style={styles.pillText}>{feature}</Text>
+                                        <Text style={[typography.font12, { color: '#FFFFFF', fontWeight: '500' }]}>{feature}</Text>
                                     </TouchableOpacity>
                                 </Animated.View>
                             ))}
@@ -132,67 +138,12 @@ const GBanner = () => {
     );
 };
 
+// Minimal local styles for decorative elements only
 const styles = StyleSheet.create({
-    
     overlay: {
         ...StyleSheet.absoluteFillObject,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         borderRadius: 12,
-        background: 'linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.5), transparent)',
-    },
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingHorizontal: 4,
-    },
-    textContainer: {
-        paddingTop: 12,
-        paddingLeft:12,
-        maxWidth: width * 0.9,
-    },
-    headingContainer: {
-        marginBottom: 4
-    },
-    heading: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        lineHeight: 30,
-    },
-    gradientText1: {
-        color: '#3BF682', // Primary blue
-    },
-    whiteText: {
-        color: '#FFFFFF',
-    },
-    gradientText2: {
-        color: '#F97316', // Accent orange
-    },
-    subheading: {
-        fontSize: width > 768 ? 24 : width > 640 ? 20 : width > 480 ? 18 : 16,
-        color: 'rgba(255, 255, 255, 0.9)',
-        fontWeight: '500',
-        lineHeight: width > 768 ? 32 : width > 640 ? 28 : width > 480 ? 26 : 24,
-        marginBottom: 24,
-    },
-    pillsContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 0,
-    },
-    pill: {
-        paddingHorizontal: 6,
-        paddingVertical: 4,
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.3)',
-        marginRight: 8,
-        marginBottom: 8,
-    },
-    pillText: {
-        color: '#FFFFFF',
-        fontSize: 12,
-        fontWeight: '500',
     },
     decorativeCircle: {
         position: 'absolute',

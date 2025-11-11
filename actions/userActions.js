@@ -53,7 +53,6 @@ export const getMyTickets = async(mobile_number) =>
     // async (dispatch) =>
     {
     try {
-        console.log(mobile_number)
         const response = await axios.post(`${API_URL}/api/users/get-my-tickets`,
             {
                 mobile_number: mobile_number

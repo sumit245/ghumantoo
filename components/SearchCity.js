@@ -5,10 +5,10 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  StyleSheet,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
+import { PureWhite, LightGray, BlackColor, DarkGray, spacing, typography, layouts } from "../utils/styles";
 
 const SearchCity = () => {
   const [city, setCity] = useState("");
@@ -44,26 +44,26 @@ const SearchCity = () => {
   const filteredData =
     city.length > 0 && !selectedCity
       ? cachedData.filter((item) =>
-          item.city.toLowerCase().startsWith(city.toLowerCase())
-        )
+        item.city.toLowerCase().startsWith(city.toLowerCase())
+      )
       : [];
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.inputContainer}>
+    <View style={[layouts.container, spacing.ph3, { backgroundColor: PureWhite }]}>
+      <View style={[layouts.rowCenter, spacing.mt4, spacing.mb3, { borderBottomWidth: 1, borderBottomColor: LightGray, paddingBottom: 8 }]}>
+        <View style={[layouts.rowCenter, spacing.ph3, { borderRadius: 24, backgroundColor: PureWhite, height: 55, flex: 1 }]}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Icon
               name="arrow-back"
               size={24}
-              color="black"
-              style={{ marginRight: 8 }}
+              color={BlackColor}
+              style={spacing.mr2}
             />
           </TouchableOpacity>
           <TextInput
-            style={styles.textInput}
+            style={[typography.font14, { flex: 1, color: BlackColor }]}
             placeholder="Search Boarding Point"
-            placeholderTextColor="#aaa"
+            placeholderTextColor={DarkGray}
             value={city}
             onChangeText={handleSearch}
           />
@@ -71,14 +71,14 @@ const SearchCity = () => {
       </View>
 
       {!selectedCity && (
-        <ScrollView style={styles.scrollView}>
+        <ScrollView style={[spacing.mt3, spacing.pv2]}>
           {filteredData.map((item) => (
             <TouchableOpacity
               key={item.id}
               onPress={() => selectCity(item.city)}
-              style={styles.cityItem}
+              style={[spacing.pv2, { borderBottomWidth: 1, borderBottomColor: LightGray }]}
             >
-              <Text style={styles.suggestionText}>
+              <Text style={typography.font16}>
                 {item.city
                   .split(new RegExp(`(${city})`, "gi"))
                   .map((part, index) => (
@@ -86,8 +86,8 @@ const SearchCity = () => {
                       key={index}
                       style={
                         part.toLowerCase() === city.toLowerCase()
-                          ? styles.matchedText
-                          : styles.unmatchedText
+                          ? [typography.font16, typography.textBold, { color: BlackColor }]
+                          : [typography.font16, { color: DarkGray }]
                       }
                     >
                       {part}
@@ -101,56 +101,5 @@ const SearchCity = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    paddingHorizontal: 12,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 16,
-    marginBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-    paddingBottom: 8,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 24,
-    backgroundColor: "#f5f5f5",
-    paddingHorizontal: 12,
-    height: 55,
-    flex: 1,
-  },
-  textInput: {
-    flex: 1,
-    fontSize: 14,
-    color: "black",
-  },
-  scrollView: {
-    marginTop: 12,
-    paddingVertical: 8,
-  },
-  cityItem: {
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-  },
-  suggestionText: {
-    fontSize: 16,
-    color: '#17171f',
-  },
-  matchedText: {
-    color: "black",
-    fontWeight: "bold",
-  },
-  unmatchedText: {
-    color: "gray",
-  },
-});
 
 export default SearchCity;

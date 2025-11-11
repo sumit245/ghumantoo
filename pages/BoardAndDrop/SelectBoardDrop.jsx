@@ -127,6 +127,7 @@ export default function SelectPointsScreen({ navigation }) {
             droppingPoint: selectedDroppingPoint,
         });
     };
+
     return (
         <SafeAreaView style={styles.container}>
             {/* Header */}
@@ -240,11 +241,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 16,
         backgroundColor: '#fff',
+        paddingTop: 0
     },
     headerTitle: {
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         marginLeft: 16,
+        color: '#17171f',
     },
     headerSubtitle: {
         fontSize: 12,

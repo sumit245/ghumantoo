@@ -25,10 +25,7 @@ if (fs.existsSync(fontsSource)) {
         const sourcePath = path.join(fontsSource, file);
         const destPath = path.join(fontsDest, file);
         fs.copyFileSync(sourcePath, destPath);
-        console.log(`Copied ${file} to assets/fonts`);
     });
-
-    console.log(`✓ Copied ${fontFiles.length} font files successfully`);
 } else {
     console.warn(`Warning: Font source directory not found: ${fontsSource}`);
 }

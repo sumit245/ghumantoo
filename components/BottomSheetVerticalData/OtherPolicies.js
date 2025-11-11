@@ -1,8 +1,7 @@
 import React from 'react'
 import { View, Text, FlatList } from 'react-native'
-import { styles } from '../../utils/styles'
+import { styles, typography, BlackColor, DarkGray } from '../../utils/styles'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import { typography } from '../../utils/typography';
 
 
 const policies = [
@@ -35,14 +34,14 @@ const policies = [
 ];
 
 const Icon = ({ name }) => (
-  <MaterialIcons name={name} size={20} color="grey" style={{ marginRight: 10 }} />
+  <MaterialIcons name={name} size={20} color={DarkGray} style={{ marginRight: 10 }} />
 );
 const OtherPolicies = () => {
 
   const renderItem = ({ item }) => (
     <View style={{ marginBottom: 10 }}>
       <View style={styles.row}>
-        <Text style={[typography.textBold, typography.font16, { color: '#17171f' }]}>{item.title}
+        <Text style={[typography.textBold, typography.font16, { color: BlackColor }]}>{item.title}
         </Text>
         {item.icon && <Icon name={item.icon} />}
       </View>

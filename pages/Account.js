@@ -4,9 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { height, styles as globalStyles } from '../utils/styles';
-import { DangerColor, DarkGray, PrimaryColor, PureWhite } from '../utils/colors';
-import { typography } from '../utils/typography';
-import { spacing } from '../utils/spacing.styles';
+import { DangerColor, DarkGray, PrimaryColor, PureWhite, LightGray, BlackColor, typography, spacing } from '../utils/styles';
 import { useAuth } from '../context/AuthContext';
 import GuestView from '../components/GuestView';
 
@@ -39,7 +37,7 @@ const MenuItem = ({ title, icon, onPress }) => (
   <TouchableOpacity style={styles.menuItem} onPress={onPress}>
     <View style={styles.menuItemContent}>
       <Icon name={icon} color={PrimaryColor} size={24} style={styles.menuIcon} />
-      <Text style={{ color: '#17171f' }}>{title}</Text>
+      <Text style={{ color: BlackColor }}>{title}</Text>
     </View>
     <Icon name="chevron-forward" color={DarkGray} size={24} />
   </TouchableOpacity>
@@ -129,7 +127,7 @@ const styles = StyleSheet.create({
     ...globalStyles.row,
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: LightGray,
   },
   menuItemContent: {
     flexDirection: 'row',

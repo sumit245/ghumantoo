@@ -4,7 +4,6 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  StyleSheet,
 } from "react-native";
 import { Modal, Snackbar } from "react-native-paper";
 import { useNetwork } from "../utils/PermissionManager";
@@ -24,16 +23,15 @@ import LocationSelector from "../components/LocationSelector";
 import GBanner from "../components/customs/GBanner";
 
 import { styles, width } from "../utils/styles";
-import { Black1Color, PrimaryColor } from "../utils/colors";
+import { Black1Color, PrimaryColor, BlackColor, typography, spacing } from "../utils/styles";
 import { getActiveCoupons, getBusOnRoute } from "../actions/busActions";
-import { typography } from "../utils/typography";
-import { spacing } from "../utils/spacing.styles";
+
 
 
 // It's a good practice to memoize components to prevent unnecessary re-renders.
 // You would wrap the export of your components like this: export default React.memo(YourComponent);
 
-const APP_VERSION = "1.0.7";
+const APP_VERSION = "1.0.9";
 
 export default function Home() {
   // Group related state into an object for cleaner management
@@ -147,7 +145,7 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={[typography.font24, typography.textBold, spacing.p2, spacing.ml4, { color: '#17171f' }]}>
+        <Text style={[typography.font24, typography.textBold, spacing.p2, spacing.ml4, { color: BlackColor }]}>
           Bus Tickets
         </Text>
 
@@ -206,14 +204,14 @@ export default function Home() {
           </TouchableOpacity>
         </Modal>
 
-        <Text style={componentStyles.footerText}>
+        <Text style={[typography.font10, { color: BlackColor, textAlign: 'center', marginTop: 10 }]}>
           Version {APP_VERSION}{"\n"}
           Powered by Dashandots Technology
         </Text>
       </ScrollView>
 
       <Snackbar
-        style={componentStyles.snackbar}
+        style={[spacing.mh2, { opacity: 0.9, alignSelf: 'center' }]}
         visible={snackbar.visible}
         onDismiss={() => setSnackbar({ visible: false, message: "" })}
         duration={2000}
@@ -226,7 +224,7 @@ export default function Home() {
         visible={showOffline}
         onDismiss={() => setShowOffline(false)}
         duration={Snackbar.DURATION_INDEFINITE}
-        style={componentStyles.offlineSnackbar}
+        style={[spacing.mh2, { backgroundColor: BlackColor, alignSelf: 'center' }]}
         action={{ label: 'Retry', onPress: getCoupons }}
       >
         You appear to be offline. Check your connection and tap Retry.
@@ -235,22 +233,4 @@ export default function Home() {
   );
 }
 
-// Keep component-specific styles separate for clarity
-const componentStyles = StyleSheet.create({
-  footerText: {
-    ...typography.font10,
-    color: '#17171f',
-    textAlign: 'center',
-    marginTop: 10,
-  },
-  snackbar: {
-    width: width - 20,
-    opacity: 0.9,
-    alignSelf: 'center',
-  },
-  offlineSnackbar: {
-    width: width - 20,
-    backgroundColor: '#222',
-    alignSelf: 'center',
-  }
-});
+// All styles now use centralized styles from utils/styles

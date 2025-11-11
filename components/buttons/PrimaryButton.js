@@ -1,8 +1,7 @@
 import React from 'react'
 import { Text, TouchableOpacity, ActivityIndicator } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { styles } from '../../utils/styles'
-import { spacing } from '../../utils/spacing.styles'
+import { styles, spacing } from '../../utils/styles'
 
 export default function PrimaryButton({ style, onClick, isIconButton, iconName, title, textStyle, loading }) {
     return (

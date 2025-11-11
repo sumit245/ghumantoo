@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, useWindowDimensions, Animated } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import Tickets from '../components/tabBar/TabBarComponent';
-import { PrimaryColor, WhiteColor,PureWhite } from '../utils/colors';
-import { typography } from '../utils/typography';
+import { PrimaryColor, WhiteColor, PureWhite, DarkGray, BlackColor, typography } from '../utils/styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Badge } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
@@ -144,7 +143,7 @@ export default function BookingsScreen() {
         lazy
         renderLazyPlaceholder={() => (
           <View style={styles.lazyPlaceholder}>
-            <Text style={{ color: '#17171f' }}>Loading Trips...</Text>
+            <Text style={{ color: BlackColor }}>Loading Trips...</Text>
           </View>
         )}
       />
@@ -157,7 +156,7 @@ const styles = StyleSheet.create({
   centeredContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: PureWhite, paddingHorizontal: 30 },
   image: { width: 200, height: 200, marginBottom: 24 },
   title: { ...typography.font20, fontWeight: 'bold', color: PrimaryColor, marginBottom: 8 },
-  subtitle: { ...typography.font14, color: '#666', marginBottom: 16, textAlign: 'center', paddingHorizontal: 24 },
+  subtitle: { ...typography.font14, color: DarkGray, marginBottom: 16, textAlign: 'center', paddingHorizontal: 24 },
   loginButton: { backgroundColor: PrimaryColor, paddingVertical: 12, paddingHorizontal: 32, borderRadius: 8, marginTop: 12 },
   loginButtonText: { color: WhiteColor, fontWeight: 'bold', fontSize: 16 },
   bookButton: { backgroundColor: PrimaryColor, paddingVertical: 12, paddingHorizontal: 32, borderRadius: 8, marginTop: 12 },

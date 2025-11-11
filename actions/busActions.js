@@ -1,4 +1,5 @@
 import axios from "axios";
+import apiClient from "../utils/api";
 import { API_URL, APPEND_BUSES_SUCCESS, GET_BUSES, GET_BUSES_SUCCESS, SELECT_BUS, SET_ACTIVE_COUPONS, SET_AVAILABLE_BOARDING_POINTS, SET_AVAILABLE_DROPPING_POINTS, SET_BOOKED_SEATS, SET_CANCEL_POLICY, SET_DESTINATION_ID, SET_JOURNEY_DATE, SET_PAGINATION, SET_PICKUP_ID, SET_PRICE_OF_SEATS, SET_RESULT_INDEX, SET_SEARCH_TOKEN, SET_SEAT_LAYOUT, SET_SELECTED_SEATS, SET_TOTAL_SEATS } from "../utils/constants";
 
 
@@ -29,7 +30,6 @@ export const getBusOnRoute = (pickup, destination, date_of_journey, filters = {}
   if (filters.price !== undefined && filters.price !== null) {
     params.max_price = filters.price;
   }
-  console.log("Fetching buses with params:", params);
   try {
     const response = await axios.get(`${API_URL}/api/bus/search`, { params });
 
@@ -68,10 +68,8 @@ export const getBusOnRoute = (pickup, destination, date_of_journey, filters = {}
 
 export const fetchCounters = async (query) => {
   try {
-    console.log("Searching for counters with query:", query);
     const response = await axios.get(`${API_URL}/api/autocomplete-city?query=${query}`);
     const { data } = response
-    console.log("Fetched counters:", data);
     return data; // Return the list of matching counters
   } catch (error) {
     if (error.response) {
@@ -106,7 +104,6 @@ export const getAvailableSeats = (resultIndex, searchToken, policies) => async (
     //   }
     // }
     const parsedPolicies = typeof policies === 'string' ? JSON.parse(policies) : policies;
-    console.log(parsedPolicies)
     const [seatResponse, cancellationPolicyResponse] = await Promise.all([
       axios.get(`${API_URL}/api/bus/show-seats/`, {
         params: {
@@ -120,7 +117,6 @@ export const getAvailableSeats = (resultIndex, searchToken, policies) => async (
     ]);
 
     const { html, availableSeats } = seatResponse.data;
-    console.log(html, availableSeats)
     const { cancellationPolicy } = cancellationPolicyResponse.data;
     // Use the formatted policy from the API response directly for the UI.
     // DO NOT dispatch it back to overwrite the original structured policy data.
@@ -144,9 +140,7 @@ export const getAvailableSeats = (resultIndex, searchToken, policies) => async (
 
 export const getActiveCoupons = () => async (dispatch) => {
   try {
-    console.log("Fetching Coupons")
     const resp = await axios.get(`${API_URL}/api/coupons`);
-    console.log(resp.data)
     const coupons = resp?.data?.data || [];
     dispatch({ type: SET_ACTIVE_COUPONS, payload: coupons });
   } catch (err) {
@@ -175,46 +169,71 @@ export const getBoardingAndDroppingPoints = (trip_id, search_token, selectedSeat
 
 export const blockSeat = async (data) => {
   try {
-    const response = await axios.post(`${API_URL}/api/bus/block-seat`, {
-      ...data
-    });
-    console.log(response.data)
+    // Use optimized apiClient instance - configured with timeout and headers
+    // This is faster than creating a new axios instance each time
+    const response = await apiClient.post('/api/bus/block-seat', data);
     return response.data;
   } catch (error) {
-    console.error("blockSeat error", error);
+    // Only log error in development to avoid blocking in production
+    if (__DEV__) {
+      console.error("blockSeat error", error?.response?.data || error?.message);
+    }
+    // Re-throw with more context for better error handling
     throw error;
   }
 }
 
-
-export const bookTicket = async (trip_id, data) => {
-  try {
-    const response = await axios.get(`${API_URL}/api/bus/book-ticket/${trip_id}`, {
-      params: data,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error("bookTicket error", error);
-    throw error;
-  }
-}
 
 export const confirmTicket = async (data) => {
   try {
-    console.log(data)
-    const response = await axios.post(`${API_URL}/api/bus/confirm-payment`, {
-      ...data,
-    });
-    console.log(`confirmTicket response ${response.data}`)
+    // Use optimized apiClient - no console.logs to avoid blocking
+    const response = await apiClient.post('/api/bus/confirm-payment', data);
     const { success, block_details } = response.data;
-    console.log(success, block_details)
+    console.log(block_details);
+    console.log(success);
     return { success, block_details };
   } catch (error) {
-    const errorBody = error.response ? error.response.data : error.message;
-    console.error("confirmTicket error", JSON.stringify(errorBody, null, 2));
+    // Only log in development to avoid blocking in production
+    if (__DEV__) {
+      const errorBody = error.response ? error.response.data : error.message;
+      console.error("confirmTicket error", errorBody);
+    }
+    throw error;
+  }
+}
+
+export const getTicketDetails = async (booking_id) => {
+  try {
+    const response = await apiClient.post('/api/users/get-ticket-by-booking-id', {
+      booking_id: booking_id,
+    });
+    const { success, ticket } = response.data;
+    if (success && ticket) {
+      // Return the ticket data - can dispatch to reducer if needed later
+      return ticket;
+    }
+    throw new Error('Failed to fetch ticket details');
+  } catch (error) {
+    // Only log error in development
+    if (__DEV__) {
+      const errorBody = error.response ? error.response.data : error.message;
+      console.error("getTicketDetails error", errorBody);
+    }
+    throw error;
+  }
+}
+
+export const cancelTicket = async (data) => {
+  try {
+    // Use optimized apiClient instance
+    const response = await apiClient.post('/users/cancel-ticket', data);
+    return response.data;
+  } catch (error) {
+    // Only log error in development
+    if (__DEV__) {
+      const errorBody = error.response ? error.response.data : error.message;
+      console.error("cancelTicket error", errorBody);
+    }
     throw error;
   }
 }

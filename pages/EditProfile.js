@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { View, Text, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { RadioButton } from "react-native-paper";
-import { AccentColor, WhiteColor } from "../utils/colors";
+import { AccentColor, WhiteColor, styles, typography, spacing } from "../utils/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { editProfile } from "../actions/userActions";
-import { styles } from "../utils/styles";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import GPhoneInput from "../components/GPhoneInput";
-import { typography } from "../utils/typography";
-import { spacing } from "../utils/spacing.styles";
 
 export default function EditProfile() {
   const [checked, setChecked] = useState("second");

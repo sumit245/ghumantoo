@@ -7,16 +7,13 @@ import {
   View,
   Alert, // Using Alert for now, but a custom modal/toast is better for production
 } from "react-native";
-import { styles, width } from "../utils/styles";
-import { typography } from '../utils/typography'
+import { styles, width, typography, PrimaryColor, WhiteColor, spacing } from "../utils/styles";
 import OTPComponent from "../components/OTPComponent";
-import { PrimaryColor, WhiteColor } from "../utils/colors";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import { useDispatch,useSelector } from 'react-redux';
 import { verifyUserOTP } from '../actions/userActions';
 import { useAuth } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
-import { spacing } from "../utils/spacing.styles";
 import { ActivityIndicator } from "react-native-paper";
 
 export default function OTPPage() {

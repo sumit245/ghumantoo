@@ -4,8 +4,7 @@ import SeatLayout from '../components/SeatLayout/SeatLayout';
 import { useSelector, useDispatch } from 'react-redux';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
-import { PrimaryColor, WhiteColor, BlackColor, LightGray, DangerColor, PureWhite, White1Color } from '../utils/colors';
-import { height, width } from '../utils/styles';
+import { height, width, PrimaryColor, WhiteColor, BlackColor, LightGray, DangerColor, PureWhite, White1Color } from '../utils/styles';
 import Cancellation from '../components/BottomSheetVerticalData/Cancellation';
 import OtherPolicies from '../components/BottomSheetVerticalData/OtherPolicies';
 import { useNavigation } from '@react-navigation/native';
@@ -110,9 +109,6 @@ export default function SeatSelection() {
 
     // Fetch seat data when the component mounts and all required data is available
     useEffect(() => {
-        console.log("resultIndex", resultIndex);
-        console.log("SearchTokenId", SearchTokenId);
-        console.log("policiesCancellation", policiesCancellation);
         if (resultIndex && SearchTokenId && policiesCancellation) {
             dispatch(getAvailableSeats(resultIndex, SearchTokenId, policiesCancellation));
         }
@@ -193,7 +189,7 @@ export default function SeatSelection() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f4f4f4',
+        backgroundColor: White1Color,
     },
     loaderContainer: {
         flex: 1,
@@ -210,7 +206,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         paddingHorizontal: 20,
         elevation: 2,
-        shadowColor: '#000',
+        shadowColor: BlackColor,
         shadowOffset: { width: 0, height: -4 },
         shadowOpacity: 0.1,
         shadowRadius: 8,
@@ -244,9 +240,9 @@ const styles = StyleSheet.create({
     priceInfo: {
         alignItems: 'flex-end',
     },
-    label: {
+        label: {
         fontSize: 14,
-        color: '#666',
+        color: LightGray,
         marginBottom: 4,
     },
     value: {
@@ -255,7 +251,7 @@ const styles = StyleSheet.create({
     },
     priceLabel: {
         fontSize: 14,
-        color: '#666',
+        color: LightGray,
     },
     priceValue: {
         fontSize: 24,
@@ -264,13 +260,13 @@ const styles = StyleSheet.create({
     },
     seatsLabel: {
         fontSize: 12,
-        color: '#666',
+        color: LightGray,
         marginTop: 4,
     },
     expandedContent: {
         flex: 1,
         borderTopWidth: 1,
-        borderTopColor: '#eee',
+        borderTopColor: LightGray,
         paddingTop: 10,
     },
     sectionTitle: {
@@ -278,7 +274,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 10,
         marginBottom: 5,
-        color: '#17171f',
+        color: BlackColor,
     },
     sectionText: {
         fontSize: 14,

@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context'; // 1. Import the hook
-import { PrimaryColor, WhiteColor } from '../utils/colors';
-import { styles } from '../utils/styles';
+import { PrimaryColor, WhiteColor, styles } from '../utils/styles';
 import { Home, Bookings, Help, Account } from '../pages';
 
 const BottomTabs = createMaterialBottomTabNavigator();

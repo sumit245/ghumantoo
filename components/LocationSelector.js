@@ -11,7 +11,7 @@
 // export default function LocationSelector({ handleDatePicker, selectedDate, setPickupLocation, setDestinationLocation, setDate, pickup, destination }) {
 //   const [selection, setSelection] = useState("");
 //   const quickDates = ["Today", "Tomorrow"];
-  
+
 
 //   useEffect(() => {
 //     setSelection(dayjs(selectedDate).format("ddd, D MMM"));
@@ -101,10 +101,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import dayjs from "dayjs";
 import GCityTextInput from "./customs/GCityTextInput";
-import { styles } from "../utils/styles";
-import { typography } from "../utils/typography";
-import { spacing } from "../utils/spacing.styles";
-import { DarkGray } from "../utils/colors";
+import { styles, typography, spacing, DarkGray, layouts, BlackColor, WhiteColor } from "../utils/styles";
 
 // FIX: Update the component to be a "controlled component".
 // It receives data props (values) and function props (callbacks) to notify the parent of changes.
@@ -146,10 +143,10 @@ export default function LocationSelector({
       />
 
       <TouchableOpacity
-        style={componentStyles.swapButton}
-        onPress={onSwapLocations} // FIX: Call the parent function to swap locations
+        style={[layouts.colCenter, { alignSelf: "center", backgroundColor: BlackColor, borderRadius: 25, width: 45, height: 45, position: "absolute", right: 8, top: 64, zIndex: 1 }]}
+        onPress={onSwapLocations}
       >
-        <Icon name="swap-vert" size={24} color="#fff" />
+        <Icon name="swap-vert" size={24} color={WhiteColor} />
       </TouchableOpacity>
 
       <GCityTextInput
@@ -170,7 +167,7 @@ export default function LocationSelector({
             {formattedSelection}
           </Text>
         </View>
-        <View style={componentStyles.quickDatesContainer}>
+        <View style={[layouts.rowCenter, { justifyContent: 'flex-end', flex: 1 }]}>
           {quickDates.map((label, idx) => (
             <TouchableOpacity
               key={label}
@@ -188,23 +185,4 @@ export default function LocationSelector({
   );
 }
 
-const componentStyles = {
-  swapButton: {
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#333",
-    borderRadius: 25,
-    width: 45,
-    height: 45,
-    position: "absolute",
-    right: 8,
-    top: 64,
-    zIndex: 1, // Ensure it's clickable over other elements
-  },
-  quickDatesContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    flex: 1,
-  },
-};
+// All styles now use centralized styles from utils/styles

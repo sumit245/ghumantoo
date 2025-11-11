@@ -1,7 +1,5 @@
 import PhoneInput from "react-native-phone-number-input";
-import { styles, width } from "../utils/styles";
-import { Black1Color, PrimaryColor } from "../utils/colors";
-import { typography } from "../utils/typography";
+import { styles, width, Black1Color, PrimaryColor, typography } from "../utils/styles";
 
 export default function GPhoneInput({ onChangeText }) {
   return (

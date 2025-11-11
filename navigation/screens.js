@@ -34,6 +34,9 @@ const commonScreens = [
     options: {
       headerShown: true,
       title: "Search Results",
+      headerStyle: {
+        paddingTop: 0
+      }
     },
   },
   {
@@ -42,7 +45,10 @@ const commonScreens = [
     options: {
       headerShown: true,
       title: "Select Seat(s)",
-    },
+      headerStyle: {
+        paddingTop: 0
+      }
+    }
   },
   {
     name: "AddPassenger",
@@ -50,6 +56,9 @@ const commonScreens = [
     options: {
       headerShown: false,
       title: "Passenger Details",
+      headerStyle: {
+        paddingTop: 0
+      }
     },
   },
   {

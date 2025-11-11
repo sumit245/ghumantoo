@@ -1,9 +1,6 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity, Linking, Alert } from "react-native";
-import { styles } from "../utils/styles";
-import { PureWhite } from "../utils/colors";
-import { typography } from "../utils/typography";
-import { spacing } from "../utils/spacing.styles";
+import { styles, PureWhite, typography, spacing } from "../utils/styles";
 
 export default function RateUs() {
   const storeUrl = 'https://play.google.com/store/apps/details?id=com.dashandots.vindhyashribus';

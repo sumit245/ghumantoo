@@ -1,10 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-import { spacing } from '../utils/spacing.styles';
-import { styles } from '../utils/styles';
-import { typography } from '../utils/typography';
-import { DangerColor } from '../utils/colors';
+import { spacing, styles, typography, DangerColor } from '../utils/styles';
 
 const PassengerForm = ({
     name,

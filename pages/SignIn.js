@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Image, SafeAreaView, ActivityIndicator, TouchableOpacity } from "react-native";
-import { styles, width } from "../utils/styles";
-import { DangerColor, PureWhite, WhiteColor, } from "../utils/colors";
+import { styles, width, DangerColor, PureWhite, WhiteColor } from "../utils/styles";
 import { useNavigation } from "@react-navigation/native";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import { useDispatch } from "react-redux";
@@ -35,7 +34,7 @@ export default function SignIn() {
     setLoading(true);
     await skipForNow();
     setLoading(false);
-    navigation.navigate("Home");
+    navigation.navigate("Main", { screen: "Home" });
   }
   return (
     <SafeAreaView style={styles.container}>

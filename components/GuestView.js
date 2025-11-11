@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import PrimaryButton from './buttons/PrimaryButton';
-import { typography } from '../utils/typography';
-import { PrimaryColor } from '../utils/colors';
+import { typography, PrimaryColor, DarkGray, layouts, spacing } from '../utils/styles';
 
 export default function GuestView({
     image = require('../assets/icon.png'),
@@ -13,31 +12,19 @@ export default function GuestView({
     style = {},
 }) {
     return (
-        <View style={[styles.guestContainer, style]}>
+        <View style={[layouts.container, layouts.colCenter, spacing.ph4, style]}>
             <Image
                 source={image}
-                style={styles.image}
+                style={[spacing.mb5, { width: 200, height: 200 }]}
                 resizeMode="contain"
             />
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.subtitle}>{subtitle}</Text>
+            <Text style={[typography.font20, typography.textBold, { color: PrimaryColor, marginBottom: 8 }]}>{title}</Text>
+            <Text style={[typography.font14, { color: DarkGray, marginBottom: 16, textAlign: 'center', paddingHorizontal: 24 }]}>{subtitle}</Text>
             <PrimaryButton
                 title={buttonText}
                 onClick={onLoginPress}
-                style={{ marginTop: 20, width: '80%' }}
+                style={[spacing.mt5, { width: '80%' }]}
             />
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    guestContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 30,
-    },
-    image: { width: 200, height: 200, marginBottom: 24 },
-    title: { ...typography.font20, fontWeight: 'bold', color: PrimaryColor, marginBottom: 8 },
-    subtitle: { ...typography.font14, color: '#666', marginBottom: 16, textAlign: 'center', paddingHorizontal: 24 },
-});

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { styles as globalStyles } from '../../utils/styles'; // Assuming a global styles file
+import { styles as globalStyles, BlackColor } from '../../utils/styles'; // Assuming a global styles file
 
 // --- Sub-component 1: TimeColumn (No changes) ---
 const TimeColumn = ({ time, date }) => (
@@ -80,11 +80,11 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontWeight: 'bold',
-    color: '#17171f',
+    color: BlackColor,
   },
   dateText: {
     opacity: 0.6,
-    color: '#17171f',
+    color: BlackColor,
   },
   // The container for the indicator ensures it has its own column.
   indicatorContainer: {
@@ -102,14 +102,15 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: 'black',
+    backgroundColor: BlackColor,
   },
   // The line that connects the dots between rows.
   lineConnector: {
     flex: 1, // Takes up all remaining vertical space in the row
     height:'auto',
     width: 2,
-    backgroundColor: 'lightgrey',
+    // use theme light gray
+    backgroundColor: '#E0E0E0',
   },
   locationContainer: {
     flex: 1, // Ensures this column takes up the remaining horizontal space
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     fontSize: 12,
     opacity: 0.6,
-    color: '#17171f',
+    color: BlackColor,
   },
 });
 

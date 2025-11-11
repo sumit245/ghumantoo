@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useMemo } from 'react';
 import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { width } from '../../utils/styles';
-import { LightGray, PureWhite } from '../../utils/colors';
+import { width, LightGray, PureWhite, BlackColor, spacing, typography, layouts } from '../../utils/styles';
 
 // --- SVG Component Imports ---
 import Steering from '../../assets/icons/Steering';
@@ -48,7 +47,7 @@ const Seat = React.memo(({ seat, onSelect, isSelected }) => {
 
   return (
     <TouchableOpacity
-      style={[styles.seatTouchable, seatStyle]}
+      style={[layouts.colCenter, spacing.m1, seatStyle]}
       onPress={() => onSelect(seat)}
       disabled={!isAvailable}
     >
@@ -59,7 +58,7 @@ const Seat = React.memo(({ seat, onSelect, isSelected }) => {
         <SeaterIcon bgColor={seatColors.bg} borderColor={seatColors.border} selected={isSelected} />
       )}
       {isAvailable && (
-        <Text style={styles.seatIdText}>{seat.seat_id}</Text>
+        <Text style={[typography.font12, typography.textBold, { color: LightGray, position: 'absolute', top: '20%' }]}>{seat.seat_id}</Text>
       )}
     </TouchableOpacity>
   );
@@ -89,23 +88,22 @@ const Deck = React.memo(({ deckType, seatsData, onSeatSelect, showSteering, sele
     }
 
     return (
-      <View style={styles.seatsContainer}>
+      <View style={[layouts.rowCenter, { flexDirection: 'row-reverse', alignItems: 'flex-end', marginTop: 10 }]}>
         {finalRowKeys.map((rowKey, index) => {
           if (rowKey === 'aisle') {
-            return <View key={`aisle-${index}`} style={styles.aisle} />;
+            return <View key={`aisle-${index}`} style={{ width: 20 }} />;
           }
           const rowSeats = seatsData[rowKey] || [];
           return (
-            <View key={rowKey} style={styles.seatRow}>
+            <View key={rowKey} style={[{ flexDirection: 'column', justifyContent: 'flex-end', margin: 2 }]}>
               {rowSeats.map((seat) => {
-                // 6. Check if the current seat is in the selected list
                 const isSelected = selectedSeats.some(s => s.seat_id === seat.seat_id);
                 return (
                   <Seat
                     key={seat.seat_id}
                     seat={seat}
                     onSelect={onSeatSelect}
-                    isSelected={isSelected} // Pass the selection state down
+                    isSelected={isSelected}
                   />
                 );
               })}
@@ -117,11 +115,11 @@ const Deck = React.memo(({ deckType, seatsData, onSeatSelect, showSteering, sele
   }, [seatsData, onSeatSelect, selectedSeats]); // Add selectedSeats to dependency array
 
   return (
-    <View style={styles.deckContainer}>
-      <View style={styles.deckHeader}>
-        <Text style={{ color: '#17171f' }}>{deckType}</Text>
+    <View style={[spacing.p1, spacing.mh1, { minWidth: width / 1.8, backgroundColor: PureWhite, borderRadius: 16, justifyContent: 'flex-start', maxHeight: 'auto' }]}>
+      <View style={[layouts.rowBetween, spacing.pb1, { borderBottomWidth: 0.5, borderBottomColor: LightGray, height: 38 }]}>
+        <Text style={[typography.font14, { color: BlackColor }]}>{deckType}</Text>
         {showSteering && (
-          <Steering style={styles.steeringImage} width={36} height={36} /> // 6. Render steering image if applicable
+          <Steering style={{ height: 34, width: 36 }} width={36} height={36} />
         )}
       </View>
       {renderedSeats}
@@ -148,8 +146,8 @@ export default function SeatLayout({ lowerSeats = {}, upperSeats = {}, handleSea
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={[
-        styles.scrollViewContent,
-        { justifyContent: displayData.isDouble ? 'space-between' : 'center' }
+        spacing.p1,
+        { flexGrow: 1, flexDirection: 'row', justifyContent: displayData.isDouble ? 'space-between' : 'center' }
       ]}
     >
       {displayData.lower && (
@@ -174,15 +172,4 @@ export default function SeatLayout({ lowerSeats = {}, upperSeats = {}, handleSea
   );
 }
 
-// --- StyleSheet ---
-const styles = StyleSheet.create({
-  scrollViewContent: { flexGrow: 1, flexDirection: 'row', padding: 2 },
-  deckContainer: { minWidth: width / 1.8, backgroundColor: PureWhite, borderRadius: 16, padding: 4, marginHorizontal: 4, justifyContent: 'flex-start', maxHeight: 'auto' },
-  deckHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 0.5, borderBottomColor: LightGray, height: 38, paddingBottom: 4 },
-  steeringImage: { height: 34, width: 36 },
-  seatsContainer: { flexDirection: 'row-reverse', alignItems: 'flex-end', marginTop: 10 },
-  aisle: { width: 20 },
-  seatRow: { flexDirection: 'column', justifyContent: 'flex-end', margin: 2 },
-  seatTouchable: { justifyContent: 'center', alignItems: 'center', margin: 2, },
-  seatIdText: { color: LightGray, position: 'absolute', top: '20%', fontWeight: 'bold', fontSize: 12 },
-});
+// All styles now use centralized styles from utils/styles

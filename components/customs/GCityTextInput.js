@@ -2,10 +2,8 @@
 
 import React, { useRef, useState, useCallback } from 'react';
 import { View, Text } from "react-native";
-import { height, styles, width } from "../../utils/styles";
+import { height, styles, width, PrimaryColor, Black1Color, LightGray, DarkGray, WhiteColor, typography } from "../../utils/styles";
 import Icon from "react-native-vector-icons/Ionicons";
-import { PrimaryColor, Black1Color, LightGray, DarkGray, WhiteColor } from "../../utils/colors";
-import { typography } from "../../utils/typography";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { fetchCounters } from "../../actions/busActions";
 

@@ -4,8 +4,12 @@
   "main": "index.js",
   "scripts": {
     "start": "react-native start",
+    "start:clean": "react-native start --reset-cache",
     "android": "node scripts/copy-fonts.js && react-native run-android",
-    "ios": "react-native run-ios"
+    "android:clean": "node scripts/copy-fonts.js && bash scripts/start-metro-android.sh",
+    "android:release": "cd android && ./gradlew clean && ./gradlew assembleRelease",
+    "ios": "react-native run-ios",
+    "optimize": "bash scripts/optimize-build.sh"
   },
   "dependencies": {
     "@babel/runtime": "^7.28.4",

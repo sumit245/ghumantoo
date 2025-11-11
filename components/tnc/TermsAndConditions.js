@@ -1,6 +1,5 @@
 import { Linking, Text } from 'react-native'
-import { styles } from '../../utils/styles'
-import { PrimaryColor } from '../../utils/colors'
+import { styles, PrimaryColor } from '../../utils/styles'
 
 export default function TermsAndConditions({ text }) {
     return (

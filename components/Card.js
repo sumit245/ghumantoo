@@ -1,9 +1,7 @@
 import React from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { Destinations } from "./Data";
-import { styles } from "../utils/styles";
-import { typography } from "../utils/typography";
-import { spacing } from "../utils/spacing.styles";
+import { styles, typography, spacing } from "../utils/styles";
 
 export default function Card() {
   return (

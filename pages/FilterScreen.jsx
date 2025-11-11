@@ -3,8 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } fr
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { PrimaryColor, WhiteColor, LightGray, BlackColor, GrayColor } from '../utils/colors'; // Adjust path as needed
-import { spacing } from '../utils/spacing.styles'; // Adjust path as needed
+import { PrimaryColor, WhiteColor, LightGray, BlackColor, DarkGray } from '../utils/styles';
+import { spacing } from '../utils/styles';
 
 // Filter options - can be moved to a constants file
 const DEPARTURE_TIMES = [
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     timeText: {
-        color: GrayColor,
+        color: DarkGray,
         fontSize: 12,
     },
     timeTextSelected: {
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     resetButtonText: {
-        color: GrayColor,
+        color: DarkGray,
         fontSize: 16,
         fontWeight: 'bold',
     },

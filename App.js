@@ -5,12 +5,22 @@ import { Provider } from 'react-redux';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown';
 
+// Pre-load Razorpay SDK to initialize native modules early and reduce load time
+// This ensures the native module is ready when the checkout is triggered
+import RazorpayCheckout from 'react-native-razorpay';
+
 // Add custom modules only after native modules are imported for better readability.
 import StackNavigator from './navigation/StackNavigator';
 import store from './store';
 import { AuthProvider } from './context/AuthContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler'; // 1. Import
 import { requestLocationPermission, requestNotificationPermission, hasLocationPermission, hasNotificationPermission } from './utils/PermissionManager';
+
+// Pre-initialize Razorpay native module by accessing it (forces native module load)
+// This is a no-op but ensures the native module is loaded in memory
+if (RazorpayCheckout) {
+  // Native module is now loaded and ready
+}
 
 export default function App() {
   const checkAllPermissions = async () => {

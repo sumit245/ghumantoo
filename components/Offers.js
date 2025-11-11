@@ -3,10 +3,7 @@ import { View, Text, Image, TouchableOpacity, ScrollView, ImageBackground } from
 import { useSelector } from "react-redux";
 import LinearGradient from 'react-native-linear-gradient';
 import dayjs from 'dayjs';
-import { styles } from "../utils/styles";
-import { WhiteColor } from "../utils/colors";
-import { typography } from "../utils/typography";
-import { spacing } from "../utils/spacing.styles";
+import { styles, WhiteColor, typography, spacing } from "../utils/styles";
 
 // Helper to generate random gradients
 const darkGradients = [
@@ -30,7 +27,6 @@ export default function Offers({ isLoading }) {
   }
 
   const { activeCoupons = [] } = useSelector(state => state.bus);
-  console.log("Active Coupons:", activeCoupons);
   // Don't render anything if there are no coupons to show
   if (activeCoupons.length === 0) {
     return null;

@@ -1,8 +1,6 @@
 import { View, TextInput } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react'; // 1. Import useEffect
-import { PrimaryColor } from '../utils/colors';
-import { styles, width } from '../utils/styles';
-import { spacing } from '../utils/spacing.styles';
+import { PrimaryColor, styles, width, spacing } from '../utils/styles';
 
 export default function OTPComponent({ digit, verifyOTP }) {
     const [digits] = useState(digit);

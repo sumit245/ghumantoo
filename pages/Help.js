@@ -8,17 +8,9 @@ import {
   Linking
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { styles } from "../utils/styles";
-import {
-  PrimaryColor,
-  PureWhite,
-  Black1Color,
-  BlackColor,
-} from "../utils/colors";
+import { styles, PrimaryColor, PureWhite, Black1Color, BlackColor, typography, spacing } from "../utils/styles";
 import { List } from "react-native-paper";
 import { faqs } from "../faker/faqs";
-import { typography } from "../utils/typography";
-import { spacing } from "../utils/spacing.styles";
 
 export default function Help() {
   const [expandedId, setExpandedId] = useState(null);
@@ -33,7 +25,7 @@ export default function Help() {
     if (supported) {
       await Linking.openURL(chatUrl);
     } else {
-      console.log(`Don't know how to open this URL: ${chatUrl}`);
+      console.error(`Don't know how to open this URL: ${chatUrl}`);
     }
   }
   return (

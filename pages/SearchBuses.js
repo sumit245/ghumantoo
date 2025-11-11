@@ -12,12 +12,10 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { styles } from "../utils/styles";
+import { styles, LightGray, PrimaryColor, PureWhite, WhiteColor, BlackColor, spacing, layouts } from "../utils/styles";
 import BusCard from "../components/buscards/BusCard";
 import { useDispatch, useSelector } from "react-redux";
-import { LightGray, PrimaryColor, PureWhite, WhiteColor } from "../utils/colors";
 import { getAvailableSeats, getBusOnRoute } from "../actions/busActions";
-import { spacing } from "../utils/spacing.styles";
 import { SELECT_BUS, SET_ARRIVAL_TIME, SET_BUS_TYPE, SET_DEPARTURE_TIME, SET_RESULT_INDEX, SET_CANCEL_POLICY } from "../utils/constants";
 
 const simpleFilters = [
@@ -88,7 +86,6 @@ export default function SearchBuses() {
 
     dispatch(getBusOnRoute(pickupId, destinationId, date_of_journey, activeFilters, nextPage))
       .then(response => {
-        console.log("Load more response:", response);
         if (response.pagination.has_more_pages === false) { setHasMore(false); }
         if (!response.trips || response.trips.length === 0) {
           setPage(nextPage);
@@ -138,8 +135,8 @@ export default function SearchBuses() {
   };
 
   const renderHeader = () => (
-    <View style={componentStyles.headerContainer}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={componentStyles.headerScrollView}>
+    <View style={[spacing.pv2, { backgroundColor: WhiteColor, borderBottomWidth: 1, borderBottomColor: LightGray }]}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[spacing.pv2, spacing.ph1]}>
         {simpleFilters.map((item, idx) => {
           const isFleetTypeApplied = activeFilters.fleetTypes?.includes(item.text);
           const isSortApplied = activeFilters.sortBy === item.key;
@@ -151,8 +148,8 @@ export default function SearchBuses() {
                 else if (item.type === 'filter') toggleSimpleFilter(item.text);
                 else if (item.type === 'sort') handleSort(item.key);
               }}>
-              <Icon name={isSortApplied ? (activeFilters.sortOrder === 'asc' ? 'arrow-up' : 'arrow-down') : item.iconname} size={18} style={spacing.mr1} color={isApplied ? PrimaryColor : '#333'} />
-              <Text style={{ color: isApplied ? PrimaryColor : '#333' }}>{item.text}</Text>
+              <Icon name={isSortApplied ? (activeFilters.sortOrder === 'asc' ? 'arrow-up' : 'arrow-down') : item.iconname} size={18} style={spacing.mr1} color={isApplied ? PrimaryColor : BlackColor} />
+              <Text style={{ color: isApplied ? PrimaryColor : BlackColor }}>{item.text}</Text>
             </TouchableOpacity>
           );
         })}
@@ -162,7 +159,7 @@ export default function SearchBuses() {
 
   // Use the full-screen loader ONLY for the initial mount
   if (isInitialLoading) {
-    return <View style={componentStyles.loaderContainer}><ActivityIndicator size="large" color={PrimaryColor} /></View>;
+    return <View style={[layouts.container, layouts.colCenter]}><ActivityIndicator size="large" color={PrimaryColor} /></View>;
   }
 
   return (
@@ -187,7 +184,7 @@ export default function SearchBuses() {
         />
         {/* 3. REFRESH OVERLAY: This view appears on top of the list when sorting or filtering */}
         {isRefreshing && (
-          <View style={componentStyles.refreshOverlay}>
+          <View style={[StyleSheet.absoluteFillObject, layouts.colCenter, { backgroundColor: 'rgba(255, 255, 255, 0.7)' }]}>
             <ActivityIndicator size="large" color={PrimaryColor} />
           </View>
         )}
@@ -195,15 +192,3 @@ export default function SearchBuses() {
     </SafeAreaView>
   );
 }
-
-const componentStyles = StyleSheet.create({
-  loaderContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  headerContainer: { backgroundColor: WhiteColor, borderBottomWidth: 1, borderBottomColor: LightGray },
-  headerScrollView: { paddingVertical: 8, paddingHorizontal: 6 },
-  refreshOverlay: {
-    ...StyleSheet.absoluteFillObject, // This makes the view cover its parent
-    backgroundColor: 'rgba(255, 255, 255, 0.7)', // Semi-transparent white
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

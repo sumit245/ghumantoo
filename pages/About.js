@@ -1,8 +1,7 @@
 import React from "react";
 import { Text, SafeAreaView, TouchableOpacity, FlatList } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { typography } from "../utils/typography";
-import { spacing } from "../utils/spacing.styles";
+import { typography, spacing, PureWhite } from "../utils/styles";
 
 const AboutScreen = () => {
   const data = [
@@ -31,7 +30,7 @@ const AboutScreen = () => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: PureWhite }}>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}

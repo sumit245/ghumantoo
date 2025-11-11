@@ -1,7 +1,7 @@
-export const API_URL = "http://192.168.1.7/bus_booking"
-// export const RAZORPAY_KEY_ID = "rzp_live_AkjlcAJNXWb7EU"; // Replace with your actual Razorpay key
-// export const API_URL = "https://vindhyashrisolutions.com";
-export const RAZORPAY_KEY_ID = "rzp_test_RLkSbmC39vNulJ";
+// export const API_URL = "http://192.168.1.7/bus_booking"
+export const RAZORPAY_KEY_ID = "rzp_live_AkjlcAJNXWb7EU"; // Replace with your actual Razorpay key
+export const API_URL = "https://vindhyashrisolutions.com";
+// export const RAZORPAY_KEY_ID = "rzp_test_RLkSbmC39vNulJ";
 
 // User related actions
 export const SET_MOBILE_NUMBER = "SET_MOBILE_NUMBER";

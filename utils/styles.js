@@ -260,7 +260,7 @@ export const styles = StyleSheet.create({
     width: 310,
   },
 
-    optionName: {
+  optionName: {
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 20,
@@ -656,3 +656,13 @@ export const styles = StyleSheet.create({
     },
   },
 });
+
+// Re-export everything from the new centralized style system
+// This ensures backward compatibility when files import from '../utils/styles'
+// Note: We re-export from individual modules to avoid circular dependency
+// (since styles/index.js re-exports styles/width/height from this file)
+export * from './styles/colors';
+export { spacing } from './styles/spacing';
+export { typography } from './styles/typography';
+export * from './styles/layouts';
+export * from './styles/message';
