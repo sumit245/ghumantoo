@@ -1,111 +1,59 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { PrimaryColor, WhiteColor, LightGray, BlackColor, DarkGray, typography, spacing, layouts, BorderGray, ButtonBgLight, ButtonBgGray } from '../utils/styles';
-
-// Filter options - can be moved to a constants file
-const DEPARTURE_TIMES = [
-    { id: 'morning', label: 'Morning', time: '(6am-12pm)', iconName: 'weather-sunny' },
-    { id: 'afternoon', label: 'Afternoon', time: '(12pm-6pm)', iconName: 'weather-partly-cloudy' },
-    { id: 'evening', label: 'Evening', time: '(6pm-12am)', iconName: 'weather-sunset' },
-    { id: 'night', label: 'Night', time: '(12am-6am)', iconName: 'weather-night' },
-];
-
-const FLEET_TYPES = ['AC', 'Non-AC', 'Sleeper', 'Seater'];
+import { PrimaryColor, WhiteColor, LightGray, DarkGray, typography, spacing, layouts, ButtonBgGray } from '../utils/styles';
+import { DEPARTURE_TIMES, FLEET_TYPES } from '../utils/filterConstants';
+import FilterSection from '../components/Filter/FilterSection';
+import DepartureTimeOption from '../components/Filter/DepartureTimeOption';
+import FleetTypeOption from '../components/Filter/FleetTypeOption';
+import { useFilterScreen } from '../hooks/useFilterScreen';
 
 export default function FilterScreen() {
-    const navigation = useNavigation();
-    const route = useRoute();
-
-    // Get initial filter values and bus data from the previous screen
-    const { initialFilters = {}, buses = [] } = route.params || {};
-
-    // Calculate max price from the bus list once
-    const maxPrice = useMemo(() => {
-        if (buses.length === 0) return 1000; // Default max price if no buses are passed
-        const maxPrice = Math.ceil(Math.max(...buses.map(bus => bus?.BusPrice?.PublishedPrice || 0)));
-        return maxPrice
-    }, [buses]);
-
-    // State for managing filters within this screen
-    const [departureTime, setDepartureTime] = useState(initialFilters.departureTime || null);
-    const [selectedFleetTypes, setSelectedFleetTypes] = useState(initialFilters.fleetTypes || []);
-    // Ensure the initial price is not null and defaults to maxPrice
-    const [price, setPrice] = useState(initialFilters.price !== null && initialFilters.price !== undefined ? initialFilters.price : maxPrice);
-
-    // Handler for toggling fleet types
-    const toggleFleetType = (type) => {
-        setSelectedFleetTypes(prev =>
-            prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]
-        );
-    };
-
-    // Handler to apply all filters and navigate back
-    const handleApplyFilters = () => {
-        navigation.navigate('SearchBus', {
-            appliedFilters: {
-                departureTime,
-                fleetTypes: selectedFleetTypes,
-                price,
-            },
-        });
-    };
-
-    // Handler to reset all filters to their default state
-    const handleResetFilters = () => {
-        setDepartureTime(null);
-        setSelectedFleetTypes([]);
-        setPrice(maxPrice);
-    };
+    const {
+        departureTime,
+        selectedFleetTypes,
+        price,
+        maxPrice,
+        toggleFleetType,
+        handleApplyFilters,
+        handleResetFilters,
+        handleDepartureTimeSelect,
+        handlePriceChange,
+    } = useFilterScreen();
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scrollView}>
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Departure Time</Text>
+                <FilterSection title="Departure Time">
                     <View style={styles.optionsContainer}>
                         {DEPARTURE_TIMES.map(time => (
-                            <TouchableOpacity
+                            <DepartureTimeOption
                                 key={time.id}
-                                style={[styles.timeOptionButton, departureTime === time.id && styles.optionButtonSelected]}
-                                onPress={() => setDepartureTime(time.id)}
-                            >
-                                <Icon
-                                    name={time.iconName}
-                                    size={24}
-                                    color={departureTime === time.id ? WhiteColor : PrimaryColor}
-                                />
-                                <View>
-                                    <Text style={[styles.optionText, departureTime === time.id && styles.optionTextSelected]}>{time.label}</Text>
-                                    <Text style={[styles.timeText, departureTime === time.id && styles.timeTextSelected]}>{time.time}</Text>
-                                </View>
-                            </TouchableOpacity>
+                                time={time}
+                                isSelected={departureTime === time.id}
+                                onPress={() => handleDepartureTimeSelect(time.id)}
+                            />
                         ))}
                     </View>
-                </View>
+                </FilterSection>
 
                 {/* Fleet Type Section */}
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Bus Type</Text>
+                <FilterSection title="Bus Type">
                     <View style={styles.optionsContainer}>
                         {FLEET_TYPES.map(type => (
-                            <TouchableOpacity
+                            <FleetTypeOption
                                 key={type}
-                                style={[styles.optionButton, selectedFleetTypes.includes(type) && styles.optionButtonSelected]}
+                                type={type}
+                                isSelected={selectedFleetTypes.includes(type)}
                                 onPress={() => toggleFleetType(type)}
-                            >
-                                <Text style={[styles.optionText, selectedFleetTypes.includes(type) && styles.optionTextSelected]}>{type}</Text>
-                            </TouchableOpacity>
+                            />
                         ))}
                     </View>
-                </View>
+                </FilterSection>
 
                 {/* Price Range Section */}
-                <View style={styles.section}>
+                <FilterSection title="Max Price">
                     <View style={styles.priceHeader}>
-                        <Text style={styles.sectionTitle}>Max Price</Text>
                         <Text style={styles.priceValue}>₹ {Math.round(price)}</Text>
                     </View>
                     <Slider
@@ -114,13 +62,12 @@ export default function FilterScreen() {
                         maximumValue={maxPrice}
                         step={50}
                         value={price}
-                        onValueChange={setPrice}
+                        onValueChange={handlePriceChange}
                         minimumTrackTintColor={PrimaryColor}
                         maximumTrackTintColor={LightGray}
                         thumbTintColor={PrimaryColor}
                     />
-                </View>
-
+                </FilterSection>
             </ScrollView>
 
             {/* Footer with Apply and Reset buttons */}
@@ -145,63 +92,13 @@ const styles = StyleSheet.create({
     scrollView: {
         ...layouts.container,
     },
-    section: {
-        ...spacing.p5,
-        borderBottomWidth: 1,
-        borderBottomColor: BorderGray,
-    },
-    sectionTitle: {
-        ...typography.font18Bold,
-        color: BlackColor,
-        ...spacing.mb3,
-    },
     optionsContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 10,
     },
-    optionButton: {
-        ...spacing.pv25,
-        ...spacing.ph3,
-        borderRadius: 20,
-        ...spacing.bw1,
-        borderColor: LightGray,
-        backgroundColor: ButtonBgLight,
-    },
-    timeOptionButton: {
-        flexBasis: '48%',
-        ...layouts.rowCenter,
-        gap: 10,
-        paddingVertical: 12,
-        ...spacing.ph3,
-        borderRadius: 10,
-        ...spacing.bw1,
-        borderColor: LightGray,
-        backgroundColor: ButtonBgLight,
-        justifyContent: 'flex-start',
-    },
-    optionButtonSelected: {
-        backgroundColor: PrimaryColor,
-        borderColor: PrimaryColor,
-    },
-    optionText: {
-        ...typography.font14Bold,
-        color: BlackColor,
-    },
-    optionTextSelected: {
-        ...typography.textBold,
-        color: WhiteColor,
-    },
-    timeText: {
-        ...typography.font12,
-        color: DarkGray,
-    },
-    timeTextSelected: {
-        color: WhiteColor,
-        opacity: 0.9,
-    },
     priceHeader: {
-        ...layouts.rowBetween,
+        alignItems: 'flex-end',
     },
     priceValue: {
         ...typography.font16Bold,

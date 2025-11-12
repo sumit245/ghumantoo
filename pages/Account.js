@@ -1,12 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet, Linking } from 'react-native';
+import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { height, styles as globalStyles } from '../utils/styles';
-import { DangerColor, DarkGray, PrimaryColor, PureWhite, LightGray, BlackColor, typography, spacing } from '../utils/styles';
-import { useAuth } from '../context/AuthContext';
+import { DangerColor, DarkGray, PrimaryColor, PureWhite, LightGray, BlackColor, typography, spacing, styles as globalStyles, height } from '../utils/styles';
 import GuestView from '../components/GuestView';
+import { useAccount } from '../hooks/useAccount';
 
 // --- Data for the menu items ---
 const MENU_DATA = [
@@ -53,18 +50,21 @@ const LogoutButton = ({ onPress }) => (
 
 // --- Main Account Component ---
 export default function Account() {
-  const { email_id, mobile_number, name } = useSelector((state) => state.user);
-  const navigation = useNavigation();
-  const { signOut, isGuest } = useAuth();
-
-  const handleLogout = async () => {
-    await signOut();
-  };
+  const {
+    name,
+    email,
+    mobile,
+    isGuest,
+    handleLogout,
+    handleEditProfile,
+    handleMenuItemPress,
+    handleLoginPress,
+  } = useAccount();
 
   if (isGuest) {
     return (
       <SafeAreaView style={styles.container}>
-        <GuestView onLoginPress={signOut} />
+        <GuestView onLoginPress={handleLoginPress} />
       </SafeAreaView>
     );
   }
@@ -72,10 +72,10 @@ export default function Account() {
   return (
     <SafeAreaView style={styles.container}>
       <ProfileHeader
-        name={name || "Guest"}
-        mobile={mobile_number}
-        email={email_id || "Not provided"}
-        onPress={() => navigation.navigate('editProfile')}
+        name={name}
+        mobile={mobile}
+        email={email}
+        onPress={handleEditProfile}
       />
 
       <View style={{ flex: 1 }}>
@@ -84,7 +84,7 @@ export default function Account() {
             key={item.id}
             title={item.title}
             icon={item.icon}
-            onPress={async () => await Linking.openURL(item.whereTo)}
+            onPress={() => handleMenuItemPress(item.whereTo)}
           />
         ))}
       </View>

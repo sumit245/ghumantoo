@@ -1,50 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Image,
   Text,
   SafeAreaView,
   TouchableOpacity,
   View,
-  Alert, // Using Alert for now, but a custom modal/toast is better for production
 } from "react-native";
-import { styles, width, typography, PrimaryColor, WhiteColor, spacing } from "../utils/styles";
+import { styles, width, typography, spacing } from "../utils/styles";
 import OTPComponent from "../components/OTPComponent";
 import PrimaryButton from "../components/buttons/PrimaryButton";
-import { useDispatch,useSelector } from 'react-redux';
-import { verifyUserOTP } from '../actions/userActions';
-import { useAuth } from '../context/AuthContext';
-import { useNavigation } from '@react-navigation/native';
-import { ActivityIndicator } from "react-native-paper";
+import { useOTPVerification } from "../hooks/useOTPVerification";
 
+/**
+ * OTP Verification Screen (Presentational Component)
+ * 
+ * Displays OTP input form for phone number verification
+ * All business logic is handled by useOTPVerification custom hook
+ * 
+ * Features:
+ * - 6-digit OTP input
+ * - OTP verification with backend
+ * - Resend OTP functionality
+ * - Auto-navigation on success
+ */
 export default function OTPPage() {
-  const { mobile_number, message } = useSelector((state) => state.user);
-  const [otp, setOtp] = useState(""); // Initialize OTP as a string
-  const [loading, setLoading] = useState(false);
-
-  const dispatch = useDispatch();
-  const { signIn } = useAuth();
-  const navigation = useNavigation();
-
-  const verifyOTP = async () => {
-    setLoading(true);
-    try {
-      const result = await dispatch(verifyUserOTP(mobile_number, otp));
-      // result => { status, token, user }
-      if (result && result.status === 200 && result.token) {
-        // persist token + user (AuthContext will update redux as well)
-        await signIn(result.token, result.user);
-        // navigate to main/home screen
-        navigation.replace('Main'); // adjust route name to your app
-      } else {
-        Alert.alert('Verification failed', 'Please check the OTP and try again.');
-      }
-    } catch (e) {
-      Alert.alert('Error', 'OTP verification failed. Try again.');
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Extract state and methods from custom hook
+  const {
+    otp,
+    loading,
+    mobile_number,
+    message,
+    verifyOTP,
+    resendOTP,
+    handleOTPChange,
+  } = useOTPVerification();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -66,24 +55,21 @@ export default function OTPPage() {
         <Text style={{ fontSize: 16, textTransform: "uppercase", marginVertical: 8, color: '#17171f' }}>
           One time Password
         </Text>
-        <OTPComponent digit={6} verifyOTP={(val) => setOtp(val)} />
+        <OTPComponent digit={6} verifyOTP={handleOTPChange} />
         <PrimaryButton
           onClick={verifyOTP}
           style={{ width: width - 38, marginHorizontal: 0 }}
-          title={
-            loading ? (
-              <ActivityIndicator size="small" animating color={WhiteColor} />
-            ) : (
-              "Verify"
-            )
-          }
+          loading={loading}
+          title="Verify"
         />
       </View>
 
       <View style={[spacing.mt4, { alignItems: "center" }]}>
-        <Text style={[typography.font16, { color: '#17171f' }]}>Didn't you receive any code?</Text>
-        <TouchableOpacity onPress={() => Alert.alert("Resend Code", "A new code has been sent.")}>
-          <Text style={{ color: PrimaryColor, fontWeight: "bold", fontSize: 16 }}>
+        <Text style={[typography.font16, { color: '#17171f' }]}>
+          Didn't you receive any code?
+        </Text>
+        <TouchableOpacity onPress={resendOTP}>
+          <Text style={[typography.font16, typography.textBold, { color: '#f28b82' }]}>
             Resend New Code
           </Text>
         </TouchableOpacity>

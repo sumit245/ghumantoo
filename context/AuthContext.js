@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { AUTH_USER, LOGOUT } from '../utils/constants'; // adjust path if constants live elsewhere
 import { layouts } from '../utils/styles'; // Import central layout styles
+import Loader from '../components/customs/Loader';
 
 const AuthContext = createContext();
 
@@ -119,11 +120,7 @@ export const AuthProvider = ({ children }) => {
     );
 
     if (isLoading) {
-        return (
-            <View style={[layouts.container, layouts.colCenter]}>
-                <ActivityIndicator size="large" />
-            </View>
-        );
+        return <Loader />;
     }
 
     return (

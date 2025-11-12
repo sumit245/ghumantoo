@@ -109,6 +109,8 @@ const TicketActions = ({ onPrint, onCancel, onSendWhatsapp, isCancelling = false
   return (
     <View style={globalStyles.ticketCardFooter}>
       <View style={[globalStyles.row, { justifyContent: 'flex-start' }]}>
+        
+        {/* TODO: This is a PrimaryButton use from components/buttons/PrimaryButton */} 
         <TouchableOpacity
           style={[spacing.bw05, spacing.p2, spacing.mh2, globalStyles.row, spacing.br1, { alignItems: 'center', borderColor: Black1Color, width: "30%", justifyContent: 'flex-start' }]}
           onPress={onPrint}

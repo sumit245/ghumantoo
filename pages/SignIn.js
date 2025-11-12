@@ -1,41 +1,33 @@
-import React, { useState } from "react";
-import { View, Text, Image, SafeAreaView, ActivityIndicator, TouchableOpacity } from "react-native";
-import { styles, width, DangerColor, PureWhite, WhiteColor } from "../utils/styles";
-import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { View, Text, Image, SafeAreaView, TouchableOpacity } from "react-native";
+import { styles, width, DangerColor, spacing } from "../utils/styles";
 import PrimaryButton from "../components/buttons/PrimaryButton";
-import { useDispatch } from "react-redux";
-import { authFromMobile } from "../actions/userActions";
 import GPhoneInput from "../components/GPhoneInput";
 import TermsAndConditions from "../components/tnc/TermsAndConditions";
-import { useAuth } from "../context/AuthContext";
+import { useSignIn } from "../hooks/useSignIn";
 
+/**
+ * SignIn Screen (Presentational Component)
+ * 
+ * Displays sign-in form with phone number input and OTP sending
+ * All business logic is handled by useSignIn custom hook
+ * 
+ * Features:
+ * - Phone number input with country code
+ * - OTP sending
+ * - Guest mode (skip for now)
+ * - Form validation
+ */
 export default function SignIn() {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [error, setError] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
-
-  const { skipForNow } = useAuth();
-
-  const sendOTP = async () => {
-    setLoading(true)
-    if (phoneNumber.length !== 13) {
-      setError(true)
-      return
-    }
-    const actualNumber = phoneNumber.slice(3); // Removes "+91"
-    await dispatch(authFromMobile(actualNumber));
-    setLoading(false)
-    navigation.navigate("verification");
-  };
-
-  const handleSkip = async () => {
-    setLoading(true);
-    await skipForNow();
-    setLoading(false);
-    navigation.navigate("Main", { screen: "Home" });
-  }
+  // Extract state and methods from custom hook
+  const {
+    phoneNumber,
+    error,
+    loading,
+    sendOTP,
+    handleSkip,
+    handlePhoneChange,
+  } = useSignIn();
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -50,19 +42,18 @@ export default function SignIn() {
         </TouchableOpacity>
       </View>
       <View style={styles.phone}>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', marginVertical: 8, marginBottom: 16, color: '#17171f' }}>Create Account or Sign in</Text>
-        <GPhoneInput onChangeText={setPhoneNumber} />
-        {
-          error && <Text style={{ fontSize: 12, color: DangerColor, textAlign: 'left', width: width - 60, marginBottom: 12 }}>Please enter a valid phone number</Text>
-        }
-        <PrimaryButton
-          style={{ width: width - 38 }}
-          onClick={sendOTP}
-          title={
-            loading ?
-              <ActivityIndicator size="small" animating color={WhiteColor} /> :
-              "Send OTP"}
-        />
+        <Text style={{ fontSize: 20, fontWeight: 'bold', marginVertical: 8, marginBottom: 16, color: '#17171f' }}>
+          Create Account or Sign in
+        </Text>
+
+        <GPhoneInput onChangeText={handlePhoneChange} />
+
+        {error && (
+          <Text style={{ fontSize: 12, color: DangerColor, textAlign: 'left', width: width - 60, marginBottom: 12 }}>
+            Please enter a valid phone number
+          </Text>
+        )}
+        <PrimaryButton style={[{ width: width - 38 }, spacing.mt4]} onClick={sendOTP} loading={loading} title="Send OTP" />
       </View>
       <View style={styles.bottomContainer}>
         <TermsAndConditions text="By logging in, you agree to our " />

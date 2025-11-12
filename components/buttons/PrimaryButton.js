@@ -1,17 +1,18 @@
 import React from 'react'
-import { Text, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { styles, spacing } from '../../utils/styles'
+import Loader from '../customs/Loader'
 
-export default function PrimaryButton({ style, onClick, isIconButton, iconName, title, textStyle, loading }) {
+export default function PrimaryButton({ style, onClick, isIconButton, iconName, title, textStyle, loading, disabled }) {
     return (
         <TouchableOpacity
-            style={[styles.buttonPrimary, spacing.m4, spacing.br1, { ...style }]}
+            style={[styles.buttonPrimary, spacing.br1, style]}
             onPress={onClick}
-            disabled={loading} // Disable button when loading
+            disabled={loading || disabled} // Disable button when loading
         >
             {loading ? (
-                <ActivityIndicator color="#fff" animating size="small" /> // Show indicator if loading is true
+                <Loader variant="inline" size="small" color="#fff" />
             ) : (
                 <>
                     {isIconButton && <Icon name={iconName} size={24} color='#fff' />}

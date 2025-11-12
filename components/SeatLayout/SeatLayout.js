@@ -1,160 +1,29 @@
-/* eslint-disable react/prop-types */
-import React, { useState, useEffect, useMemo } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { width, LightGray, PureWhite, BlackColor, spacing, typography, layouts } from '../../utils/styles';
+import React from 'react';
+import { ScrollView } from 'react-native';
+import { spacing } from '../../utils/styles';
+import Deck from './Deck';
+import { useSeatLayoutData } from './useSeatLayoutData';
 
-// --- SVG Component Imports ---
-import Steering from '../../assets/icons/Steering';
-import SeaterIcon from '../../assets/icons/SeaterIcon';
-import SleeperIcon from '../../assets/icons/HSleeperIcon'; // Assuming you have a sleeper SVG as well
-
-
-// Centralizing colors makes theme changes easy
-const SEAT_COLORS = {
-  available: { bg: '#dcfce7', border: '#22c55e' },
-  selected: { bg: 'red', border: 'black' },
-  disabled: { bg: '#f1f5f9', border: '#94a3b8' },
-  female: { bg: '#fce7f3', border: '#db2777' }
-};
-
-// --- Sub-Component: Seat (Refactored for SVG) ---
-const Seat = React.memo(({ seat, onSelect, isSelected }) => {
-
-  const isAvailable = seat.is_available;
-  const isFemale = seat.type === 'rseat' || seat.type === 'brseat';
-
-  // 3. Select the correct color set based on state
-  let seatColors;
-  if (!isAvailable) {
-    seatColors = SEAT_COLORS.disabled;
-  } else if (isSelected) {
-    seatColors = SEAT_COLORS.selected;
-  } else if (isFemale) {
-    seatColors = SEAT_COLORS.female;
-  } else {
-    seatColors = SEAT_COLORS.available;
-  }
-
-  // 4. Determine seat dimensions based on type
-  const isVertical = seat.type === 'vseat' || seat.type === 'bvseat';
-  const isSeater = seat.type === 'bseat' || seat.type === 'nseat' || seat.type === 'rseat' || seat.type === 'brseat';
-
-  // Vertical seats are rotated 90 degrees, so they need wider width and shorter height
-  const seatStyle = {
-    width: isVertical ? 70 : 40,
-    height: isVertical ? 60 : (isSeater ? 40 : 60)
-  };
-
-  return (
-    <TouchableOpacity
-      style={[layouts.colCenter, spacing.m1, seatStyle]}
-      onPress={() => onSelect(seat)}
-      disabled={!isAvailable}
-    >
-      {/* 5. Conditionally render the correct SVG component with dynamic colors */}
-      {seat.is_sleeper ? (
-        <SleeperIcon
-          bgColor={seatColors.bg}
-          borderColor={seatColors.border}
-          width={seatStyle.width}
-          height={seatStyle.height}
-          selected={isSelected}
-          isVertical={isVertical}
-        />
-      ) : (
-        <SeaterIcon
-          bgColor={seatColors.bg}
-          borderColor={seatColors.border}
-          selected={isSelected}
-          width={40}
-          height={40}
-        />
-      )}
-      {isAvailable && (
-        <Text style={[typography.font12, typography.textBold, { color: LightGray, position: 'absolute', top: isVertical ? '35%' : '20%' }]}>{seat.seat_id}</Text>
-      )}
-    </TouchableOpacity>
-  );
-});
-Seat.displayName = 'Seat';
-
-// --- Sub-Component: Deck (Refactored to handle selection) ---
-const Deck = React.memo(({ deckType, seatsData, onSeatSelect, showSteering, selectedSeats }) => {
-  const renderedSeats = useMemo(() => {
-    if (!seatsData || Object.keys(seatsData).length === 0) return null;
-
-    // Setup column keys with aisle
-    let rowKeys = Object.keys(seatsData).map(Number).sort((a, b) => a - b);
-    const isContinuous = rowKeys.every((key, i, arr) => i === 0 || key - arr[i - 1] === 1);
-    const totalRows = isContinuous ? rowKeys.length + 1 : Math.max(...rowKeys);
-    let finalRowKeys = [];
-    if (isContinuous) {
-      const mid = Math.ceil(rowKeys.length / 2);
-      rowKeys.forEach((key, i) => {
-        if (i === mid) finalRowKeys.push('aisle');
-        finalRowKeys.push(key);
-      });
-    } else {
-      for (let i = 1; i <= totalRows; i++) {
-        finalRowKeys.push(rowKeys.includes(i) ? i : 'aisle');
-      }
-    }
-
-    return (
-      <View style={{ marginTop: 10, flexDirection: 'row-reverse' }}>
-        {finalRowKeys.map((rowKey, index) => {
-          if (rowKey === 'aisle') {
-            return <View key={`aisle-${index}`} style={{ width: 20 }} />;
-          }
-
-          const columnSeats = seatsData[rowKey] || [];
-          return (
-            <View key={`col-${rowKey}`} style={{ flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center' }}>
-              {columnSeats.map((seat) => {
-                const isSelected = selectedSeats.some(s => s.seat_id === seat.seat_id);
-                return (
-                  <View key={seat.seat_id} style={{ margin: 2 }}>
-                    <Seat
-                      seat={seat}
-                      onSelect={onSeatSelect}
-                      isSelected={isSelected}
-                    />
-                  </View>
-                );
-              })}
-            </View>
-          );
-        })}
-      </View>
-    );
-  }, [seatsData, onSeatSelect, selectedSeats]); // Add selectedSeats to dependency array
-
-  return (
-    <View style={[spacing.p1, spacing.mh1, { minWidth: width / 1.8, backgroundColor: PureWhite, borderRadius: 16, justifyContent: 'flex-start', maxHeight: 'auto' }]}>
-      <View style={[layouts.rowBetween, spacing.pb1, { borderBottomWidth: 0.5, borderBottomColor: LightGray, height: 38 }]}>
-        <Text style={[typography.font14, { color: BlackColor }]}>{deckType}</Text>
-        {showSteering && (
-          <Steering style={{ height: 34, width: 36 }} width={36} height={36} />
-        )}
-      </View>
-      {renderedSeats}
-    </View>
-  );
-});
-Deck.displayName = 'Deck';
-
-// --- Main Component: SeatLayout (Refactored to handle selection) ---
-export default function SeatLayout({ lowerSeats = {}, upperSeats = {}, handleSeatSelection, selectedSeats = [] }) {
-  // ... (The logic to handle single vs. double deck remains unchanged)
-  const [displayData, setDisplayData] = useState({ lower: null, upper: null, isDouble: false });
-  useEffect(() => {
-    const hasLower = lowerSeats && Object.keys(lowerSeats).length > 0;
-    const hasUpper = upperSeats && Object.keys(upperSeats).length > 0;
-    if (hasLower && hasUpper) setDisplayData({ lower: lowerSeats, upper: upperSeats, isDouble: true });
-    else if (hasLower) setDisplayData({ lower: lowerSeats, upper: null, isDouble: false });
-    else if (hasUpper) setDisplayData({ lower: upperSeats, upper: null, isDouble: false });
-    else setDisplayData({ lower: null, upper: null, isDouble: false });
-  }, [lowerSeats, upperSeats]);
+/**
+ * SeatLayout Component (Orchestrator)
+ * 
+ * Main component that orchestrates seat display
+ * Handles single vs double deck layout
+ * All sub-components (Seat, Deck) are now modular and reusable
+ * 
+ * @param {Object} lowerSeats - Lower deck seat data
+ * @param {Object} upperSeats - Upper deck seat data
+ * @param {Function} handleSeatSelection - Callback for seat selection
+ * @param {Array} selectedSeats - Array of selected seats
+ */
+export default function SeatLayout({
+  lowerSeats = {},
+  upperSeats = {},
+  handleSeatSelection,
+  selectedSeats = [],
+}) {
+  // Use custom hook to manage display data
+  const displayData = useSeatLayoutData(lowerSeats, upperSeats);
 
   return (
     <ScrollView
@@ -162,7 +31,11 @@ export default function SeatLayout({ lowerSeats = {}, upperSeats = {}, handleSea
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={[
         spacing.p1,
-        { flexGrow: 1, flexDirection: 'row', justifyContent: displayData.isDouble ? 'space-between' : 'center' }
+        {
+          flexGrow: 1,
+          flexDirection: 'row',
+          justifyContent: displayData.isDouble ? 'space-between' : 'center',
+        },
       ]}
     >
       {displayData.lower && (
@@ -171,7 +44,7 @@ export default function SeatLayout({ lowerSeats = {}, upperSeats = {}, handleSea
           seatsData={displayData.lower}
           onSeatSelect={handleSeatSelection}
           showSteering={true}
-          selectedSeats={selectedSeats} // 7. Pass selection state down
+          selectedSeats={selectedSeats}
         />
       )}
       {displayData.upper && (
@@ -180,7 +53,7 @@ export default function SeatLayout({ lowerSeats = {}, upperSeats = {}, handleSea
           seatsData={displayData.upper}
           onSeatSelect={handleSeatSelection}
           showSteering={false}
-          selectedSeats={selectedSeats} // 7. Pass selection state down
+          selectedSeats={selectedSeats}
         />
       )}
     </ScrollView>

@@ -32,22 +32,16 @@ const commonScreens = [
     name: "SearchBus",
     component: SearchBuses,
     options: {
-      headerShown: true,
+      headerShown: false,
       title: "Search Results",
-      headerStyle: {
-        paddingTop: 0
-      }
     },
   },
   {
     name: "selectSeat",
     component: SelectSeat,
     options: {
-      headerShown: true,
+      headerShown: false,
       title: "Select Seat(s)",
-      headerStyle: {
-        paddingTop: 0
-      }
     }
   },
   {
@@ -97,7 +91,7 @@ const commonScreens = [
     name: "ConfirmationPage",
     component: ConfirmationPage,
     options: {
-      headerShown: true,
+      headerShown: false,
       title: "Confirmation Page",
     },
   },

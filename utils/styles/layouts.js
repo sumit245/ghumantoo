@@ -33,14 +33,13 @@ export const layouts = StyleSheet.create({
 	// Overlay pattern for absolute positioning
 	overlay: {
 		...StyleSheet.absoluteFillObject,
+		backgroundColor: 'rgba(0, 0, 0, 0.5)',
 		borderRadius: 12,
 	},
 
 	// Footer pattern
 	footer: {
 		flexDirection: "row",
-		padding: 16,
-		backgroundColor: "#fff",
 		borderTopWidth: 1,
 		borderTopColor: "#eee",
 	},

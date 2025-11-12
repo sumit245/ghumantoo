@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Text, Image, TouchableOpacity, Linking, Alert } from "react-native";
+import { View, Text, Image, Linking, Alert } from "react-native";
 import { styles, PureWhite, typography, spacing } from "../utils/styles";
+import PrimaryButton from './buttons/PrimaryButton';
 
 export default function RateUs() {
   const storeUrl = 'https://play.google.com/store/apps/details?id=com.dashandots.vindhyashribus';
@@ -46,9 +47,11 @@ export default function RateUs() {
           >
             Share your experience with us and help spread the word!
           </Text>
-          <TouchableOpacity onPress={handleRatePress} style={[styles.buttonPrimary, spacing.br2]}>
-            <Text style={styles.buttonTextPrimary}>Rate now</Text>
-          </TouchableOpacity>
+          <PrimaryButton
+            onClick={handleRatePress}
+            title="Rate now"
+            style={[spacing.mt2, spacing.pv25]}
+          />
         </View>
       </View>
     </>

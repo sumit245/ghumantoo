@@ -1,200 +1,59 @@
-import React, { useState, useMemo } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
   ScrollView,
-  ActivityIndicator,
   SafeAreaView,
 } from "react-native";
-
-import { useNavigation, useRoute } from "@react-navigation/native";
-import dayjs from "dayjs";
-// Razorpay is pre-loaded in App.js, but we import it here for type checking
-// The native module is already initialized, so this import is instant
-import RazorpayCheckout from "react-native-razorpay";
-import { DangerColor, PrimaryColor, White1Color, WhiteColor, BlackColor, LightGray, spacing, typography, layouts, PureWhite } from "../utils/styles";
-import { RAZORPAY_KEY_ID } from "../utils/constants";
-import { blockSeat, confirmTicket } from "../actions/busActions";
+import { DangerColor, PrimaryColor, WhiteColor, BlackColor, LightGray, spacing, typography, layouts, PureWhite, GrayBackground } from "../utils/styles";
 import { RadioButton } from "react-native-paper";
+import Header from "../components/customs/Header";
+import dayjs from "dayjs";
+import PrimaryButton from "../components/buttons/PrimaryButton";
+import { usePassengerBooking } from "../hooks/usePassengerBooking";
+
+/**
+ * PassengerData Screen (Presentational Component)
+ * 
+ * Displays passenger information form and booking details.
+ * All business logic extracted to usePassengerBooking custom hook.
+ */
 
 const PassengerData = () => {
-  const [phone, setPhone] = useState("");
-  const [name, setName] = useState("");
-  const [checked, setChecked] = useState("first");
-  const [address, setAddress] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [age, setAge] = useState("");
-  const navigation = useNavigation();
-  const route = useRoute();
-  const { boardingPoint, droppingPoint } = route.params;
+  // Extract all state and methods from custom hook
   const {
-    SearchTokenId,
+    phone,
+    name,
+    gender,
+    address,
+    age,
+    loading,
     originCity,
     destinationCity,
     date_of_journey,
     departureTime,
-    arrivalTime,
-    selectedBus = "Sample",
-    selectedSeats = [],
-    resultIndex, // Get the resultIndex for the selected bus
-    priceToPay, // Use the price calculated in the previous step
-    selectedDroppingPoint,
-    selectedBoardingPoint
-  } = useSelector((state) => state.bus);
-  const { mobile_number, email_id } = useSelector((state) => state.user);
-
-  // Memoize formatted date to avoid recalculating on every render
-  const formattedJourneyDate = useMemo(
-    () => dayjs(date_of_journey).format('DD MMM YYYY'),
-    [date_of_journey]
-  );
-
-  // Memoize payment description to avoid string concatenation during booking
-  const paymentDescription = useMemo(
-    () => `Payment for seat booking from ${originCity} to ${destinationCity} on ${formattedJourneyDate} via Ghumantoo`,
-    [originCity, destinationCity, formattedJourneyDate]
-  );
-
-  const handleTicketBooking = async () => {
-    // Early validation - don't set loading if validation fails
-    if (!name || !age || !phone || !address) {
-      alert("Please fill all required fields.");
-      return;
-    }
-
-    if (phone.length !== 10) {
-      alert("Please enter a valid 10-digit phone number.");
-      return;
-    }
-
-    // Prepare data synchronously before API call - no blocking operations
-    const nameParts = name.split(" ");
-    const firstName = nameParts[0];
-    const lastName = nameParts.slice(1).join(" ") || "surname";
-    const userPhone = mobile_number || phone;
-    const userEmail = email_id || "guest@vindhyashrisolutions.com";
-    const seatsString = selectedSeats.map(seat => seat.seat_id).join(",");
-    const genderValue = checked === "first" ? 1 : 2;
-    const ageValue = parseInt(age, 10);
-
-    // Prepare seat data object
-    const seatData = {
-      "UserIp": "102.101.109.2",
-      "SearchTokenId": SearchTokenId,
-      "ResultIndex": resultIndex,
-      "BoardingPointId": selectedBoardingPoint?.CityPointIndex || "",
-      "DroppingPointId": selectedDroppingPoint?.CityPointIndex || "",
-      "Address": address,
-      "age": ageValue,
-      "Gender": genderValue,
-      "FirstName": firstName,
-      "LastName": lastName,
-      "Email": userEmail,
-      "Phoneno": userPhone,
-      "Seats": seatsString,
-    };
-
-    // Use memoized description - already prepared, no calculation needed
-    const prefillData = {
-      email: userEmail,
-      contact: userPhone,
-      name: name,
-    };
-
-    // Set loading state just before API call
-    setLoading(true);
-
-    try {
-      // Make API call - this is the only blocking operation
-      const blockResponse = await blockSeat(seatData);
-
-      if (!blockResponse?.success || !blockResponse?.order_id) {
-        alert(blockResponse?.message || "Failed to block seats. Please try again.");
-        setLoading(false);
-        return;
-      }
-
-      const { amount, order_id, currency, ticket_id } = blockResponse;
-
-      // Prepare final Razorpay options - use memoized description, minimal processing
-      const options = {
-        description: paymentDescription,
-        image: "https://vindhyashrisolutions.com/assets/images/logoIcon/logo.png",
-        currency: currency || "INR",
-        key: RAZORPAY_KEY_ID,
-        amount: Math.round(amount * 100), // Amount in paise, ensure integer
-        name: "Ghumantoo",
-        order_id: order_id,
-        prefill: prefillData,
-        theme: { color: PrimaryColor },
-      };
-
-      // Open Razorpay immediately after API response - no blocking operations
-      RazorpayCheckout.open(options)
-        .then(async (data) => {
-          // Handle success - prepare payment data with minimal processing
-          const paymentData = {
-            razorpay_payment_id: data.razorpay_payment_id,
-            razorpay_order_id: data.razorpay_order_id,
-            razorpay_signature: data.razorpay_signature,
-            ticket_id: ticket_id,
-            amount: amount,
-          };
-
-          try {
-            const { success, block_details } = await confirmTicket(paymentData);
-            if (success) {
-              console.log(block_details);
-              navigation.navigate("ConfirmationPage", { details: block_details });
-            } else {
-              alert("Payment verification failed. Please contact support.");
-            }
-          } catch (confirmError) {
-            console.error("Confirm ticket error:", confirmError);
-            alert("Payment verification failed. Please contact support.");
-          } finally {
-            setLoading(false);
-          }
-        })
-        .catch(({ error }) => {
-          // Handle Razorpay errors
-          if (error?.code === 'BAD_REQUEST_ERROR') {
-            alert(`Payment error: ${error.description || 'Invalid request'}`);
-          } else if (error?.code === 'NETWORK_ERROR') {
-            alert("Network error. Please check your connection and try again.");
-          } else {
-            alert(error?.description || "Payment was cancelled or failed.");
-          }
-
-          setLoading(false);
-        });
-    } catch (error) {
-      // Handle blockSeat API errors
-      console.error("Block seat error:", error);
-      const errorMessage = error?.response?.data?.message || error?.message || "Failed to process booking. Please try again.";
-      alert(errorMessage);
-      setLoading(false);
-    }
-  }
+    selectedBus,
+    selectedSeats,
+    priceToPay,
+    boardingPoint,
+    droppingPoint,
+    formattedTimes,
+    setGender,
+    setAddress,
+    handleNameChange,
+    handleAgeChange,
+    handlePhoneChange,
+    handleTicketBooking,
+  } = usePassengerBooking();
 
   return (
-    <SafeAreaView style={[layouts.container, { backgroundColor: '#F7F7F7' }]}>
-      {/* Header */}
-      <View style={[layouts.rowCenter, spacing.p4, { backgroundColor: WhiteColor, paddingTop: 0 }]}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={24} color={BlackColor} />
-        </TouchableOpacity>
-        <View>
-          <Text style={[typography.font18, typography.textBold, spacing.ml4, { color: BlackColor }]}>{originCity} → {destinationCity}</Text>
-          <Text style={[typography.font12, spacing.ml4, { color: LightGray }]}>
-            {dayjs(date_of_journey).format('ddd DD MMM YYYY')}, {dayjs(departureTime).format('hh:mm A') || ""} | {selectedBus}
-          </Text>
-        </View>
-      </View>
+    <SafeAreaView style={[layouts.container, { backgroundColor: GrayBackground }]}>
+      <Header
+        title={`${originCity} → ${destinationCity}`}
+        subtitle={`${dayjs(date_of_journey).format('ddd DD MMM YYYY')}, ${dayjs(departureTime).format('hh:mm A') || ""} | ${selectedBus}`}
+      />
 
       <ScrollView style={[layouts.container, spacing.ph4, spacing.pt4]}>
         {/* Travel Details Section */}
@@ -203,17 +62,15 @@ const PassengerData = () => {
           <View style={[layouts.rowBetween]}>
             <View style={{ maxWidth: '48%' }}>
               <Text style={[typography.font14, typography.textBold, { color: BlackColor }]}>
-                {dayjs(date_of_journey).format("ddd,D MMM")} ·{" "}
-                {dayjs(departureTime).format("hh:mm A") || ""}
+                {formattedTimes.departureDate} · {formattedTimes.departureTime}
               </Text>
-              <Text style={[typography.font12, { flexWrap: "wrap", color: LightGray }]}>{boardingPoint?.CityPointName || ""},{boardingPoint?.CityPointAddress || ""}</Text>
+              <Text style={[typography.font12, { flexWrap: "wrap", color: LightGray }]}>
+                {boardingPoint?.CityPointName || ""},{boardingPoint?.CityPointAddress || ""}
+              </Text>
             </View>
             <View style={{ maxWidth: '48%' }}>
               <Text style={[typography.font14, typography.textBold, { color: BlackColor }]}>
-                {dayjs(arrivalTime).isBefore(dayjs(departureTime))
-                  ? dayjs(date_of_journey).add(1, "day").format("ddd, D MMM")
-                  : dayjs(date_of_journey).format("ddd, D MMM")} {""}
-                {dayjs(arrivalTime).format("hh:mm A") || ""}
+                {formattedTimes.arrivalDate} {formattedTimes.arrivalTime}
               </Text>
               <Text style={[typography.font12, { flexWrap: "wrap", color: LightGray }]}>
                 {droppingPoint?.CityPointName || ""}, {droppingPoint?.CityPointLocation || ""},
@@ -221,7 +78,7 @@ const PassengerData = () => {
             </View>
           </View>
 
-          <View style={[layouts.rowCenter, spacing.mt2]}>
+          <View style={[layouts.rowBetween, spacing.mt2]}>
             {selectedSeats.map((seat, index) => (
               <Text
                 key={index}
@@ -238,20 +95,17 @@ const PassengerData = () => {
           </View>
         </View>
         {/* Contact Details Section */}
-        <View style={[spacing.p4, spacing.mb4, { backgroundColor: PureWhite, borderRadius: 8 }]}>
-          <Text style={[typography.font18, typography.textBold, spacing.mb2, { color: BlackColor }]}>Contact Details</Text>
+        <View style={[spacing.p4, spacing.mb5, { backgroundColor: PureWhite, borderRadius: 8 }]}>
+          <Text style={[typography.font18, typography.textBold, { color: BlackColor }]}>Contact Details</Text>
           <Text style={[typography.font12, { color: BlackColor }]}>Ticket details will be send to </Text>
 
-          <View style={spacing.mv1}>
+          <View style={[spacing.mt5, spacing.mb1]}>
             <Text style={[typography.font16, spacing.mb1, { color: BlackColor }]}>Passenger Name
               <Text style={{ color: DangerColor }}>*</Text></Text>
             <TextInput
               style={[spacing.p2, spacing.bw1, spacing.br1, { borderColor: LightGray, fontSize: 14, color: BlackColor }]}
               placeholder="Passenger Name"
-              onChangeText={(text) => {
-                const alphabeticText = text.replace(/[^A-Za-z\s]/g, "");
-                setName(alphabeticText);
-              }}
+              onChangeText={handleNameChange}
               value={name}
             />
           </View>
@@ -262,10 +116,7 @@ const PassengerData = () => {
               style={[spacing.p2, spacing.bw1, spacing.br1, { borderColor: LightGray, fontSize: 14, color: BlackColor }]}
               placeholder="Passenger Age"
               keyboardType="numeric"
-              onChangeText={(text) => {
-                const numericText = text.replace(/[^0-9]/g, "");
-                setAge(numericText);
-              }}
+              onChangeText={handleAgeChange}
               value={age}
             />
           </View>
@@ -285,7 +136,7 @@ const PassengerData = () => {
                 placeholder="Phone"
                 keyboardType="numeric"
                 maxLength={10}
-                onChangeText={(text) => setPhone(text.replace(/[^0-9]/g, ""))}
+                onChangeText={handlePhoneChange}
                 value={phone}
               />
             </View>
@@ -302,15 +153,15 @@ const PassengerData = () => {
                   layouts.rowBetween,
                   {
                     width: "48%",
-                    borderColor: checked === "first" ? DangerColor : LightGray,
+                    borderColor: gender === "first" ? DangerColor : LightGray,
                   },
                 ]}
               >
                 <Text style={[typography.font14, { color: BlackColor }]}>Male</Text>
                 <RadioButton
                   value="first"
-                  status={checked === "first" ? "checked" : "unchecked"}
-                  onPress={() => setChecked("first")}
+                  status={gender === "first" ? "checked" : "unchecked"}
+                  onPress={() => setGender("first")}
                   color={DangerColor}
                 />
               </View>
@@ -324,15 +175,15 @@ const PassengerData = () => {
                   layouts.rowBetween,
                   {
                     width: "48%",
-                    borderColor: checked === "second" ? DangerColor : LightGray,
+                    borderColor: gender === "second" ? DangerColor : LightGray,
                   },
                 ]}
               >
                 <Text style={[typography.font14, { color: BlackColor }]}>Female</Text>
                 <RadioButton
                   value="second"
-                  status={checked === "second" ? "checked" : "unchecked"}
-                  onPress={() => setChecked("second")}
+                  status={gender === "second" ? "checked" : "unchecked"}
+                  onPress={() => setGender("second")}
                   color={DangerColor}
                 />
               </View>
@@ -356,22 +207,19 @@ const PassengerData = () => {
       </ScrollView>
 
       {/* Footer */}
-      <View style={[layouts.rowCenter, spacing.p4, { backgroundColor: WhiteColor, borderTopWidth: 1, borderTopColor: LightGray }]}>
+      <View style={[layouts.rowCenter, spacing.p4, spacing.borderTop,{ backgroundColor: WhiteColor, }]}>
+        {/* FIXME: The view only displays total fare but for a good user experience, we should display breakup of fare as subtotal, service charge, platform fee, taxes summed up to total fare. Visually I want an upward arrow on the right when we tap on it to show the breakup of fare by sliding up a view. */}
         <View style={{ flex: 1 }}>
           <Text style={[typography.font14, { color: LightGray }]}>Total Fare</Text>
           <Text style={[typography.font20, typography.textBold, { color: BlackColor }]}>₹{priceToPay}</Text>
         </View>
-        <TouchableOpacity
-          style={[layouts.colCenter, spacing.pv4, spacing.br1, { flex: 1, backgroundColor: PrimaryColor }]}
-          onPress={handleTicketBooking}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator size="small" color={White1Color} animating />
-          ) : (
-            <Text style={[typography.font16, typography.textBold, { color: WhiteColor }]}>Proceed to Pay</Text>
-          )}
-        </TouchableOpacity>
+
+        <PrimaryButton
+          onClick={handleTicketBooking}
+          loading={loading}
+          title="Proceed to Pay"
+          style={{ flex: 1 }}
+        />
       </View>
     </SafeAreaView>
   );
