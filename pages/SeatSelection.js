@@ -4,12 +4,12 @@ import SeatLayout from '../components/SeatLayout/SeatLayout';
 import { useSelector, useDispatch } from 'react-redux';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
-import { height, width, PrimaryColor, WhiteColor, BlackColor, LightGray, DangerColor, PureWhite, White1Color } from '../utils/styles';
+import { height, PrimaryColor, WhiteColor, BlackColor, LightGray, DangerColor, PureWhite, White1Color } from '../utils/styles';
 import Cancellation from '../components/BottomSheetVerticalData/Cancellation';
 import OtherPolicies from '../components/BottomSheetVerticalData/OtherPolicies';
 import { useNavigation } from '@react-navigation/native';
 import { getAvailableSeats, getBoardingAndDroppingPoints } from '../actions/busActions';
-// import { useDispatch } from 'react-redux';
+
 
 
 // --- Sub-Component: BookingSummarySheet ---
@@ -21,9 +21,7 @@ const BottomSheetContent = ({
     totalPrice,
     origin,
     destination,
-    date,
-    onReset,
-    onProceed,
+    date
 }) => {
     const sheetHeight = height * 0.6; // Max height of the sheet
     const collapsedHeight = 160; // Height when collapsed
@@ -171,9 +169,11 @@ export default function SeatSelection() {
             {
                 selectedSeats.length > 0 && (
                     <View style={styles.buttonContainer}>
+                        {/* TODO: This is a SecondaryButton use from components/buttons/SecondaryButton */}
                         <TouchableOpacity style={[styles.button, styles.resetButton]} onPress={handleReset}>
                             <Text style={styles.resetButtonText}>Reset</Text>
                         </TouchableOpacity>
+                        {/* TODO: This is a PrimaryButton use from components/buttons/PrimaryButton */}
                         <TouchableOpacity style={[styles.button, styles.proceedButton]} onPress={handleProceed}>
                             <Text style={styles.proceedButtonText}>Proceed</Text>
                         </TouchableOpacity>

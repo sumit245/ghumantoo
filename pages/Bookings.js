@@ -8,7 +8,6 @@ import { Badge } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { useAuth } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
-import PrimaryButton from '../components/buttons/PrimaryButton';
 import { getMyTickets } from '../actions/userActions';
 import GuestView from '../components/GuestView';
 

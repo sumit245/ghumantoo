@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, Share, Alert, ActivityIndicator } from 'react-native';
 import { Divider } from 'react-native-paper';
-import { styles as globalStyles, width, spacing, typography, Black1Color, White1Color, WhiteColor, DarkGray } from '../../utils/styles';
+import { styles as globalStyles, spacing, typography, Black1Color, WhiteColor, } from '../../utils/styles';
 import dayjs from 'dayjs'; // Import dayjs for date formatting
 import { DangerColor, SuccessColor } from '../../utils/styles';
 import Icon from 'react-native-vector-icons/Ionicons';

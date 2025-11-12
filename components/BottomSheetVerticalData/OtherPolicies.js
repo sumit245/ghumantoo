@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, FlatList } from 'react-native'
+import { View, Text } from 'react-native'
 import { styles, typography, BlackColor, DarkGray } from '../../utils/styles'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
@@ -37,27 +37,22 @@ const Icon = ({ name }) => (
   <MaterialIcons name={name} size={20} color={DarkGray} style={{ marginRight: 10 }} />
 );
 const OtherPolicies = () => {
-
-  const renderItem = ({ item }) => (
-    <View style={{ marginBottom: 10 }}>
-      <View style={styles.row}>
-        <Text style={[typography.textBold, typography.font16, { color: BlackColor }]}>{item.title}
-        </Text>
-        {item.icon && <Icon name={item.icon} />}
-      </View>
-      <Text style={[styles.stdTextBottomSheet, { fontWeight: 300, marginLeft: 2 }]}>
-        {item.description}
-      </Text>
-    </View>
-  );
-
   return (
-    <FlatList
-      data={policies}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-      contentContainerStyle={{ paddingVertical: 10,paddingBottom:20,marginBottom:100 }}
-    />
+    <View style={{ paddingVertical: 10, paddingBottom: 20, marginBottom: 100 }}>
+      {policies.map((item) => (
+        <View key={item.id} style={{ marginBottom: 10 }}>
+          <View style={styles.row}>
+            <Text style={[typography.textBold, typography.font16, { color: BlackColor }]}>
+              {item.title}
+            </Text>
+            {item.icon && <Icon name={item.icon} />}
+          </View>
+          <Text style={[styles.stdTextBottomSheet, { fontWeight: 300, marginLeft: 2 }]}>
+            {item.description}
+          </Text>
+        </View>
+      ))}
+    </View>
   );
 };
 

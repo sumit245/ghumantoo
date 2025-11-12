@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useMemo } from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { width, LightGray, PureWhite, BlackColor, spacing, typography, layouts } from '../../utils/styles';
 
 // --- SVG Component Imports ---
@@ -35,14 +35,14 @@ const Seat = React.memo(({ seat, onSelect, isSelected }) => {
     seatColors = SEAT_COLORS.available;
   }
 
-  // TODO: Basically there are three types of seats: vseat (for all vertical seats, normal sleepers), bseat(for square seats, basically seaters), hseat(for horizontal sleepers, especially either at end of the bus or at the start with two seats facing each other) We need to handle all three types here.
-
   // 4. Determine seat dimensions based on type
   const isVertical = seat.type === 'vseat' || seat.type === 'bvseat';
   const isSeater = seat.type === 'bseat' || seat.type === 'nseat' || seat.type === 'rseat' || seat.type === 'brseat';
+
+  // Vertical seats are rotated 90 degrees, so they need wider width and shorter height
   const seatStyle = {
-    width: isVertical ? 80 : 40,
-    height: isSeater ? 40 : 60,
+    width: isVertical ? 70 : 40,
+    height: isVertical ? 60 : (isSeater ? 40 : 60)
   };
 
   return (
@@ -53,12 +53,25 @@ const Seat = React.memo(({ seat, onSelect, isSelected }) => {
     >
       {/* 5. Conditionally render the correct SVG component with dynamic colors */}
       {seat.is_sleeper ? (
-        <SleeperIcon bgColor={seatColors.bg} borderColor={seatColors.border} width={seatStyle.width} height={seatStyle.height} selected={isSelected} isVertical={isVertical} />
+        <SleeperIcon
+          bgColor={seatColors.bg}
+          borderColor={seatColors.border}
+          width={seatStyle.width}
+          height={seatStyle.height}
+          selected={isSelected}
+          isVertical={isVertical}
+        />
       ) : (
-        <SeaterIcon bgColor={seatColors.bg} borderColor={seatColors.border} selected={isSelected} />
+        <SeaterIcon
+          bgColor={seatColors.bg}
+          borderColor={seatColors.border}
+          selected={isSelected}
+          width={40}
+          height={40}
+        />
       )}
       {isAvailable && (
-        <Text style={[typography.font12, typography.textBold, { color: LightGray, position: 'absolute', top: '20%' }]}>{seat.seat_id}</Text>
+        <Text style={[typography.font12, typography.textBold, { color: LightGray, position: 'absolute', top: isVertical ? '35%' : '20%' }]}>{seat.seat_id}</Text>
       )}
     </TouchableOpacity>
   );
@@ -70,7 +83,7 @@ const Deck = React.memo(({ deckType, seatsData, onSeatSelect, showSteering, sele
   const renderedSeats = useMemo(() => {
     if (!seatsData || Object.keys(seatsData).length === 0) return null;
 
-    // ... (The complex layout logic for rows and aisles remains unchanged)
+    // Setup column keys with aisle
     let rowKeys = Object.keys(seatsData).map(Number).sort((a, b) => a - b);
     const isContinuous = rowKeys.every((key, i, arr) => i === 0 || key - arr[i - 1] === 1);
     const totalRows = isContinuous ? rowKeys.length + 1 : Math.max(...rowKeys);
@@ -88,23 +101,25 @@ const Deck = React.memo(({ deckType, seatsData, onSeatSelect, showSteering, sele
     }
 
     return (
-      <View style={[layouts.rowCenter, { flexDirection: 'row-reverse', alignItems: 'flex-end', marginTop: 10 }]}>
+      <View style={{ marginTop: 10, flexDirection: 'row-reverse' }}>
         {finalRowKeys.map((rowKey, index) => {
           if (rowKey === 'aisle') {
             return <View key={`aisle-${index}`} style={{ width: 20 }} />;
           }
-          const rowSeats = seatsData[rowKey] || [];
+
+          const columnSeats = seatsData[rowKey] || [];
           return (
-            <View key={rowKey} style={[{ flexDirection: 'column', justifyContent: 'flex-end', margin: 2 }]}>
-              {rowSeats.map((seat) => {
+            <View key={`col-${rowKey}`} style={{ flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center' }}>
+              {columnSeats.map((seat) => {
                 const isSelected = selectedSeats.some(s => s.seat_id === seat.seat_id);
                 return (
-                  <Seat
-                    key={seat.seat_id}
-                    seat={seat}
-                    onSelect={onSeatSelect}
-                    isSelected={isSelected}
-                  />
+                  <View key={seat.seat_id} style={{ margin: 2 }}>
+                    <Seat
+                      seat={seat}
+                      onSelect={onSeatSelect}
+                      isSelected={isSelected}
+                    />
+                  </View>
                 );
               })}
             </View>
@@ -171,5 +186,3 @@ export default function SeatLayout({ lowerSeats = {}, upperSeats = {}, handleSea
     </ScrollView>
   );
 }
-
-// All styles now use centralized styles from utils/styles

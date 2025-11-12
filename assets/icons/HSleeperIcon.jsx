@@ -2,7 +2,7 @@ import * as React from "react"
 import Svg, { Defs, ClipPath, Path, G } from "react-native-svg"
 
 // isVertical prop controls rotation
-const SvgComponent = ({ bgColor = "#fefefe", borderColor = "#000", isVertical = false, ...props }) => {
+const SvgComponent = ({ bgColor = "#fefefe", borderColor = "#000", isVertical = false, width, height, ...props }) => {
     // Define the rotation transform string based on the prop
     // The transform rotates the SVG 90 degrees around its center point (37.5, 60)
     const rotation = isVertical ? "rotate(90 37.5 60)" : "";
@@ -10,9 +10,9 @@ const SvgComponent = ({ bgColor = "#fefefe", borderColor = "#000", isVertical = 
     return (
         <Svg
             xmlns="http://www.w3.org/2000/svg"
-            // Swap width and height when vertical for correct layout
-            width={isVertical ? 64 : 40}
-            height={isVertical ? 40 : 64}
+            // Use width and height from props, with fallback values
+            width={width || (isVertical ? 70 : 40)}
+            height={height || (isVertical ? 45 : 60)}
             viewBox="0 0 75 120"
             {...props}
         >

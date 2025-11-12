@@ -212,6 +212,7 @@ export const spacing = StyleSheet.create({
     brw1: {
         borderRightWidth: 1,
     },
+
     brc: {
         borderRightColor: AccentColor,
     },

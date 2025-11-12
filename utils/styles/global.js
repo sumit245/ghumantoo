@@ -1,0 +1,667 @@
+import { StyleSheet, Platform } from "react-native";
+import {
+    Black1Color,
+    DangerColor,
+    DarkGray,
+    PrimaryColor,
+    PureWhite,
+    WhiteColor,
+    BlackColor,
+} from "./colors";
+import { width, height } from "./dimensions";
+
+export const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        // marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+        backgroundColor: PureWhite,
+    },
+    skipButton: {
+        position: 'absolute',
+        top: 8, // Adjust as needed for safe area
+        right: 8,
+        borderRadius: 20,
+        backgroundColor: PureWhite,
+        padding: 8,
+    },
+    skipButtonText: {
+        fontSize: 16,
+        color: '#17171f',
+        fontWeight: 'bold',
+    },
+    buttonTextPrimary: {
+        fontSize: 20,
+        textTransform: "uppercase",
+        fontWeight: "600",
+        paddingHorizontal: 8,
+        color: WhiteColor,
+    },
+    buttonPrimary: {
+        backgroundColor: PrimaryColor,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        height: 48
+    },
+    pickDropSelector: {
+        flexDirection: "row",
+        padding: 6,
+        borderBottomColor: "#c7c7c7",
+        borderBottomWidth: 1,
+        alignItems: "center",
+        marginBottom: 4,
+    },
+    modalContainerStyle: {
+        position: "absolute",
+        top: '24%',
+        left: '1%',
+        backgroundColor: WhiteColor,
+        marginHorizontal: 16,
+        borderRadius: 8,
+        alignSelf: 'center'
+    },
+    modalCloseIcon: {
+        position: "absolute",
+        height: 40,
+        width: 40,
+        top: -16,
+        right: -16,
+        zIndex: 999,
+        elevation: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 20,
+        backgroundColor: 'rgba(255,255,255,0.9)',
+    },
+    tabContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: 4,
+    },
+
+    ticketCard: {
+        backgroundColor: PureWhite,
+        margin: 8,
+        borderRadius: 8,
+        // height: 410,
+    },
+    ticketCardHeader: {
+        backgroundColor: PrimaryColor,
+        // height: 200,
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
+        padding: 8,
+    },
+    ticketCardFooter: {
+        // height: 224,
+        padding: 8,
+        marginBottom: 10,
+    },
+
+    cardDivider: {
+        position: "relative",
+        width: width + 16,
+        left: -16,
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    otpTextInput: {
+        borderBottomColor: "#ccc",
+        borderBottomWidth: 1,
+        width: 48,
+        textAlign: 'center',
+        fontSize: 18,
+        fontWeight: 800
+
+    },
+    inputStyle: {
+        height: 48,
+        width: width - 40,
+        borderRadius: 8,
+        marginVertical: 5,
+        backgroundColor: WhiteColor,
+    },
+    phoneTextContainerStyle: {
+        height: 48,
+        width: width - 40,
+        borderRadius: 8,
+        marginVertical: 4,
+        backgroundColor: WhiteColor,
+        borderWidth: 1,
+        borderColor: Black1Color,
+        padding: 4,
+        marginVertical: 4,
+    },
+    phoneTextInputStyle: {
+        fontSize: 20,
+        position: "absolute",
+        textAlignVertical: "center",
+        left: "4%",
+        width: width - 60,
+    },
+
+    termsCondition: {
+        color: Black1Color,
+        fontWeight: "bold",
+        fontSize: 14,
+        lineHeight: 18,
+        textAlign: "center",
+        flexWrap: "wrap",
+        maxWidth: width - 60,
+    },
+    image: {
+        width: "100%",
+        height: 240,
+    },
+    phone: {
+        alignItems: "center",
+        marginTop: 20,
+        paddingVertical: 10,
+        height: height - 440,
+    },
+
+    bottomContainer: {
+        height: 260,
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+
+    title: {
+        fontSize: 16,
+        fontWeight: "600",
+        lineHeight: 22,
+        color: BlackColor,
+    },
+
+    textContainer: {
+        flex: 1,
+        marginLeft: 20,
+    },
+    button: {
+        backgroundColor: "#ff8c00",
+        paddingHorizontal: 20,
+        paddingVertical: 9,
+        borderRadius: 15,
+        color: WhiteColor,
+        fontWeight: "bold",
+        width: 270,
+        textAlign: "center",
+        fontSize: 20,
+    },
+    card: {
+        backgroundColor: PureWhite,
+        height: 100,
+        width: 140,
+        borderRadius: 8,
+        padding: 12,
+        shadowColor: DarkGray,
+        elevation: 4,
+    },
+    extra: {
+        marginTop: 20,
+        height: 130,
+        width: 140,
+        borderRadius: 8,
+        margin: 4,
+    },
+
+    imageDiv: {
+        width: 100,
+        height: 200,
+        borderRadius: 4,
+    },
+
+    couponCode: {
+        backgroundColor: DangerColor,
+        marginVertical: 12,
+        textAlign: "center",
+        textTransform: "uppercase",
+        height: 40,
+        padding: 8,
+        borderColor: WhiteColor,
+        borderStyle: "dotted",
+        borderWidth: 2,
+        borderRadius: 4,
+        color: WhiteColor,
+        fontWeight: "bold",
+    },
+    headerTitle: {
+        height: 60,
+        padding: 8,
+    },
+    headerTitleText: {
+        backgroundColor: WhiteColor,
+        height: 60,
+        padding: 8,
+    },
+    filterButton: {
+        padding: 4,
+        borderColor: "#c7c7c7",
+        borderWidth: 1,
+        height: 40,
+        minWidth: 80,
+        marginHorizontal: 4,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 8,
+    },
+
+    paymentOption: {
+        flexDirection: "row",
+        alignItems: "center",
+        borderBottomWidth: 1,
+        borderBottomColor: "grey",
+        marginTop: 15,
+        paddingBottom: 25,
+        width: 310,
+    },
+
+    optionName: {
+        fontWeight: "bold",
+        textAlign: "center",
+        fontSize: 20,
+        color: '#17171f',
+    },
+    optionMethods: {
+        flexWrap: "wrap",
+        textAlign: "center",
+        opacity: 0.6,
+        color: '#17171f',
+    },
+    payButton: {
+        backgroundColor: "#f99333",
+        paddingVertical: 8,
+        paddingHorizontal: 8,
+        textAlign: "center",
+        borderRadius: 5,
+    },
+
+    head: {
+        backgroundColor: WhiteColor,
+        paddingLeft: 20,
+        height: 80,
+        justifyContent: "space-between",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+
+    icon: {
+        color: "#ff8c00",
+        paddingRight: 8,
+    },
+
+    second: {
+        marginTop: 9,
+        marginRight: 4,
+        backgroundColor: WhiteColor,
+        paddingLeft: 20,
+        height: 50,
+        justifyContent: "space-between",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+
+    divide: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    divider: {
+        height: 1,
+        backgroundColor: "grey",
+        marginTop: 10,
+        marginBottom: 10,
+    },
+
+    input: {
+        height: 55,
+        borderWidth: 1,
+        borderColor: "#ccc",
+        borderRadius: 15,
+        paddingHorizontal: 10,
+        marginBottom: 10,
+        fontSize: 20,
+        backgroundColor: "transparent",
+    },
+    stdText: {
+        color: "#E1D9D1",
+        fontWeight: "bold",
+    },
+
+    checkDiv: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    header: {
+        backgroundColor: PrimaryColor,
+        height: 250,
+    },
+    iconImage: {
+        height: 80,
+        width: 100,
+        alignSelf: "center",
+        marginTop: 20,
+    },
+
+    card1: {
+        padding: 8,
+        borderRadius: 8,
+        marginVertical: 10,
+        backgroundColor: PureWhite,
+    },
+    row1: {
+        flexDirection: "row",
+    },
+    referral: {
+        justifyContent: "space-between",
+        marginVertical: 4,
+        padding: 6,
+        borderColor: "grey",
+        borderWidth: 1,
+        borderStyle: "dashed",
+        marginHorizontal: 30,
+        marginVertical: 10,
+        flexDirection: "row",
+    },
+    referBtn: {
+        backgroundColor: PrimaryColor,
+        paddingHorizontal: 8,
+        marginHorizontal: 30,
+        height: 40,
+        borderRadius: 20,
+        marginVertical: 8,
+    },
+    heading1: {
+        fontSize: 18,
+        fontWeight: "bold",
+        justifyContent: "flex-start",
+        marginHorizontal: 10,
+        marginVertical: 14,
+    },
+
+    roundedTable: {
+        borderWidth: 1,
+        borderColor: "#c7c7c7",
+        borderTopLeftRadius: 12,
+        padding: 8,
+        borderTopRightRadius: 12,
+    },
+    tableRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        borderBottomWidth: 0.5,
+        borderBottomColor: "#c7c7c7",
+        padding: 4,
+    },
+    tableDivision: {
+        fontWeight: "600",
+        marginHorizontal: 8,
+        flexWrap: "wrap",
+        maxWidth: 100,
+    },
+    tableHeading: {
+        fontWeight: "400",
+        margin: 4,
+        textAlign: "left",
+    },
+    driverContainer: {
+        alignItems: "center",
+        marginBottom: 8,
+    },
+    steeringWheel: {
+        height: 32,
+        width: 32,
+        margin: 4,
+        alignSelf: "flex-end",
+    },
+    row: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginVertical: 4,
+        alignItems: "center",
+        padding: 4,
+    },
+    column: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+    },
+    seatIcon: {
+        height: 32,
+        width: 32,
+        resizeMode: "contain",
+        margin: 2,
+    },
+    seatMapContainer: {
+        borderTopColor: "#c7c7c7",
+        borderTopWidth: 1,
+        paddingTop: 8,
+    },
+    subHeadingBottomSheet: {
+        marginTop: -10,
+        fontSize: 16,
+        opacity: 0.6,
+        color: '#17171f',
+    },
+    stdTextBottomSheet: {
+        fontSize: 14,
+        lineHeight: 16,
+        color: '#17171f',
+    },
+
+    smallButtonPrimary: {
+        height: 28,
+        padding: 2,
+        borderRadius: 14,
+        marginHorizontal: 4,
+        top: 8,
+    },
+
+    bottomTabBar: {
+        backgroundColor: WhiteColor,
+        justifyContent: "flex-start",
+        height: 68,
+        // marginBottom: Platform.OS === "android" ? 1000 : 0,
+    },
+    // Passenger page specific styles
+    passenger: {
+        view: {
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            top: 24,
+            fontSize: 14,
+            textAlign: "right",
+        },
+
+        seat: {
+            fontSize: 12,
+            color: "#000",
+            backgroundColor: "pink",
+            borderRadius: 4,
+            alignSelf: "flex-start",
+            paddingHorizontal: 6,
+            paddingVertical: 2,
+        },
+
+        passengerInput: {
+            borderWidth: 1,
+            borderColor: "#ccc",
+            borderRadius: 6,
+            padding: 10,
+            fontSize: 14,
+            color: "#000",
+        },
+
+        container: {
+            flex: 1,
+            backgroundColor: '#F7F7F7',
+        },
+        pageHeader: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            padding: 16,
+            backgroundColor: '#fff',
+        },
+        headerTitle: {
+            fontSize: 18,
+            fontWeight: "bold",
+            marginLeft: 16,
+            color: '#17171f',
+        },
+        headerSubtitle: {
+            fontSize: 12,
+            color: '#666',
+            marginLeft: 16,
+        },
+        contentArea: {
+            flex: 1,
+            paddingHorizontal: 16,
+            paddingTop: 16,
+        },
+        travelDetails: {
+            padding: 12,
+            backgroundColor: "#FFF",
+            borderRadius: 8,
+            marginBottom: 16,
+        },
+        row: {
+            flexDirection: "row",
+            justifyContent: "space-between",
+        },
+        selectedSeatsContainer: {
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 8,
+        },
+        seatItem: {
+            borderRadius: 4,
+            color: "#fff",
+            padding: 4,
+            margin: 2,
+        },
+        time: {
+            fontSize: 14,
+            fontWeight: "bold",
+            color: "#000",
+        },
+        location: {
+            fontSize: 12,
+            maxWidth: "60%",
+            flexWrap: "wrap",
+            color: "#777",
+        },
+        contactDetails: {
+            padding: 16,
+            backgroundColor: "#FFF",
+            borderRadius: 8,
+            marginBottom: 16,
+        },
+        sectionTitle: {
+            fontSize: 18,
+            fontWeight: "bold",
+            marginBottom: 8,
+            color: '#17171f',
+        },
+        section: {
+            bottom: 5,
+            fontSize: 12,
+            color: '#17171f',
+        },
+        infoText: {
+            backgroundColor: "pink",
+            borderRadius: 8,
+            paddingHorizontal: 6,
+            paddingVertical: 2,
+            marginRight: 8,
+            fontSize: 12,
+        },
+        inputGroup: {
+            flexDirection: "row",
+        },
+        input: {
+            borderColor: "#CCC",
+            borderWidth: 1,
+            borderRadius: 4,
+            paddingHorizontal: 8,
+            marginRight: 8,
+            padding: 10,
+            color: "#000",
+        },
+        number: {
+            marginRight: 2,
+            flex: 1,
+        },
+        label: {
+            fontSize: 16,
+            color: '#17171f',
+        },
+        pickerContainer: {
+            borderWidth: 1,
+            borderColor: "#ccc",
+            borderRadius: 8,
+        },
+        picker: {
+            height: 55,
+            width: "100%",
+        },
+        links: {
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 8,
+        },
+        link: {
+            color: "#007BFF",
+            fontSize: 14,
+        },
+        footer: {
+            flexDirection: 'row',
+            padding: 16,
+            backgroundColor: '#fff',
+            borderTopWidth: 1,
+            borderTopColor: '#eee',
+            alignItems: 'center',
+        },
+        priceContainer: {
+            flex: 1,
+        },
+        totalAmountLabel: {
+            fontSize: 14,
+            color: '#666',
+        },
+        totalAmountValue: {
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: '#000',
+        },
+        footerButton: {
+            flex: 1,
+            paddingVertical: 15,
+            borderRadius: 8,
+            alignItems: "center",
+            justifyContent: 'center',
+        },
+        proceedButton: {
+            backgroundColor: PrimaryColor,
+        },
+        proceedButtonText: {
+            color: WhiteColor,
+            fontSize: 16,
+            fontWeight: 'bold',
+        },
+    },
+    actionText: {
+        fontSize: 14,
+        fontWeight: '500',
+    },
+    emptyListText: {
+        fontSize: 16,
+        textAlign: 'center',
+        marginTop: 20,
+        color: DarkGray,
+    },
+});
+

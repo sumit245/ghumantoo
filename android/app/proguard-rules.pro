@@ -7,9 +7,40 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
+# React Native Core
+-keep,allowobfuscation @interface com.facebook.proguard.annotations.DoNotStrip
+-keep,allowobfuscation @interface com.facebook.proguard.annotations.KeepGettersAndSetters
+-keep @com.facebook.proguard.annotations.DoNotStrip class *
+-keepclassmembers class * {
+    @com.facebook.proguard.annotations.DoNotStrip *;
+}
+-keepclassmembers @com.facebook.proguard.annotations.KeepGettersAndSetters class * {
+  void set*(***);
+  *** get*();
+}
+-keep class com.facebook.react.** { *; }
+-keep class com.facebook.jni.** { *; }
+-keep class com.facebook.hermes.** { *; }
+-dontwarn com.facebook.react.**
+-dontwarn com.facebook.hermes.**
+
+# React Native Turbo Modules
+-keep class com.facebook.react.turbomodule.** { *; }
+-keep interface com.facebook.react.bridge.** { *; }
+
 # react-native-reanimated
 -keep class com.swmansion.reanimated.** { *; }
--keep class com.facebook.react.turbomodule.** { *; }
+-keep class com.swmansion.common.** { *; }
+-dontwarn com.swmansion.reanimated.**
+
+# React Native Gesture Handler
+-keep class com.swmansion.gesturehandler.** { *; }
+-keep class com.swmansion.rnscreens.** { *; }
+-dontwarn com.swmansion.gesturehandler.**
+
+# React Navigation
+-keep class com.reactnativecommunity.** { *; }
+-dontwarn com.reactnativecommunity.**
 
 # Razorpay SDK - Keep classes to prevent obfuscation and improve load time
 -keep class com.razorpay.** { *; }
@@ -31,5 +62,25 @@
     public static *** v(...);
     public static *** i(...);
 }
+
+# Redux / AsyncStorage
+-keepclassmembers class * {
+    @com.facebook.react.uimanager.annotations.ReactProp <methods>;
+    @com.facebook.react.uimanager.annotations.ReactPropGroup <methods>;
+}
+
+# Keep native methods
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Keep constructors for classes with @ReactModule annotation
+-keep,allowobfuscation @interface com.facebook.react.module.annotations.ReactModule
+-keep @com.facebook.react.module.annotations.ReactModule class * { *; }
+
+# Prevent obfuscation of models used in React Native
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepattributes EnclosingMethod
 
 # Add any project specific keep options here:
