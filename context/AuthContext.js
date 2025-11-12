@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { AUTH_USER, LOGOUT } from '../utils/constants'; // adjust path if constants live elsewhere
+import { layouts } from '../utils/styles'; // Import central layout styles
 
 const AuthContext = createContext();
 
@@ -119,7 +120,7 @@ export const AuthProvider = ({ children }) => {
 
     if (isLoading) {
         return (
-            <View style={styles.loadingContainer}>
+            <View style={[layouts.container, layouts.colCenter]}>
                 <ActivityIndicator size="large" />
             </View>
         );
@@ -135,11 +136,3 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
     return useContext(AuthContext);
 };
-
-const styles = StyleSheet.create({
-    loadingContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-});

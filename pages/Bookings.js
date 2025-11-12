@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, useWindowDimensions, Animated } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import Tickets from '../components/tabBar/TabBarComponent';
-import { PrimaryColor, WhiteColor, PureWhite, DarkGray, BlackColor, typography } from '../utils/styles';
+import { PrimaryColor, WhiteColor, PureWhite, DarkGray, BlackColor, typography, spacing, layouts, TextMuted } from '../utils/styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Badge } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
@@ -151,25 +151,18 @@ export default function BookingsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: PureWhite },
-  centeredContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: PureWhite, paddingHorizontal: 30 },
-  image: { width: 200, height: 200, marginBottom: 24 },
-  title: { ...typography.font20, fontWeight: 'bold', color: PrimaryColor, marginBottom: 8 },
-  subtitle: { ...typography.font14, color: DarkGray, marginBottom: 16, textAlign: 'center', paddingHorizontal: 24 },
-  loginButton: { backgroundColor: PrimaryColor, paddingVertical: 12, paddingHorizontal: 32, borderRadius: 8, marginTop: 12 },
-  loginButtonText: { color: WhiteColor, fontWeight: 'bold', fontSize: 16 },
-  bookButton: { backgroundColor: PrimaryColor, paddingVertical: 12, paddingHorizontal: 32, borderRadius: 8, marginTop: 12 },
-  bookButtonText: { color: WhiteColor, fontWeight: 'bold', fontSize: 16 },
-  couponContainer: { marginTop: 16, alignItems: 'center' },
-  couponTitle: { ...typography.font16, fontWeight: 'bold', color: PrimaryColor, marginBottom: 8 },
-  couponItem: { backgroundColor: '#f1f8e9', padding: 8, borderRadius: 6, marginBottom: 6, width: 220 },
-  couponCode: { ...typography.font14, fontWeight: 'bold', color: '#388e3c' },
-  couponDesc: { ...typography.font12, color: '#666' },
-  tabBar: { flexDirection: 'row', backgroundColor: WhiteColor, elevation: 2, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.1, shadowRadius: 1 },
-  tabItem: { flex: 1, alignItems: 'center', paddingVertical: 16 },
-  tabLabelContainer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
-  label: { ...typography.font16, color: PrimaryColor, textTransform: 'uppercase', fontWeight: 'bold', textAlign: 'center' },
-  badge: { backgroundColor: PrimaryColor, marginLeft: 8, alignSelf: 'center' },
-  indicator: { backgroundColor: PrimaryColor, height: 3, width: '60%', position: 'absolute', bottom: 0, borderRadius: 2 },
-  lazyPlaceholder: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  container: { ...layouts.container, backgroundColor: PureWhite },
+  centeredContainer: { ...layouts.container, ...layouts.colCenter, backgroundColor: PureWhite, ...spacing.ph5 },
+  image: { width: 200, height: 200, ...spacing.mb5 },
+  title: { ...typography.font20, ...typography.textBold, color: PrimaryColor, ...spacing.mb2 },
+  subtitle: { ...typography.font14, color: DarkGray, ...spacing.mb4, textAlign: 'center', ...spacing.ph5 },
+  bookButton: { backgroundColor: PrimaryColor, ...spacing.pv25, ...spacing.ph5, ...spacing.br2, ...spacing.mt3 },
+  bookButtonText: { ...typography.font16Bold, color: WhiteColor },
+  tabBar: { ...layouts.rowTab, elevation: 2, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.1, shadowRadius: 1 },
+  tabItem: { flex: 1, alignItems: 'center', ...spacing.pv4 },
+  tabLabelContainer: { ...layouts.rowCenter, justifyContent: 'center' },
+  label: { ...typography.font16Bold, color: PrimaryColor, textTransform: 'uppercase', textAlign: 'center' },
+  badge: { backgroundColor: PrimaryColor, ...spacing.ml2, alignSelf: 'center' },
+  indicator: { backgroundColor: PrimaryColor, height: 3, width: '60%', position: 'absolute', bottom: 0, ...spacing.br1 },
+  lazyPlaceholder: { ...layouts.container, ...layouts.colCenter },
 });

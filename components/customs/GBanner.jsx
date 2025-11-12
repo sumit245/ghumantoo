@@ -8,7 +8,7 @@ import {
     Dimensions,
     TouchableOpacity,
 } from 'react-native';
-import { spacing, PureWhite, width, typography, layouts } from '../../utils/styles';
+import { spacing, PureWhite, width, typography, layouts, BlueAccent, OrangeAccent } from '../../utils/styles';
 
 const GBanner = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -61,7 +61,7 @@ const GBanner = () => {
                 imageStyle={spacing.br2}
             >
                 {/* Overlay */}
-                <View style={styles.overlay} />
+                <View style={layouts.overlay} />
 
                 {/* Content */}
                 <Animated.View
@@ -78,10 +78,10 @@ const GBanner = () => {
                     <View style={[spacing.pt3, spacing.pl3, { maxWidth: width * 0.9 }]}>
                         {/* Main Heading */}
                         <View style={spacing.mb1}>
-                            <Text style={[typography.font24, typography.textBold, { lineHeight: 30, color: '#F97316' }]}>
+                            <Text style={[typography.font24, typography.textBold, { lineHeight: 30, color: OrangeAccent }]}>
                                 India's First
                             </Text>
-                            <Text style={[typography.font24, typography.textBold, { lineHeight: 30, color: '#FFFFFF' }]}>
+                            <Text style={[typography.font24, typography.textBold, { lineHeight: 30, color: PureWhite }]}>
                                 AI Powered
                             </Text>
                             <Text style={[typography.font24, typography.textBold, { lineHeight: 30, color: '#3BF682' }]}>
@@ -90,7 +90,7 @@ const GBanner = () => {
                         </View>
 
                         {/* Subheading */}
-                        <Text style={[typography.font16, { color: 'rgba(255, 255, 255, 0.9)', fontWeight: '500', lineHeight: 24, marginBottom: 24 }]}>
+                        <Text style={[typography.font16, typography.font500, { color: 'rgba(255, 255, 255, 0.9)', lineHeight: 24, marginBottom: 24 }]}>
                             Discover incredible destinations with personalized AI recommendations tailored just for you
                         </Text>
 
@@ -122,7 +122,7 @@ const GBanner = () => {
                                     ]}
                                 >
                                     <TouchableOpacity activeOpacity={0.8}>
-                                        <Text style={[typography.font12, { color: '#FFFFFF', fontWeight: '500' }]}>{feature}</Text>
+                                        <Text style={[typography.font12, typography.font500, { color: PureWhite }]}>{feature}</Text>
                                     </TouchableOpacity>
                                 </Animated.View>
                             ))}
@@ -138,13 +138,8 @@ const GBanner = () => {
     );
 };
 
-// Minimal local styles for decorative elements only
+// Component-specific decorative element styles (not reusable)
 const styles = StyleSheet.create({
-    overlay: {
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        borderRadius: 12,
-    },
     decorativeCircle: {
         position: 'absolute',
         borderRadius: 50,
@@ -153,14 +148,14 @@ const styles = StyleSheet.create({
     decorativeCircle1: {
         width: 48,
         height: 48,
-        backgroundColor: '#3B82F6',
+        backgroundColor: BlueAccent,
         top: 16,
         right: 16,
     },
     decorativeCircle2: {
         width: 32,
         height: 32,
-        backgroundColor: '#F97316',
+        backgroundColor: OrangeAccent,
         bottom: 24,
         right: 32,
         opacity: 0.3,

@@ -256,4 +256,26 @@ export const spacing = StyleSheet.create({
     pv05: {
         paddingVertical: 2,
     },
+
+    // Quarter spacing (2.5 units = 10px)
+    pv25: {
+        paddingVertical: 10,
+    },
+    ph25: {
+        paddingHorizontal: 10,
+    },
+
+    // Extended border utilities
+    borderLight: {
+        borderColor: "#eee",
+        borderWidth: 1,
+    },
+    borderBottom: {
+        borderBottomWidth: 1,
+        borderBottomColor: "#c7c7c7",
+    },
+    borderTop: {
+        borderTopWidth: 1,
+        borderTopColor: "#eee",
+    },
 });

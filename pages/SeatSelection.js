@@ -4,7 +4,7 @@ import SeatLayout from '../components/SeatLayout/SeatLayout';
 import { useSelector, useDispatch } from 'react-redux';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
-import { height, PrimaryColor, WhiteColor, BlackColor, LightGray, DangerColor, PureWhite, White1Color } from '../utils/styles';
+import { height, PrimaryColor, WhiteColor, BlackColor, LightGray, DangerColor, PureWhite, White1Color, typography, spacing, layouts, HighlightYellow, BorderLight, ButtonBgGray, TextMuted } from '../utils/styles';
 import Cancellation from '../components/BottomSheetVerticalData/Cancellation';
 import OtherPolicies from '../components/BottomSheetVerticalData/OtherPolicies';
 import { useNavigation } from '@react-navigation/native';
@@ -185,26 +185,25 @@ export default function SeatSelection() {
     );
 }
 
-// --- StyleSheet ---
+// Component-specific seat selection sheet styles
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        ...layouts.container,
         backgroundColor: White1Color,
     },
     loaderContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        ...layouts.container,
+        ...layouts.colCenter,
         backgroundColor: White1Color,
     },
     sheetContainer: {
         position: 'absolute',
-        bottom: -height * 0.6 + 160, // Start in collapsed position
+        bottom: -height * 0.6 + 160,
         width: '100%',
         backgroundColor: PureWhite,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        paddingHorizontal: 20,
+        ...spacing.ph5,
         elevation: 2,
         shadowColor: BlackColor,
         shadowOffset: { width: 0, height: -4 },
@@ -213,26 +212,25 @@ const styles = StyleSheet.create({
     },
     header: {
         alignItems: 'center',
-        paddingVertical: 10,
+        ...spacing.pv25,
     },
     handle: {
         width: 50,
         height: 4,
         backgroundColor: LightGray,
-        borderRadius: 2,
+        ...spacing.br1,
     },
     summaryContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingBottom: 10,
+        ...layouts.rowBetween,
+        ...spacing.pb25,
     },
     highlighted: {
-        backgroundColor: '#fff8e1', // A light yellow highlight color
-        marginHorizontal: -20, // Extend to the edges of the sheet
-        paddingHorizontal: 20, // Add back padding
-        paddingTop: 10,
+        backgroundColor: HighlightYellow,
+        marginHorizontal: -20,
+        ...spacing.ph5,
+        ...spacing.pt25,
         borderBottomWidth: 1,
-        borderBottomColor: '#eee',
+        borderBottomColor: BorderLight,
     },
     routeInfo: {
         flex: 1,
@@ -240,78 +238,72 @@ const styles = StyleSheet.create({
     priceInfo: {
         alignItems: 'flex-end',
     },
-        label: {
-        fontSize: 14,
+    label: {
+        ...typography.font14,
         color: LightGray,
-        marginBottom: 4,
+        ...spacing.mb1,
     },
     value: {
-        fontWeight: 'bold',
+        ...typography.textBold,
         color: BlackColor,
     },
     priceLabel: {
-        fontSize: 14,
+        ...typography.font14,
         color: LightGray,
     },
     priceValue: {
-        fontSize: 24,
-        fontWeight: 'bold',
+        ...typography.font24,
+        ...typography.textBold,
         color: PrimaryColor,
     },
     seatsLabel: {
-        fontSize: 12,
+        ...typography.font12,
         color: LightGray,
-        marginTop: 4,
+        ...spacing.mt1,
     },
     expandedContent: {
         flex: 1,
         borderTopWidth: 1,
         borderTopColor: LightGray,
-        paddingTop: 10,
+        ...spacing.pt25,
     },
     sectionTitle: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginTop: 10,
+        ...typography.font16Bold,
+        ...spacing.mt2,
         marginBottom: 5,
         color: BlackColor,
     },
     sectionText: {
-        fontSize: 14,
-        color: '#666',
+        ...typography.font14,
+        color: TextMuted,
         lineHeight: 20,
     },
     buttonContainer: {
         flexDirection: 'row',
-        paddingVertical: 10,
-        backgroundColor: '#fff8e1', // Match the highlight color
-        marginHorizontal: -20, // Extend to the edges
-        paddingHorizontal: 20, // Add back padding
+        ...spacing.pv25,
+        backgroundColor: HighlightYellow,
+        marginHorizontal: -20,
+        ...spacing.ph5,
     },
     button: {
         flex: 1,
-        paddingVertical: 15,
-        borderRadius: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
+        ...spacing.pv3,
+        ...spacing.br2,
+        ...layouts.colCenter,
     },
     resetButton: {
-        backgroundColor: '#f1f1f1',
-        marginRight: 10,
+        backgroundColor: ButtonBgGray,
+        ...spacing.mr2,
     },
     resetButtonText: {
+        ...typography.font16Bold,
         color: DangerColor,
-        fontSize: 16,
-        fontWeight: 'bold',
     },
     proceedButton: {
-        // The button is only visible when seats are selected, so we can keep it enabled.
-        // The disabled state is handled by the conditional rendering of the whole block.
         backgroundColor: PrimaryColor,
     },
     proceedButtonText: {
+        ...typography.font16Bold,
         color: WhiteColor,
-        fontSize: 16,
-        fontWeight: 'bold',
     },
 });

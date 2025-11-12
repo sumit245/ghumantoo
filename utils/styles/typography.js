@@ -42,6 +42,31 @@ export const typography = StyleSheet.create({
     textBold: {
         fontWeight: "bold",
     },
+
+    // Bold font size combinations
+    font14Bold: {
+        fontSize: 14,
+        fontWeight: "bold",
+    },
+    font16Bold: {
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    font18Bold: {
+        fontSize: 18,
+        fontWeight: "bold",
+    },
+
+    // Additional font weights
+    fontSemiBold: {
+        fontWeight: "600",
+    },
+    font500: {
+        fontWeight: "500",
+    },
+    font800: {
+        fontWeight: "800",
+    },
     font6: {
         fontSize: 6,
     },

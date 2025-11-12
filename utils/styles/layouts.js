@@ -23,6 +23,27 @@ export const layouts = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
-}); 
+
+	// Tab container pattern
+	rowTab: {
+		flexDirection: "row",
+		backgroundColor: "#fff",
+	},
+
+	// Overlay pattern for absolute positioning
+	overlay: {
+		...StyleSheet.absoluteFillObject,
+		borderRadius: 12,
+	},
+
+	// Footer pattern
+	footer: {
+		flexDirection: "row",
+		padding: 16,
+		backgroundColor: "#fff",
+		borderTopWidth: 1,
+		borderTopColor: "#eee",
+	},
+});
 
 

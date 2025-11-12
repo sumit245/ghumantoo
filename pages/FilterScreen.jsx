@@ -3,8 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } fr
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { PrimaryColor, WhiteColor, LightGray, BlackColor, DarkGray } from '../utils/styles';
-import { spacing } from '../utils/styles';
+import { PrimaryColor, WhiteColor, LightGray, BlackColor, DarkGray, typography, spacing, layouts, BorderGray, ButtonBgLight, ButtonBgGray } from '../utils/styles';
 
 // Filter options - can be moved to a constants file
 const DEPARTURE_TIMES = [
@@ -137,25 +136,24 @@ export default function FilterScreen() {
     );
 }
 
-// Styles for the FilterScreen
+// Component-specific filter styles
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        ...layouts.container,
         backgroundColor: WhiteColor,
     },
     scrollView: {
-        flex: 1,
+        ...layouts.container,
     },
     section: {
-        padding: 20,
+        ...spacing.p5,
         borderBottomWidth: 1,
-        borderBottomColor: '#f0f0f0',
+        borderBottomColor: BorderGray,
     },
     sectionTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
+        ...typography.font18Bold,
         color: BlackColor,
-        marginBottom: 15,
+        ...spacing.mb3,
     },
     optionsContainer: {
         flexDirection: 'row',
@@ -163,92 +161,82 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     optionButton: {
-        paddingVertical: 10,
-        paddingHorizontal: 15,
+        ...spacing.pv25,
+        ...spacing.ph3,
         borderRadius: 20,
-        borderWidth: 1,
+        ...spacing.bw1,
         borderColor: LightGray,
-        backgroundColor: '#fafafa'
+        backgroundColor: ButtonBgLight,
     },
     timeOptionButton: {
-        flexBasis: '48%', // Creates a 2-column layout with a small gap
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexBasis: '48%',
+        ...layouts.rowCenter,
         gap: 10,
         paddingVertical: 12,
-        paddingHorizontal: 15,
+        ...spacing.ph3,
         borderRadius: 10,
-        borderWidth: 1,
+        ...spacing.bw1,
         borderColor: LightGray,
-        backgroundColor: '#fafafa',
+        backgroundColor: ButtonBgLight,
         justifyContent: 'flex-start',
-
     },
     optionButtonSelected: {
         backgroundColor: PrimaryColor,
         borderColor: PrimaryColor,
     },
     optionText: {
+        ...typography.font14Bold,
         color: BlackColor,
-        fontSize: 14,
-        fontWeight: 'bold',
     },
     optionTextSelected: {
+        ...typography.textBold,
         color: WhiteColor,
-        fontWeight: 'bold',
     },
     timeText: {
+        ...typography.font12,
         color: DarkGray,
-        fontSize: 12,
     },
     timeTextSelected: {
         color: WhiteColor,
         opacity: 0.9,
     },
     priceHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        ...layouts.rowBetween,
     },
     priceValue: {
-        fontSize: 16,
-        fontWeight: 'bold',
+        ...typography.font16Bold,
         color: PrimaryColor,
     },
     slider: {
         width: '100%',
         height: 40,
-        marginTop: 10,
+        ...spacing.mt2,
     },
     footer: {
-        flexDirection: 'row',
-        borderTopWidth: 1,
+        ...layouts.footer,
         borderTopColor: LightGray,
-        padding: 15,
-        backgroundColor: WhiteColor,
+        ...spacing.p3,
     },
     footerButton: {
         flex: 1,
-        paddingVertical: 15,
-        borderRadius: 8,
+        ...spacing.pv3,
+        ...spacing.br2,
         alignItems: 'center',
         justifyContent: 'center',
     },
     resetButton: {
-        backgroundColor: '#f1f1f1',
-        marginRight: 10,
+        backgroundColor: ButtonBgGray,
+        ...spacing.mr2,
     },
     resetButtonText: {
+        ...typography.font16Bold,
         color: DarkGray,
-        fontSize: 16,
-        fontWeight: 'bold',
     },
     applyButton: {
         backgroundColor: PrimaryColor,
     },
     applyButtonText: {
+        ...typography.font16Bold,
         color: WhiteColor,
-        fontSize: 16,
-        fontWeight: 'bold',
     },
 });
